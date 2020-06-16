@@ -1,0 +1,5 @@
+int NMC	100000
+double Rside 3.0
+double Rlong 4.0
+double Rout 4.0
+double OFFSET 0.0
