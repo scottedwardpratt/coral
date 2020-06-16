@@ -94,7 +94,7 @@ double CWaveFunction_Xipi_phaseshift::CalcPsiSquared(int iq,double r,double cthe
 
 }
 
-void CWaveFunction_Xipi_phaseshift::get_phaseshifts_Xistar(double q,double &delta,double &ddeltadq){
+void CWaveFunction_Xipi_phaseshift::get_phaseshifts_Xistar(double q,double &delta_val,double &ddeltadq_val){
 	double tandelta,Epi,EXi,Lambda;
 	const double MXi=1321.3,Lambda0=9.1,MXistar=1530.0;
 	const double q0=sqrt(Misc::triangle(MXistar,MXi,MPI));
@@ -102,9 +102,9 @@ void CWaveFunction_Xipi_phaseshift::get_phaseshifts_Xistar(double q,double &delt
 	Epi=sqrt(MPI*MPI+q*q);
 	Lambda=Lambda0*pow(q/q0,3);
 	tandelta=0.5*Lambda/(MXistar-EXi-Epi);
-	delta=atan(tandelta);
-	if(delta<0.0) delta+=PI;
-	ddeltadq=pow(cos(delta),2)*tandelta*((3.0/q)+(q/(MXistar-EXi-Epi))
+	delta_val=atan(tandelta);
+	if(delta_val<0.0) delta_val+=PI;
+	ddeltadq_val=pow(cos(delta_val),2)*tandelta*((3.0/q)+(q/(MXistar-EXi-Epi))
 		*((1.0/EXi)+(1.0/Epi)));
 }
 

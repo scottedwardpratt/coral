@@ -88,7 +88,7 @@ double CWaveFunction_lambdalambda_phaseshift::CalcPsiSquared(int iq,double r,dou
 
 void CWaveFunction_lambdalambda_phaseshift::GetPhaseshifts(){
 	double q,q0;
-	double tandelta,a,dtandeltadq,tandeltaH0;
+	double tandelta,alength,dtandeltadq,tandeltaH0;
 	double MH0,M,EH0,GammaH0,lambda=500.0;
 	int iq;
 
@@ -99,9 +99,9 @@ void CWaveFunction_lambdalambda_phaseshift::GetPhaseshifts(){
 
 	// Scattering length and effective range parameters
 	printf("Enter scattering length in fm (Do not include effect of H0): ");
-	scanf("%lf",&a);
+	scanf("%lf",&alength);
 	lambda=500.0; // Arbitrary choice, returns delta to zero at large q
-	//reff=2*HBARC*HBARC/(lambda*lambda*a); // Effective range (not used)
+	//reff=2*HBARC*HBARC/(lambda*lambda*alength); // Effective range (not used)
 
 	MH0=m1+m2+EH0;
 	q0=sqrt(0.25*MH0*MH0-m1*m1);
@@ -111,7 +111,7 @@ void CWaveFunction_lambdalambda_phaseshift::GetPhaseshifts(){
 	for(iq=0;iq<nqmax;iq++){
 		q=qarray[iq];
 		M=2.0*sqrt(q*q+m1*m1);
-		tandelta=(-a*q/HBARC)/(1.0+q*q/(lambda*lambda));
+		tandelta=(-alength*q/HBARC)/(1.0+q*q/(lambda*lambda));
 		dtandeltadq=(tandelta/q)*(1.0-q*q/(lambda*lambda))
 			/(1.0+q*q/(lambda*lambda));
 		tandeltaH0=0.5*(q/q0)*GammaH0/(MH0-M);

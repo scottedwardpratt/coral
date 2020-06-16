@@ -30,7 +30,7 @@ CWaveFunction::CWaveFunction(){
 }
 
 CWaveFunction::~CWaveFunction(){
-  int ichannel,iq,ell;
+  int ichannel,iq,ell0;
   for(ichannel=0;ichannel<nchannels;ichannel++){
     delete Wepsilon[ichannel];
     delete delta[ichannel];
@@ -45,9 +45,9 @@ CWaveFunction::~CWaveFunction(){
   
   for(iq=0;iq<nqmax;iq++) delete (planewave[iq]);
   delete [] planewave;
-  for(ell=0;ell<=ellmax;ell++){
+  for(ell0=0;ell0<=ellmax;ell0++){
     for(iq=0;iq<nqmax;iq++){
-      if(partwave[ell][iq]!=NULL) delete (partwave[ell][iq]);
+      if(partwave[ell0][iq]!=NULL) delete (partwave[ell0][iq]);
     }
     delete [] partwave[ichannel];
   }
@@ -244,7 +244,7 @@ double CWaveFunction::GetPsiSquared(double *pa,double *xa,double *pb,double *xb)
 }
 
 double CWaveFunction::CalcPsiSquared(int iq,double r,double ctheta){
-	return 1.0;  // This is a dummy function to be overwritten by inherited class
+	return 1.0+iq+r+ctheta;  // This is a dummy function to be overwritten by inherited class
 }
 
 void CWaveFunction::getqrctheta(double *p1,double *r1,double *p2,double *r2,double *q,double *r,double *ctheta){
@@ -324,7 +324,6 @@ void CWaveFunction::PrintCdelta(double Rx,double Ry,double Rz){
 double CWaveFunction::RelativisticCorrection(double r,int iq){
 	if(q1q2==0) return 1.0;
 	else{
-		const double ALPHA=1.0/137.036;
 		double q,E,E1,E2,dmudE;
 		q=GetQ(iq);
 		E1=sqrt(m1*m1+q*q);
@@ -337,102 +336,101 @@ double CWaveFunction::RelativisticCorrection(double r,int iq){
 
 void CWaveFunction::EffectiveRange(int ichannel,double scattlength,double Reff){
 	int iq;
-	double q,tandel,a;
-	a=scattlength;
+	double q,tandel;
 	for(iq=0;iq<nqmax;iq++){
 		q=qarray[iq];
-		tandel=1.0/( (-HBARC/(q*a))+0.5*q*Reff/HBARC);
+		tandel=1.0/( (-HBARC/(q*scattlength))+0.5*q*Reff/HBARC);
 		delta[ichannel][iq]=atan(tandel);
 		ddeltadq[ichannel][iq]=(tandel*tandel/(1.0+tandel*tandel))
-		*((-HBARC/(q*q*a))-0.5*Reff/HBARC);
+		*((-HBARC/(q*q*scattlength))-0.5*Reff/HBARC);
 		//printf("%g %g %g\n",q,delta[ichannel][iq]*180/PI,
 			//   ddeltadq[ichannel][iq]*180/PI);
 	}
 }
-double CWaveFunction::GetIW(int ell,double epsilon,double q,int q1q2,double eta,double delta){
+double CWaveFunction::GetIW(int ellval,double epsval,double q,int q1q2val,double etaval,double deltaval){
 	complex<double> psi0,psi,psi2,psiminus0,psiminus,psiminus2;
 	complex<double> psiplus0,psiplus,psiplus2;
 	complex<double> ddeta_psi,ddeta_psiminus,ddeta_psiplus;
 	complex<double> I,e2idelta;
 	double x,deleta,a2,root;
 	
-	if(q1q2!=0){
-		deleta=0.002*eta;
-		x=q*epsilon/HBARC;
-		e2idelta=Misc::ceiphi(2.0*delta);
-		if(ell==0){
-			a2=1.0+eta*eta;
+	if(q1q2val!=0){
+		deleta=0.002*etaval;
+		x=q*epsval/HBARC;
+		e2idelta=Misc::ceiphi(2.0*deltaval);
+		if(ellval==0){
+			a2=1.0+etaval*etaval;
 			root=sqrt(a2);
 			
-			psi0=CoulWave::CWoutgoing(ell,x,eta-0.5*deleta);
+			psi0=CoulWave::CWoutgoing(ellval,x,etaval-0.5*deleta);
 			psi0=psi0*e2idelta+conj(psi0);
 			
-			psiplus0=CoulWave::CWoutgoing(ell+1,x,eta-0.5*deleta);
+			psiplus0=CoulWave::CWoutgoing(ellval+1,x,etaval-0.5*deleta);
 			psiplus0=psiplus0*e2idelta+conj(psiplus0);
 			
-			psi=CoulWave::CWoutgoing(ell,x,eta);
+			psi=CoulWave::CWoutgoing(ellval,x,etaval);
 			psi=psi*e2idelta+conj(psi);
 			
-			psiplus=CoulWave::CWoutgoing(ell+1,x,eta);
+			psiplus=CoulWave::CWoutgoing(ellval+1,x,etaval);
 			psiplus=psiplus*e2idelta+conj(psiplus);
 			
-			psi2=CoulWave::CWoutgoing(ell,x,eta+0.5*deleta);
+			psi2=CoulWave::CWoutgoing(ellval,x,etaval+0.5*deleta);
 			psi2=psi2*e2idelta+conj(psi2);
 			
-			psiplus2=CoulWave::CWoutgoing(ell+1,x,eta+0.5*deleta);
+			psiplus2=CoulWave::CWoutgoing(ellval+1,x,etaval+0.5*deleta);
 			psiplus2=psiplus2*e2idelta+conj(psiplus2);
 			
 			ddeta_psi=(psi2-psi0)/deleta;
 			ddeta_psiplus=(psiplus2-psiplus0)/deleta;
 			
 			I=(conj(psi)*psi+conj(psiplus)*psiplus)*x*a2;
-			I-=conj(psi)*psiplus*(a2*(1.0+2.0*eta*x)+eta*eta)/root;
-			I+=(conj(psiplus)*ddeta_psi-conj(psi)*ddeta_psiplus)*eta*root;
+			I-=conj(psi)*psiplus*(a2*(1.0+2.0*etaval*x)+etaval*etaval)/root;
+			I+=(conj(psiplus)*ddeta_psi-conj(psi)*ddeta_psiplus)*etaval*root;
 		}
 		else{
-			a2=double(ell*ell)+eta*eta;
+			a2=double(ellval*ellval)+etaval*etaval;
 			root=sqrt(a2);
 			
-			psi0=CoulWave::CWoutgoing(ell,x,eta-0.5*deleta);
+			psi0=CoulWave::CWoutgoing(ellval,x,etaval-0.5*deleta);
 			psi0=psi0*e2idelta+conj(psi0);
 			
-			psiminus0=CoulWave::CWoutgoing(ell-1,x,eta-0.5*deleta);
+			psiminus0=CoulWave::CWoutgoing(ellval-1,x,etaval-0.5*deleta);
 			psiminus0=psiminus0*e2idelta+conj(psiminus0);
 			
-			psi=CoulWave::CWoutgoing(ell,x,eta);
+			psi=CoulWave::CWoutgoing(ellval,x,etaval);
 			psi=psi*e2idelta+conj(psi);
 			
-			psiminus=CoulWave::CWoutgoing(ell-1,x,eta);
+			psiminus=CoulWave::CWoutgoing(ellval-1,x,etaval);
 			psiminus=psiminus*e2idelta+conj(psiminus);
 			
-			psi2=CoulWave::CWoutgoing(ell,x,eta+0.5*deleta);
+			psi2=CoulWave::CWoutgoing(ellval,x,etaval+0.5*deleta);
 			psi2=psi2*e2idelta+conj(psi2);
 			
-			psiminus2=CoulWave::CWoutgoing(ell-1,x,eta+0.5*deleta);
+			psiminus2=CoulWave::CWoutgoing(ellval-1,x,etaval+0.5*deleta);
 			psiminus2=psiminus2*e2idelta+conj(psiminus2);
 			
 			ddeta_psi=(psi2-psi0)/deleta;
 			ddeta_psiminus=(psiminus2-psiminus0)/deleta;
 			
-			I=(conj(psi)*psi+conj(psiminus)*psiminus)*a2*x/double(ell*ell);
+			I=(conj(psi)*psi+conj(psiminus)*psiminus)*a2*x/double(ellval*ellval);
 			I-=conj(psiminus)*psi
-			*((2.0*ell+1.0)*a2*double(ell)+2.0*eta*x*a2
-				-eta*eta*double(ell))/(double(ell*ell)*root);
+			*((2.0*ellval+1.0)*a2*double(ellval)+2.0*etaval*x*a2
+				-etaval*etaval*double(ellval))/(double(ellval*ellval)*root);
 				I+=(conj(ddeta_psiminus)*psi-conj(ddeta_psi)*psiminus)
-				*eta*root/double(ell);
+				*etaval*root/double(ellval);
 				
 		}
 		I=0.25*I;
 	}
 	else{
-		x=q*epsilon/HBARC;
-		if(ell==0){
-			psi=sin(x+delta);
-			psiplus=-cos(x+delta)+sin(x+delta)/x;
-			psi=0.5*x*(Bessel::hstarn(0,x)+Misc::ceiphi(2.0*delta)*Bessel::hn(0,x));
+		x=q*epsval/HBARC;
+		if(ellval==0){
+			psi=sin(x+deltaval);
+			psiplus=-cos(x+deltaval)+sin(x+deltaval)/x;
+			psi=0.5*x*(Bessel::hstarn(0,x)+Misc::ceiphi(2.0*deltaval)*Bessel::hn(0,x));
 			psiplus=0.5*x*(Bessel::hstarn(1,x)
-				+Misc::ceiphi(2.0*delta)*Bessel::hn(1,x));
-			psi*=Misc::ceiphi(-delta); psiplus*=Misc::ceiphi(-delta);
+				+Misc::ceiphi(2.0*deltaval)*Bessel::hn(1,x));
+			psi*=Misc::ceiphi(-deltaval); psiplus*=Misc::ceiphi(-deltaval);
 			//printf("x=%g, psi=(%g,%g), psiplus=(%g,%g)\n",x,real(psi),imag(psi),
 				//     real(psiplus),imag(psiplus));
 			
@@ -441,13 +439,13 @@ double CWaveFunction::GetIW(int ell,double epsilon,double q,int q1q2,double eta,
 			I-=conj(psi)*psiplus;
 		}
 		else{
-			psi=x*Bessel::hn(ell,x);
-			psi=(Misc::ceiphi(2.0*delta)*psi+conj(psi))*0.5;
-			psiminus=x*Bessel::hn(ell-1,x);
-			psiminus=0.5*(Misc::ceiphi(2.0*delta)*psiminus+conj(psiminus));
+			psi=x*Bessel::hn(ellval,x);
+			psi=(Misc::ceiphi(2.0*deltaval)*psi+conj(psi))*0.5;
+			psiminus=x*Bessel::hn(ellval-1,x);
+			psiminus=0.5*(Misc::ceiphi(2.0*deltaval)*psiminus+conj(psiminus));
 			
 			I=(conj(psi)*psi+conj(psiminus)*psiminus)*x;
-			I-=(2.0*double(ell)+1)*conj(psiminus)*psi;
+			I-=(2.0*double(ellval)+1)*conj(psiminus)*psi;
 			
 		}
 	}

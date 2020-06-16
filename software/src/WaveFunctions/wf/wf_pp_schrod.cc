@@ -18,12 +18,9 @@ CWaveFunction_pp_schrod::CWaveFunction_pp_schrod(string parsfilename) : CWaveFun
   nchannels=4;
   ellmax=1;
   InitArrays();
-  printf("Arrays Initialized\n");
   ell[0]=0;
   ell[1]=ell[2]=ell[3]=1;
-	
-  InitWaves();
-  printf("Partial Waves Initialized\n");
+	InitWaves();
 	
   rmax_schrod=6.0;
   nrmax_schrod=600;
@@ -109,34 +106,31 @@ double CWaveFunction_pp_schrod::CalcPsiSquared(int iq,double r,double ctheta){
 }
 
 void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
+	complex<double> cg;
   char type[10];
   char pname[10];
 	
   double q=(iq+0.5)*delq,q2,r;
   double delr=0.001;
-  double x1,mu,E,delx2,r0,r1,r2,vr,v12,v22,v11,phase,phase0,sigma;
+  double x1,E,delx2,r1,r2,vr,v12,v22,v11,phase,phase0,sigma;
   double phaseb,phaseb0;
-  complex<double> cg;
   int nr=lrint(rmax_schrod/delr);
-  int ir,J,S,L=ell[ichannel];
+  int ir,L=ell[ichannel];
   complex<double> *psiout,*psiout0;
   sprintf(type,"PP");
   if(ichannel==0){
-    J=0; S=0; L=0;
+    L=0;
     sprintf(pname,"1S0");
   }
   else{
-    S=1; L=1; 
+    L=1; 
     if(ichannel==1){
-      J=0;
       sprintf(pname,"3P0");
     }
     else if(ichannel==2){
-      J=1;
       sprintf(pname,"3P1");	
     }
     else{
-      J=2;
       sprintf(pname,"3C2");
     }
   }	
@@ -144,7 +138,7 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
   mu=0.25*E;
   q2=q*q;
   delx2=q2*delr*delr/(HBARC*HBARC);
-  cg=CoulWave::cgamma(L+1.0+ci*eta[iq]);
+	cg=CoulWave::cgamma(L+1.0+ci*eta[iq]);
   sigma=atan2(imag(cg),real(cg));
   psiout=new complex<double> [nr+1];
   psiout0=new complex<double> [nr+1];
@@ -152,7 +146,6 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
 	
   r2=nr*delr;
   r1=(nr-1)*delr;
-  r0=(nr-2)*delr;
   psiout[nr]=CoulWave::CWoutgoing(L,r2*q/HBARC,eta[iq])*exp(-ci*sigma);
   psiout[nr-1]=CoulWave::CWoutgoing(L,r1*q/HBARC,eta[iq])*exp(-ci*sigma);
   psiout0[nr]=psiout[nr];

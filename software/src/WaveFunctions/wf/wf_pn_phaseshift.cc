@@ -170,7 +170,6 @@ void CWaveFunction_pn_phaseshift::read_phaseshifts(){
   double deltaread[6][NREAD],qread[NREAD];
   double delta_1s0,delta_3s1,delta_3p0,delta_1p1,delta_3p1,delta_3p2;
   double eps1,delta_1d2,delta_3d1,delta_3d2,delta_3d3;
-  double delta_presmooth,ddeltadq_presmooth;
   char dummy[200];
   FILE *fptr;
 
@@ -225,20 +224,13 @@ void CWaveFunction_pn_phaseshift::read_phaseshifts(){
 	     qread[NREAD-1]);
       //exit(1);
     }
-
-    // Smooth out the p-waves
     iqsmooth=6;
     qsmooth=qread[iqsmooth];
     if(iread<iqsmooth){
       for(ichannel=2;ichannel<6;ichannel++){
-	delta_presmooth=delta[ichannel][iq];
-	ddeltadq_presmooth=ddeltadq[ichannel][iq];
 	delta[ichannel][iq]=deltaread[ichannel][iqsmooth]
 	  *(q*q*q/(qsmooth*qsmooth*qsmooth));
 	ddeltadq[ichannel][iq]=3.0*delta[ichannel][iq]/q;
-	//printf("q=%g, channel=%d : delta=%g=?%g, ddeltadq=%g=?%g\n",
-	//      q,ichannel,delta[ichannel][iq],delta_presmooth,
-	//      ddeltadq[ichannel][iq],ddeltadq_presmooth);
       }
     }
   }

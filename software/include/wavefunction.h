@@ -70,7 +70,7 @@ class CWaveFunction{
   // These are used for square-well solutions
   int *nwells;
   complex<double> ***A;
-  complex<double> **cg;
+  complex<double> **cgsqwell;
 	complex<double> ***DelPhiArray;
 	int DelPhiArray_NRMAX;
 	double DelPhiArray_DELR;

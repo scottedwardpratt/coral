@@ -3,9 +3,6 @@
 #include "wavefunction.h"
 
 CWaveFunction_pipluspiminus_nostrong::CWaveFunction_pipluspiminus_nostrong(string  parsfilename){
-	int iq,ichannel,*I;
-	double q;
-
 	ParsInit(parsfilename);
 
 	m1=MPI;
@@ -23,7 +20,6 @@ CWaveFunction_pipluspiminus_nostrong::CWaveFunction_pipluspiminus_nostrong(strin
 
 double CWaveFunction_pipluspiminus_nostrong::CalcPsiSquared(int iq,double r,double ctheta){
 	double psisquared;
-	double delta_s,delta_p,delta_d;
 	complex<double> psi0;
 
 	if(iq>=nqmax){

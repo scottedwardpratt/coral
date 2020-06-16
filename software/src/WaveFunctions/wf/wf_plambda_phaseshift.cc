@@ -89,17 +89,16 @@ double CWaveFunction_plambda_phaseshift::CalcPsiSquared(int iq,double r,double c
 }
 
 void CWaveFunction_plambda_phaseshift::get_phaseshifts(){
-  double q,a,Reff,tandel;
+  double q,alength,Reff,tandel;
   int iq;
-  a=-1.9; // Bodmer and UsmaniScattering Length, NPA477, 621 (1988).
+  alength=-1.9; // Bodmer and UsmaniScattering Length, NPA477, 621 (1988).
   Reff=3.4;
   for(iq=0;iq<nqmax;iq++){
     q=qarray[iq];
-    tandel=1.0/(-HBARC/(q*a)+0.5*Reff*q/HBARC);
+    tandel=1.0/(-HBARC/(q*alength)+0.5*Reff*q/HBARC);
     delta[0][iq]=atan(tandel);
-    ddeltadq[0][iq]=-(HBARC/(q*q*a)+0.5*Reff/HBARC)
-      *tandel*tandel/(1+tandel*tandel);
-    
+    ddeltadq[0][iq]=-(HBARC/(q*q*alength)+0.5*Reff/HBARC)
+      *tandel*tandel/(1+tandel*tandel); 
   }
 }
 

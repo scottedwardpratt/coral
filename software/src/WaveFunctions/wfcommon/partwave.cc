@@ -35,6 +35,7 @@ CPartWave::CPartWave(double etaset,int q1q2set,double qset,int ellset,
   q1q2=q1q2set;
   eta=etaset;
   ell=ellset;
+	delr=delrset;
   sigma=0.0;
   if(q1q2!=0){
     cg=CoulWave::cgamma(ell+1.0+ci*eta);

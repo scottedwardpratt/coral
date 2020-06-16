@@ -3,11 +3,7 @@
 #include "wavefunction.h"
 
 CWaveFunction_pipluspiplus_nostrong::CWaveFunction_pipluspiplus_nostrong(string  parsfilename){
-  int iq,ichannel,*I;
-  double q;
-
   ParsInit(parsfilename);
-
   m1=MPI;
   m2=MPI;
 	IDENTICAL=1;
@@ -21,7 +17,6 @@ CWaveFunction_pipluspiplus_nostrong::CWaveFunction_pipluspiplus_nostrong(string 
 
 double CWaveFunction_pipluspiplus_nostrong::CalcPsiSquared(int iq,double r,double ctheta){
 	double psisquared;
-	double delta_s,delta_p,delta_d;
 	const double ROOT2=sqrt(2.0);
 	complex<double> psi;
 

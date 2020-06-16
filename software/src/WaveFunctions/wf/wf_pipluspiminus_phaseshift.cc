@@ -72,7 +72,7 @@ double CWaveFunction_pipluspiminus_phaseshift::CalcPsiSquared(int iq,double r,
   double psisquared,x,dpsi2,q,ROOT2=sqrt(2.0);
   double delta_s,delta_p,delta_d;
   complex<double> psi,hstar0,hstar1,hstar2,psi0,psisymm,psia,psib;
-  int ipartial,ichannel;
+  int ichannel;
 
   if(iq>=nqmax){
     psisquared=1.0;

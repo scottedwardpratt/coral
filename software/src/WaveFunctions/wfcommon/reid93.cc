@@ -85,8 +85,8 @@ void WaveFunctionRoutines::creid93(const double *r, const char *pname, const cha
     { l = j; }
   i = (s+l+1) % 2;
 	
-  ri = (double)i;
-  rj = (double)j;
+  ri = double(i);
+  rj = double(j);
 	
   /*
   **  OPE contribution to the potential

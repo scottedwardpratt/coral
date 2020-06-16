@@ -85,7 +85,7 @@ double CWaveFunction_kpluspiminus_phaseshift::CalcPsiSquared(int iq,double r,dou
 
 
 void CWaveFunction_kpluspiminus_phaseshift::get_phaseshifts_kpluspiminus(){
-  double gamma0=50.0,mres=891.66,a=1.0/500.0;
+  double gamma0=50.0,mres=891.66,aa=1.0/500.0;
   int ellres=1;
   double e1,e2,q,m,gamma,q0,mtest,tandelta,dtandeltadq,old=0.0;
   int iq;
@@ -96,13 +96,13 @@ void CWaveFunction_kpluspiminus_phaseshift::get_phaseshifts_kpluspiminus(){
   printf("mtest=%g =? 891.66, q0=%g\n",mtest,q0);
   for(iq=0;iq<=nqmax;iq++){
     q=qarray[iq];
-    gamma=gamma0*pow((q/q0)*(1.0+q0*q0*a*a)/(1.0+q*q*a*a),double(2*ellres+1));
+    gamma=gamma0*pow((q/q0)*(1.0+q0*q0*aa*aa)/(1.0+q*q*aa*aa),double(2*ellres+1));
     e1=sqrt(m1*m1+q*q);
     e2=sqrt(m2*m2+q*q);
     m=e1+e2;
     tandelta=gamma/(mres-m);
     delta[0][iq]=atan2(gamma,mres-m);
-    dtandeltadq=tandelta*3.0*((1.0/q)-2.0*q*a*a/(1.0+q*q*a*a));
+    dtandeltadq=tandelta*3.0*((1.0/q)-2.0*q*aa*aa/(1.0+q*q*aa*aa));
     dtandeltadq+=(tandelta/(mres-m))*((q/e1)+(q/e2));
     ddeltadq[0][iq]=dtandeltadq/(1.0+tandelta*tandelta);
     

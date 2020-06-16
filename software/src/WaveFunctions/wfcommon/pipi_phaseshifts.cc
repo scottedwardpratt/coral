@@ -9,7 +9,7 @@ void WaveFunctionRoutines::getphaseshift_pipi(int I,int ell,double q,double *del
   const double MPI=139.58,MRHO=771.1,Gamma=149.2; // from pdg
   const double qrho=sqrt(0.25*MRHO*MRHO-MPI*MPI);
   double q1,q2,delta1,delta2,M,piself,delq;
-  double ff,mscreen;
+  double ff;
 
   if((ell+I)%2 != 0){
     printf("pipi phase shift: bad (ell,I) comb, ell=%d, I=%d\n",ell,I);
@@ -60,7 +60,7 @@ void WaveFunctionRoutines::getphaseshift_pipi(int I,int ell,double q,double *del
   //
   if(I==1){
     if(ell==1){
-      mscreen=1200;
+      //mscreen=1200;
       delq=1.0;
       if(q<20.0) delq=q/20.0;
       if(q<0.5*delq) q=0.5*delq;
