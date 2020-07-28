@@ -1,6 +1,5 @@
 #include "coral.h"
 #include <vector>
-
 using namespace std;
 
 int main(){
