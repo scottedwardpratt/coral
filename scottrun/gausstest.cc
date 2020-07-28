@@ -6,7 +6,7 @@ using namespace std;
 int main(){
   CWaveFunction *wf;
   double q,r,ctheta=1.0,Rx,Ry,Rz,offset;
-	double x,y,z,x1,y1,z1,x2,y2,z2,qx,qy,qz,root2=sqrt(2.0);
+	double x,y,z,qx,qy,qz,root2=sqrt(2.0);
   int iq,Nq,iqdir;
   vector<vector<double>> cf;
   int imc,NMC;
@@ -39,15 +39,10 @@ int main(){
 			}
 			cf[iqdir][iq]=0.0;
 			for(imc=0;imc<NMC;imc++){
-				x1=Rx*root2*randy.ran_gauss();
-				y1=Ry*root2*randy.ran_gauss();
-				z1=Rz*root2*randy.ran_gauss();
-				x2=Rx*root2*randy.ran_gauss();
-				y2=Ry*root2*randy.ran_gauss();
-				z2=Rz*root2*randy.ran_gauss();
-				x=x1-x2;
-				y=y1-y2;
-				z=z1-z2+offset;
+				x=Rx*root2*randy.ran_gauss();
+				y=Ry*root2*randy.ran_gauss();
+				z=Rz*root2*randy.ran_gauss();
+				z=z+offset;
 				r=sqrt(x*x+y*y+z*z);
 				ctheta=(qx*x+qy*y+qz*z)/(q*r);
 				//c[iq]+=wf->GetPsiSquared(q,r,ctheta);
@@ -69,6 +64,6 @@ int main(){
 		q,cf[0][iq],cf[1][iq],cf[2][iq]);		
 	}
 	fclose(fptr);
-	return 0;	
+	return 0;
 }
 
