@@ -12,7 +12,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 find_package(GSL 1.15 REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(Boost REQUIRED)
-include_directories(SYSTEM ${GSL_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR} ${GITHOME_MSU}/commonutils/software/include)
+include_directories(SYSTEM include ${GSL_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR} ${GITHOME_MSU}/commonutils/software/include)
 message("Includes: ${GSL_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR}")
 
 file(GLOB coral_src ./src/*/*.cc)
@@ -22,6 +22,5 @@ add_library(coral STATIC ${coral_src})
 target_link_libraries(coral ${GSL_LIBRARY} ${GSL_CBLAS_LIBRARY} ${Boost_LIBRARIES})
 message("Libraries: ${GSL_LIBRARY} ${GSL_CBLAS_LIBRARY}")
 
-include_directories(include ${GITHOME_MSU}/hp/alice/software/commonutils/include  ${GITHOME_MSU}/hp/alice/software/b3d2/include)
 
 
