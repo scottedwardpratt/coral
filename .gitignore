@@ -1,0 +1,23 @@
+#
+# NOTE! Don't add files that are generated in specific
+# subdirectories here. Add them in the ".gitignore" file
+# in that subdirectory instead.
+#
+#
+# Top-level build directory
+#
+*~
+build
+.directory
+.push_default
+*.diff
+*.orig
+*.rej
+*.a
+*.o
+**/.DS_Store
+.vscode
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+makefile

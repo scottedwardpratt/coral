@@ -15,6 +15,7 @@ find_package(Boost REQUIRED)
 include_directories(SYSTEM include ${GSL_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR} ${GITHOME_MSU}/commonutils/software/include)
 message("Includes: ${GSL_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR}")
 
+file(GLOB coral_src ./src/*.cc)
 file(GLOB coral_src ./src/*/*.cc)
 file(GLOB coral_src ./src/*/*/*.cc)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "lib")

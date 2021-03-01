@@ -274,7 +274,7 @@ void CWaveFunction::SquareWell_MakeArrays(){
     for(l=0;l<=ellmax;l++){
       if(lexist[l]==1){
 				cgsqwell[iq][l]=CoulWave::cgamma(l+1.0+ci*eta0);
-				cgsqwell[iq][l]=conj(cgsqwell[iq][l]/fabs(cgsqwell[iq][l]));
+				cgsqwell[iq][l]=conj(cgsqwell[iq][l]/std::abs(cgsqwell[iq][l]));
       }
     }
   }

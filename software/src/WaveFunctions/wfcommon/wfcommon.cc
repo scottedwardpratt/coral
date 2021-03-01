@@ -347,6 +347,7 @@ void CWaveFunction::EffectiveRange(int ichannel,double scattlength,double Reff){
 			//   ddeltadq[ichannel][iq]*180/PI);
 	}
 }
+
 double CWaveFunction::GetIW(int ellval,double epsval,double q,int q1q2val,double etaval,double deltaval){
 	complex<double> psi0,psi,psi2,psiminus0,psiminus,psiminus2;
 	complex<double> psiplus0,psiplus,psiplus2;
