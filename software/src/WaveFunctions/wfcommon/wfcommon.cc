@@ -90,7 +90,7 @@ void CWaveFunction::ParsInit(string parsfilename){
   
   stemp=parameters.getS("QARRAYFILENAME","no_qarray_file");
   strcpy(qarrayfilename,stemp.c_str());
-  printf("qarrayfilename set to %s\n",qarrayfilename);
+  //printf("qarrayfilename set to %s\n",qarrayfilename);
 	
   delq=parameters.getD("DELQ",-999);
   nqmax=parameters.getI("NQMAX",-999);
@@ -120,6 +120,7 @@ void CWaveFunction::ParsInit(string parsfilename){
       qarray[iq]=(iq+0.5)*delq;
     }
   }
+	/*
   printf("    WaveFunction Parameters:\n");
   printf("        delq set to %g\n",delq);
   printf("        nqmax set to %d\n",nqmax);
@@ -127,6 +128,7 @@ void CWaveFunction::ParsInit(string parsfilename){
   printf("        STRONG set to %d\n",STRONG);
   printf("        COULOMB set to %d\n",COULOMB);
   printf("        IDENTICAL set to %d\n",IDENTICAL);
+	*/
 }
 
 void CWaveFunction::InitArrays(){

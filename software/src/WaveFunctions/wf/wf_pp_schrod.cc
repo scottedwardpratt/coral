@@ -14,6 +14,7 @@ CWaveFunction_pp_schrod::CWaveFunction_pp_schrod(string parsfilename) : CWaveFun
   m2=m1; 
 	IDENTICAL=1;
   q1q2=1;
+	STRONG=true;
 	
   nchannels=4;
   ellmax=1;

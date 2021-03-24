@@ -16,11 +16,16 @@ CWaveFunction_generic::CWaveFunction_generic(
   symmweight=symmweightset;
   q1q2scale=q1q2set;
   q1q2=q1q2scale;
+	if(q1q2!=0)
+		COULOMB=true;
+	else
+		COULOMB=false;
+	STRONG=false;
   nchannels=0;
   ellmax=0;
   InitArrays();
   InitWaves();
-  printf("initialization finished\n");
+  printf("initialization finished Generic WF: m1=%g, m2=%g\n",m1,m2);
 }
 
 void CWaveFunction_generic::reset(int q1q2set,double m1set,double m2set,
@@ -33,6 +38,10 @@ void CWaveFunction_generic::reset(int q1q2set,double m1set,double m2set,
     exit(1);
   }
   q1q2=q1q2set;
+	if(q1q2!=0)
+		COULOMB=true;
+	else
+		COULOMB=false;
   symmweight=symmweightset;
 }
 
