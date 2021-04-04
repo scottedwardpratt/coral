@@ -7,7 +7,7 @@ CWaveFunction_classical::CWaveFunction_classical(){
 double CWaveFunction_classical::CalcPsiSquared(double q,double r,double ctheta,double m1,double m2,int q1q2){
 	double mu,psisquared=0.0,eratio,root,sign;
 	mu=m1*m2/(m1+m2);
-	eratio=2.0*mu*q1q2*ALPHA/(HBARC*r*q*q);  // ratio of PE to E
+	eratio=2.0*mu*q1q2*ALPHA*HBARC/(r*q*q);  // ratio of PE to E
 	if(eratio<1.0){
 		if(fabs(eratio)<1.0E-7){
 			psisquared=1.0;
