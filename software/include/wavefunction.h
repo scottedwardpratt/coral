@@ -161,7 +161,7 @@ public:
 	double CalcPsiSquared(int iq,double r,double ctheta);
 	void reset(int q1q2,double m1,double m2,double symmweight);
 	CWaveFunction_generic(string parsfilename,int q1q2,double m1,double m2,double symmweight);
-  
+  bool KILLSYM;
 };
 
 class CWaveFunction_Xipi_phaseshift : public CWaveFunction {

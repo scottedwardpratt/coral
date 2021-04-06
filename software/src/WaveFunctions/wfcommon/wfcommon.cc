@@ -185,6 +185,7 @@ void CWaveFunction::InitWaves(){
 double CWaveFunction::GetPsiSquared(double q,double r,double ctheta){
   int iq,iqlow,iqhigh;
   double wlow,whigh,interpolate,qscaled,rscaled;
+	
 	if(r<1000.0){
 		if(generic==1 && q1q2!=0){
 			qscaled=q*(muscale/mu)*q1q2scale/double(q1q2);
