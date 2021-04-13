@@ -215,26 +215,31 @@ double CWaveFunction::GetPsiSquared(double q,double r,double ctheta){
 		}
 		
 		if(iqhigh==0) return CalcPsiSquared(0,rscaled,ctheta);
-		else if(iqhigh>=nqmax && qscaled-qarray[nqmax-1]>1.0E-5) return 1.0;
+		else if(iqhigh>=nqmax && qscaled-qarray[nqmax-1]>1.0E-5)
+			return 1.0;
 		else{
 			wlow=(qarray[iqhigh]-qscaled)/(qarray[iqhigh]-qarray[iqlow]);
 			whigh=1.0-wlow;
-			if(fabs(wlow)<1.0E-5) interpolate=CalcPsiSquared(iqhigh,rscaled,ctheta);
+			if(fabs(wlow)<1.0E-5)
+				interpolate=CalcPsiSquared(iqhigh,rscaled,ctheta);
 			else if(fabs(whigh)<1.0E-5) 
 				interpolate=CalcPsiSquared(iqlow,rscaled,ctheta);
-				else{
-					interpolate=wlow*CalcPsiSquared(iqlow,rscaled,ctheta)
+			else{
+				interpolate=wlow*CalcPsiSquared(iqlow,rscaled,ctheta)
 					+whigh*CalcPsiSquared(iqhigh,rscaled,ctheta);
-				}
-				if(rscaled>1.0 && qscaled>qarray[0] && qscaled<qarray[nqmax-1] && interpolate<-0.01){
-					printf("interpolate=%g, qscaled=%g, qlow=%g, qhigh=%g, rscaled=%g\n",
-						interpolate,qscaled,qarray[iqlow],qarray[iqhigh],rscaled);
-					printf("wlow=%g, whigh=%g\n",wlow,whigh);
-					printf("iqlow=%d,  %g\n",iqlow,CalcPsiSquared(iqlow,rscaled,ctheta));
-					printf("iqhigh=%d, %g\n",iqhigh,CalcPsiSquared(iqhigh,rscaled,ctheta));
-					//exit(1);
-				}
-				return interpolate;
+			}
+			if(rscaled>1.0 && qscaled>qarray[0] && qscaled<qarray[nqmax-1] && interpolate<-0.01){
+				printf("interpolate=%g, qscaled=%g, qlow=%g, qhigh=%g, rscaled=%g, r=%g\n",
+				interpolate,qscaled,qarray[iqlow],qarray[iqhigh],rscaled,r);
+				printf("wlow=%g, whigh=%g\n",wlow,whigh);
+				printf("iqlow=%d,  %g\n",iqlow,CalcPsiSquared(iqlow,rscaled,ctheta));
+				printf("iqhigh=%d, %g\n",iqhigh,CalcPsiSquared(iqhigh,rscaled,ctheta));
+				printf("nqmax=%d\n",nqmax);
+				for(iq=0;iq<nqmax;iq++)
+					printf("qarray[%d]=%g\n",iq,qarray[iq]);
+				exit(1);
+			}
+			return interpolate;
 		}
 	}
 	else return 1.0;

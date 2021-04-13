@@ -316,6 +316,19 @@ protected:
 	double Vreid(double r,int ichannel);
 };
 
+class CWaveFunction_ppbar_nocoulomb : public CWaveFunction{
+public:
+	double CalcPsiSquared(int iq,double r,double ctheta);
+	CWaveFunction_ppbar_nocoulomb(string parsfilename);
+protected:
+	int ellmax;
+	double VR,VI,a;
+	vector<vector<complex<double>>> A,B;
+	vector<complex<double>> qinside;
+	void GetBessel(complex<double> x,vector<complex<double>> &jl,vector<complex<double>> &jlprime);
+	void GetHankel(double x,vector<complex<double>> &hl,vector<complex<double>> &hlprime);
+};
+
 class	CWaveFunction_classical{
 public:
 	double delq;
