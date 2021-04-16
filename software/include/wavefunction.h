@@ -320,6 +320,7 @@ class CWaveFunction_ppbar_nocoulomb : public CWaveFunction{
 public:
 	double CalcPsiSquared(int iq,double r,double ctheta);
 	CWaveFunction_ppbar_nocoulomb(string parsfilename);
+	~CWaveFunction_ppbar_nocoulomb();
 protected:
 	int ellmax;
 	double VR,VI,a;

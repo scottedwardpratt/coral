@@ -19,7 +19,7 @@ using namespace std;
 CRandy *CWaveFunction::randy=NULL;
 
 CWaveFunction::CWaveFunction(){
-  generic=0;
+  generic=false;
   ci=complex<double>(0.0,1.0);
 	randy=new CRandy(-12345);
   MPI=139.58;
@@ -27,31 +27,37 @@ CWaveFunction::CWaveFunction(){
   MPROTON=938.271;
   MNEUTRON=939.565;
   MLAMBDA=1115.7;
+	qarray=NULL;
 }
 
 CWaveFunction::~CWaveFunction(){
-  int ichannel,iq,ell0;
-  for(ichannel=0;ichannel<nchannels;ichannel++){
-    delete Wepsilon[ichannel];
-    delete delta[ichannel];
-    delete ddeltadq[ichannel];
-  }
-  delete [] Wepsilon;
-  delete [] delta;
-  delete [] ddeltadq;
-  delete [] qarray;
-  delete [] eta;
-  delete [] channelweight;
-  
-  for(iq=0;iq<nqmax;iq++) delete (planewave[iq]);
-  delete [] planewave;
-  for(ell0=0;ell0<=ellmax;ell0++){
-    for(iq=0;iq<nqmax;iq++){
-      if(partwave[ell0][iq]!=NULL) delete (partwave[ell0][iq]);
-    }
-    delete [] partwave[ichannel];
-  }
-  delete [] partwave;
+	int ichannel,iq,ell0;
+	if(nchannels!=0){
+		for(ichannel=0;ichannel<nchannels;ichannel++){
+			delete Wepsilon[ichannel];
+			delete delta[ichannel];
+			delete ddeltadq[ichannel];
+		}
+		delete [] Wepsilon;
+		delete [] delta;
+		delete [] ddeltadq;
+		delete [] qarray;
+		delete [] eta;
+		delete [] channelweight;
+ 
+ 
+		for(iq=0;iq<nqmax;iq++)
+			delete (planewave[iq]);
+		delete [] planewave;
+		for(ell0=0;ell0<=ellmax;ell0++){
+			for(iq=0;iq<nqmax;iq++){
+				if(partwave[ell0][iq]!=NULL) delete (partwave[ell0][iq]);
+			}
+			delete [] partwave[ichannel];
+		}
+		delete [] partwave;
+	}
+	
 }
 
 bool CWaveFunction::GetIDENTICAL(){
