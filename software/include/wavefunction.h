@@ -322,12 +322,12 @@ public:
 	CWaveFunction_ppbar_nocoulomb(string parsfilename);
 	~CWaveFunction_ppbar_nocoulomb();
 protected:
-	int ellmax;
+	vector<int> llmax;
 	double VR,VI,a;
 	vector<vector<complex<double>>> A,B;
 	vector<complex<double>> qinside;
-	void GetBessel(complex<double> x,vector<complex<double>> &jl,vector<complex<double>> &jlprime);
-	void GetHankel(double x,vector<complex<double>> &hl,vector<complex<double>> &hlprime);
+	void GetBessel(complex<double> x,int iq,vector<complex<double>> &jl,vector<complex<double>> &jlprime);
+	void GetHankel(double x,int iq,vector<complex<double>> &hl,vector<complex<double>> &hlprime);
 };
 
 class	CWaveFunction_classical{
