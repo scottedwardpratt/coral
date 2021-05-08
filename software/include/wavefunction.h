@@ -2,6 +2,9 @@
 #define __CWAVEFUNCTION_WF_H__
 
 #include "commondefs.h"
+#include "parametermap.h"
+#include "constants.h"
+#include "sf.h"
 
 using namespace std;
 
@@ -23,6 +26,7 @@ class CPartWave;
 
 class CWaveFunction{
 public:
+	CparameterMap parameters;
 	int GetNQMAX();
 	int GetNCHANNELS();
 	double GetDELTA(int ichannel,int iq);
@@ -316,6 +320,15 @@ protected:
 	double Vreid(double r,int ichannel);
 };
 
+class	CWaveFunction_classical{
+public:
+	double delq;
+	double CalcPsiSquared(int iq,double r,double ctheta,double m1,double m2,int q1q2);
+	double CalcPsiSquared(double q,double r,double ctheta,double m1,double m2,int q1q2);
+	CWaveFunction_classical();
+	~CWaveFunction_classical(); 
+};
+
 class CWaveFunction_ppbar_nocoulomb : public CWaveFunction{
 public:
 	double CalcPsiSquared(int iq,double r,double ctheta);
@@ -330,13 +343,26 @@ protected:
 	void GetHankel(double x,int iq,vector<complex<double>> &hl,vector<complex<double>> &hlprime);
 };
 
-class	CWaveFunction_classical{
+
+class CWaveFunction_optical : public CWaveFunction{
 public:
-	double delq;
-	double CalcPsiSquared(int iq,double r,double ctheta,double m1,double m2,int q1q2);
-	double CalcPsiSquared(double q,double r,double ctheta,double m1,double m2,int q1q2);
-	CWaveFunction_classical();
-	~CWaveFunction_classical(); 
+	double CalcPsiSquared(int iq,double r,double ctheta);
+	CWaveFunction_optical(string parsfilename);
+	~CWaveFunction_optical();
+	void Reset(int q1q2,double m1,double m2,double VR,double VI,double Rset);
+	void ClearInfo();
+	void GetCL();
+	void GetExpansionCoefficients();
+	void GetF_Complex(int iq,int L,complex<double> rho,complex<double> &F,complex<double> &Fprime);
+	void GetAB();
+	
+protected:
+	vector<int> llmax;
+	int kmax;
+	double VR,VI,R;
+	vector<vector<vector<complex<double>>>> a;
+	vector<vector<complex<double>>> A,B,CL;
+	vector<complex<double>> qinside,etavec;
 };
 
 #endif

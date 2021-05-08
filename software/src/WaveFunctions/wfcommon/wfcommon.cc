@@ -85,7 +85,6 @@ double CWaveFunction::GetQ(int iq){
 }
 
 void CWaveFunction::ParsInit(string parsfilename){
-  CparameterMap parameters;
   FILE *qarrayfile;
   char qarrayfilename[120];
   string stemp;
