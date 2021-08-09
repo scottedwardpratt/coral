@@ -219,7 +219,9 @@ double CWaveFunction::GetPsiSquared(double q,double r,double ctheta){
 			iqlow=iqhigh-1;
 		}
 		
-		if(iqhigh==0) return CalcPsiSquared(0,rscaled,ctheta);
+		
+		if(iqhigh==0)
+			return CalcPsiSquared(0,rscaled,ctheta);
 		else if(iqhigh>=nqmax && qscaled-qarray[nqmax-1]>1.0E-5)
 			return 1.0;
 		else{

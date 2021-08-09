@@ -42,7 +42,7 @@ CWaveFunction_plambda_phaseshift::CWaveFunction_plambda_phaseshift(string  parsf
 	  /(4.0*PI*pow(epsilon,3));
     }
   }
-  printf("Initialization finished\n");
+  //printf("Initialization finished\n");
 }
 
 double CWaveFunction_plambda_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){

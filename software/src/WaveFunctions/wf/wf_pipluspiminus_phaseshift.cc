@@ -64,7 +64,7 @@ CWaveFunction_pipluspiminus_phaseshift::CWaveFunction_pipluspiminus_phaseshift(s
       q,delta[2][iq],ddeltadq[2][iq],
       GetIW(1,1.0,q,0,0,delta[2][iq])-GetIW(1,1.0,q,0,0,0));
       }*/
-  printf("pipluspiminus_phaseshift wf initialized\n");
+  //printf("pipluspiminus_phaseshift wf initialized\n");
 }
 
 double CWaveFunction_pipluspiminus_phaseshift::CalcPsiSquared(int iq,double r,

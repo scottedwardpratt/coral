@@ -20,12 +20,12 @@ CWaveFunction_pp_phaseshift::CWaveFunction_pp_phaseshift(string  parsfilename) :
 
   ellmax=1;
   InitArrays();
-  printf("Arrays Initialized\n");
+  //printf("Arrays Initialized\n");
   ell[0]=0;
   ell[1]=ell[2]=ell[3]=1;
 
   InitWaves();
-  printf("Partial Waves Initialized\n");
+  //printf("Partial Waves Initialized\n");
 
   // Channel weight is (2J+1)/[(2s1+1)*(2s2+1)]
   channelweight[0]=2*0.25;
@@ -33,7 +33,7 @@ CWaveFunction_pp_phaseshift::CWaveFunction_pp_phaseshift(string  parsfilename) :
   channelweight[2]=2*0.75;
   channelweight[3]=2*1.25;
   read_phaseshifts();
-  printf("phaseshifts read in\n");
+  //printf("phaseshifts read in\n");
 
   for(ichannel=0;ichannel<nchannels;ichannel++){
     for(iq=0;iq<nqmax;iq++){
@@ -57,7 +57,7 @@ CWaveFunction_pp_phaseshift::CWaveFunction_pp_phaseshift(string  parsfilename) :
 	}*/
     }
   }
-  printf("Initialization finished\n");
+  //printf("Initialization finished\n");
 }
 
 double CWaveFunction_pp_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){

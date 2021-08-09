@@ -52,7 +52,7 @@ CWaveFunction_pn_phaseshift::CWaveFunction_pn_phaseshift(string  parsfilename) :
 				/(4.0*PI*pow(epsilon,3));
 		}
 	}
-	printf("Initialization finished\n");
+	//printf("Initialization finished\n");
 }
 
 double CWaveFunction_pn_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){

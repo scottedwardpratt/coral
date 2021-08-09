@@ -19,7 +19,8 @@ CPlaneWave::CPlaneWave(double etaset,int Q1Q2,double qset){
   delx=0.02;
 
   xmax=50.0;
-  if((q*30.0/HBARC) > xmax) xmax=delx*(floor(1.0+(q*30.0/HBARC)/delx));
+  if((q*30.0/HBARC) > xmax)
+		xmax=delx*(floor(1.0+(q*30.0/HBARC)/delx));
   nxmax=int(floor(xmax/delx));
   hyperarray=new complex<double> [nxmax+1];
 
@@ -88,7 +89,6 @@ complex<double> CPlaneWave::planewave(double r,double ctheta){
     arg=q*r*ctheta/HBARC;
     answer=cos(arg)+ci*sin(arg);
   }
-
   return answer;
 }
 

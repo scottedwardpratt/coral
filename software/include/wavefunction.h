@@ -351,18 +351,18 @@ public:
 	~CWaveFunction_optical();
 	void Reset(int q1q2,double m1,double m2,double VR,double VI,double Rset);
 	void ClearInfo();
-	void GetCL();
+	void GetCLsigmaL();
 	void GetExpansionCoefficients();
 	void GetF_Complex(int iq,int L,complex<double> rho,complex<double> &F,complex<double> &Fprime);
 	void GetAB();
 	
-protected:
 	vector<int> llmax;
 	int kmax;
 	double VR,VI,R;
 	vector<vector<vector<complex<double>>>> a;
-	vector<vector<complex<double>>> A,B,CL;
+	vector<vector<complex<double>>> A,B,CL,sigmaL;
 	vector<complex<double>> qinside,etavec;
+	vector<double> sigma_annihilation;
 };
 
 #endif

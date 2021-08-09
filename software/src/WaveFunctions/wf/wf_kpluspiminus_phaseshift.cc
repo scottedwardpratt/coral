@@ -45,7 +45,7 @@ CWaveFunction_kpluspiminus_phaseshift::CWaveFunction_kpluspiminus_phaseshift(str
 	/(4.0*PI*pow(epsilon,3));
     }
   }
-  printf("Initialization finished\n");
+  //printf("Initialization finished\n");
 }
 
 double CWaveFunction_kpluspiminus_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){

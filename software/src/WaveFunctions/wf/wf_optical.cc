@@ -5,16 +5,19 @@
 CWaveFunction_optical::CWaveFunction_optical(string parsfilename) : CWaveFunction(){
 	ParsInit(parsfilename);
 	llmax.resize(nqmax);
-	kmax=200;
+	kmax=100;
 	etavec.resize(nqmax);
+	sigma_annihilation.resize(nqmax);
 	CL.resize(nqmax);
+	sigmaL.resize(nqmax);
 	a.resize(nqmax);
 
 	A.resize(nqmax);
 	B.resize(nqmax);
 	qinside.resize(nqmax);
 	
-	int q1q2set,m1set,m2set,VRset,VIset,Rset;
+	int q1q2set;
+	double m1set,m2set,VRset,VIset,Rset;
 	q1q2set=parameters.getI("Q1Q2",-1);
 	m1set=parameters.getD("M1",938.272);
 	m2set=parameters.getD("M2",938.272);
@@ -22,8 +25,8 @@ CWaveFunction_optical::CWaveFunction_optical(string parsfilename) : CWaveFunctio
 	VIset=parameters.getD("OPTICAL_VI",25.99);
 	Rset=parameters.getD("OPTICAL_A",1.892);
 	Reset(q1q2set,m1set,m2set,VRset,VIset,Rset);
-  InitArrays();
-  InitWaves();
+	InitArrays();
+	InitWaves();
 }
 
 CWaveFunction_optical::~CWaveFunction_optical(){
@@ -46,8 +49,7 @@ CWaveFunction_optical::~CWaveFunction_optical(){
 
 void CWaveFunction_optical::Reset(int q1q2set,double m1set,double m2set,double VRset,double VIset,double Rset){
 	int iq,L,ll;
-	double K,qmag,phiq,delK,qmagR;
-	complex<double> q2;
+	double K,phiq,delK,kmagR,qmag2;
 	m1=m1set;
 	m2=m2set;
 	mu=m1*m2/(m1+m2);
@@ -57,12 +59,12 @@ void CWaveFunction_optical::Reset(int q1q2set,double m1set,double m2set,double V
 	R=Rset;
 	
 	for(iq=0;iq<nqmax;iq++){
-		qmagR=delq*iq*R/HBARC;
-		if(qmagR>2.5){
-			llmax[iq]=4+lrint(qmagR-2);
+		kmagR=delq*iq*R/HBARC;
+		if(kmagR>2.5){
+			llmax[iq]=8+lrint(kmagR-2);
 		}
 		else
-			llmax[iq]=4;
+			llmax[iq]=8;
 	}
 	
 	for(iq=0;iq<nqmax;iq++){
@@ -73,6 +75,7 @@ void CWaveFunction_optical::Reset(int q1q2set,double m1set,double m2set,double V
 		}
 		a[iq].resize(llmax[iq]+1);
 		CL[iq].resize(llmax[iq]+1);
+		sigmaL[iq].resize(llmax[iq]+1);
 		for(L=0;L<=llmax[iq];L++){
 			a[iq][L].resize(kmax);	
 		}		
@@ -86,14 +89,13 @@ void CWaveFunction_optical::Reset(int q1q2set,double m1set,double m2set,double V
 	delK=delq;
 	for(iq=0;iq<nqmax;iq++){
 		K=(iq+0.5)*delK;
-		q2=K*K-2.0*mu*(VR-ci*VI);
-		qmag=sqrt(real(q2)+imag(q2));
-		phiq=atan2(imag(q2),real(q2));
-		qinside[iq]=qmag*cos(phiq)+ci*qmag*sin(phiq);
+		qmag2=fabs(2.0*mu*VI)+fabs(K*K-2.0*mu*VR);
+		phiq=0.5*atan2(-2.0*mu*VI,K*K-2.0*mu*VR);
+		qinside[iq]=sqrt(qmag2)*exp(ci*phiq);
 		etavec[iq]=ALPHA*q1q2*mu/qinside[iq];
 	}
 	
-	GetCL();
+	GetCLsigmaL();
 	GetExpansionCoefficients();
 	
 	for(iq=0;iq<nqmax;iq++){
@@ -114,84 +116,47 @@ void CWaveFunction_optical::ClearInfo(){
 		}
 		a[iq].clear();
 		CL[iq].clear();
+		sigmaL[iq].clear();
 	}
 	qinside.clear();
 	a.clear();
-	CL.clear();	
+	CL.clear();
+	sigmaL.clear();	
 }
 
-void CWaveFunction_optical::GetCL(){
+void CWaveFunction_optical::GetCLsigmaL(){
 	int iq,ll;
-	double prefactor,cmag,phi;
-	complex<double> CL2,gamow,etaq;
+	double prefactor,cmag;
+	complex<double> CL2,gamow,etaq,cg;
 	for(iq=0;iq<int(etavec.size());iq++){
 		etaq=etavec[iq];
-		gamow=CoulWave::cgamma(1.0+ci*etaq);
-		gamow*=exp(PI*etaq);
-		CL2=gamow;
+		gamow=2.0*PI*etaq/(exp(2.0*PI*etaq)-1.0);
+		CL2=1.0;
 		prefactor=1.0;
 		for(ll=0;ll<=llmax[iq];ll++){
 			if(ll>0){
-				prefactor*=2.0/((2.0*ll)*(2.0*ll-1));
+				prefactor*=1.0/((2.0*ll+1.0)*(ll));
 				CL2*=(double(ll*ll)+etaq*etaq);
 			}
-			cmag=sqrt(real(CL2*conj(CL2)));
-			phi=0.5*atan2(imag(CL2),real(CL2));
-			CL[iq][ll]=prefactor*sqrt(cmag)*(cos(phi)+ci*sin(phi));
+			cmag=sqrt(real(gamow*CL2*conj(gamow*CL2)));
+			//phi=0.5*atan2(imag(CL2),real(CL2));
+			CL[iq][ll]=sqrt(cmag)*prefactor; //*(cos(phi)+ci*sin(phi));
+			cg=CoulWave::cgamma(ll+1.0+ci*etaq);
+			sigmaL[iq][ll]=atan2(imag(cg),real(cg));
 		}
 	}
-}
-
-void CWaveFunction_optical::GetExpansionCoefficients(){
-	int k,ll,iq;
-	complex<double> etaq,term1,term2,term3;
-	for(iq=0;iq<int(etavec.size());iq++){
-		etaq=etavec[iq];
-		for(ll=0;ll<=llmax[iq];ll++){
-			a[iq][ll][0]=1.0;
-			a[iq][ll][1]=0.0;
-			a[iq][ll][2]=(ll+1.0-2.0*etaq*etaq)/(4.0*(ll+1.0)*(ll+1.0)*(2.0*ll+3.0));
-			a[iq][ll][3]=etaq*((ll+1.0)*(ll+1.0)+etaq*etaq)/(3.0*(ll+1.0)*(ll+1.0)*(ll+1.0)*(ll+2.0)*(2.0*ll+3.0));
-			for(k=3;k<kmax;k++){
-				term1=etaq*(2.0*k*a[iq][ll][k] -a[iq][ll][k-2]/(ll+1.0));
-				term2=a[iq][ll][k-1]*(2.0*etaq*etaq-(2.0*k-1.0)*(ll+1.0)) /(2.0*(ll+1.0));
-				term3=a[iq][ll][k-3]/(4.0*(ll+1.0));
-				a[iq][ll][k+1]=-(term1+term2+term3)/((ll+1.0)*(k+1.0)*(k+2.0*(ll+1.0)));
-			}
-		}
-	}
-}
-
-void CWaveFunction_optical::GetF_Complex(int iq,int L,complex<double> rho,complex<double> &F,complex<double> &Fprime){
-	int k;
-	complex<double> Phi,Phiprime,sum=1.0,sumprime=0.0,dsum=1.0,dsumprime,etaq,q;
-	etaq=etavec[iq];
-	Phi=exp( ((etaq*rho)/(L+1.0))-rho*rho/(4.0*(L+1.0)) );
-	Phiprime=Phi*( (etaq/(L+1.0))-2.0*rho/(4.0*(L+1.0)) );
-	/* printf("------ iq=%d, L=%d ------\n",iq,L);
-	printf("rho=(%g,%g), Phi=(%g,%g), Phiprime=(%g,%g)\n",real(rho),imag(rho),
-	real(Phi),imag(Phi),real(Phiprime),imag(Phiprime)); */
-	k=2;
-	while(k<kmax && (k<100 || real(dsum*conj(dsum))>1.0E-40)){
-		//printf("a[iq=%d][L=%d][k=%d]=(%g,%g)\n",iq,L,k,real(a[iq][L][k]),imag(a[iq][L][k]));
-		dsum=a[iq][L][k]*pow(rho,k);
-		dsumprime=a[iq][L][k]*double(k)*pow(rho,k-1);
-		sum+=dsum;
-		sumprime+=dsumprime;
-		k+=1;
-	}
-	F=Phi*sum*pow(rho,L+1)*CL[iq][L];
-	Fprime+=(Phiprime*sum+Phi*sumprime)*pow(rho,L+1)*CL[iq][L];
-	Fprime+=F*(L+1.0)/rho;
 }
 
 void CWaveFunction_optical::GetAB(){
 	int iq,ll;
-	double etak,kR,K,qmag2,qmagR,phi;
+	double etak,kR,K,qmag2,phi,delsigma;  // sigma is annihilation cross section
 	vector<double> FL,GL,FLprime,GLprime;
 	complex<double> qR;
+	// Compare to https://en.wikipedia.org/wiki/Coulomb_wave_function HL is HL+ and HLstar is HL-
+	// Difference from wiki is that FL = GL -i*HL here (matches convention in GSL library)
 	complex<double> FLinside,FLprimeinside,HL,HLprime,HLstar,HLprimestar,numer,denom;
 	for(iq=0;iq<nqmax;iq++){
+		sigma_annihilation[iq]=0.0;
 		if(int(FL.size())!=llmax[iq]+1){
 			FL.resize(llmax[iq]+1);
 			GL.resize(llmax[iq]+1);
@@ -201,25 +166,16 @@ void CWaveFunction_optical::GetAB(){
 		K=(iq+0.5)*delq;
 		kR=K*R/HBARC;
 		etak=ALPHA*q1q2*mu/K;
-		qmag2=2.0*mu*VI+fabs(K*K-2.0*mu*VR);
+		qmag2=fabs(2.0*mu*VI)+fabs(K*K-2.0*mu*VR);
 		qinside[iq]=sqrt(qmag2);
-		qmagR=sqrt(qmag2)*R/HBARC;
-		phi=0.5*atan2(2.0*mu*VI,K*K-2.0*mu*VR);
+		phi=0.5*atan2(-2.0*mu*VI,K*K-2.0*mu*VR);
 		qinside[iq]*=exp(ci*phi);
-		qR=qmagR*cos(phi)+ci*qmagR*sin(phi);
-		printf("iq=%d: K=%g, kR=%g, qR=(%g,%g)\n",iq,K,kR,real(qR),imag(qR));
+		qR=qinside[iq]*R/HBARC;
 		
 		CoulWave::GetFGPrimeArray(llmax[iq],kR,etak,FL,GL,FLprime,GLprime);
 		
 		for(ll=0;ll<=llmax[iq];ll++){
 			GetF_Complex(iq,ll,qR,FLinside,FLprimeinside);
-			if(ll<1){
-				printf("--- ll=%d ----\n",ll);
-				printf("FL=(%g,%g), GL=(%g,%g), FLprime=(%g,%g), GLprime=(%g,%g)\n",real(FL[ll]),imag(FL[ll]),
-				real(GL[ll]),imag(GL[ll]),real(FLprime[ll]),imag(FLprime[ll]),real(GLprime[ll]),imag(GLprime[ll]));
-				printf("inside FL-FLprime=(%g,%g), (%g,%g)\n",real(FLinside),imag(FLinside),
-				real(FLprimeinside),imag(FLprimeinside));
-			}
 			HL=FL[ll]-ci*GL[ll];
 			HLstar=conj(HL);
 			HLprime=FLprime[ll]-ci*GLprime[ll];
@@ -228,29 +184,30 @@ void CWaveFunction_optical::GetAB(){
 			denom=qR*FLprimeinside*HLstar-kR*FLinside*HLprimestar;
 			B[iq][ll]=numer/denom;
 			A[iq][ll]=0.5*(HL+B[iq][ll]*HLstar)/FLinside;
-			if(ll<1){
-				printf("ll=%d: checking (%g,%g)=?(%g,%g)\n",ll,real(A[iq][ll]*FLinside),imag(A[iq][ll]*FLinside),
-				0.5*real(HL+B[iq][ll]*conj(HL)),0.5*imag(HL+B[iq][ll]*conj(HL)));
-				printf("ll=%d: checking (%g,%g)=?(%g,%g)\n",ll,real(A[iq][ll]*FLprimeinside),imag(A[iq][ll]*FLprimeinside),
-				0.5*real(HLprime+B[iq][ll]*conj(HLprime)),0.5*imag(HLprime+B[iq][ll]*conj(HLprime)));
-				printf("checking |A|^2=%g\n",real(A[iq][ll]*conj(A[iq][ll])));
-				printf("checking |B|^2=%g\n",real(B[iq][ll]*conj(B[iq][ll])));
-				if(ll==0){
-					printf("K=%g\n",K);
-					printf("A[%d][L=%d]=(%g,%g)\n",iq,ll,real(A[iq][ll]),imag(A[iq][ll]));
-					printf("B[%d][L=%d]=(%g,%g)\n",iq,ll,real(B[iq][ll]),imag(B[iq][ll]));
-				}
+			delsigma=2.0*real(1.0-B[iq][ll])-real((1.0-B[iq][ll])*conj(1.0-B[iq][ll]));
+			sigma_annihilation[iq]+=delsigma*(2.0*ll+1.0);
+			/*
+			if(ll==0){
+				printf("------------------------\n");
+				printf("kR=%g,qR=(%g,%g), etak=(%g,%g)\n",kR,real(qR),imag(qR),real(etak),imag(etak));
+				printf("iq=%d ll=%d : B=(%g,%g), A=(%g,%g)\n",iq,ll,real(B[iq][ll]),imag(B[iq][ll]),real(A[iq][ll]),imag(A[iq][ll]));
+				printf("|B|^2=%g, |A|^2=%g\n",real(B[iq][ll]*conj(B[iq][ll])),real(A[iq][ll]*conj(A[iq][ll])));
+				double Bstrength=real((B[iq][ll]-1.0)*conj(B[iq][ll]-1.0));
+				printf("|B-1|^2=%g\n",Bstrength);
 			}
+			*/
+			
 		}
+		sigma_annihilation[iq]=PI*HBARC*HBARC*sigma_annihilation[iq]/(K*K);
 	}
 }
 
 double CWaveFunction_optical::CalcPsiSquared(int iq,double r,double ctheta){
-	complex<double> psi,Yl,x;
+	complex<double> psi,x;
 	vector<double> FL,GL,FLprime,GLprime;
 	complex<double> FLinside,FLprimeinside,HL,HLstar;
 	complex<double> hL,hLprime;
-	double Amag,K=(0.5+iq)*delq,x0,psisquared,etak;
+	double Amag,K=(0.5+iq)*delq,x0,psisquared,etak,Pl;
 	int ll;
 	if(int(FL.size())!=llmax[iq]+1){
 		FL.resize(llmax[iq]+1);
@@ -269,9 +226,9 @@ double CWaveFunction_optical::CalcPsiSquared(int iq,double r,double ctheta){
 		for(ll=0;ll<=llmax[iq];ll++){
 			Amag=fabs(real(A[iq][ll]*conj(A[iq][ll])));
 			if(Amag>1.0E-20 && Amag<10000.0){
-				GetF_Complex(iq,ll,qinside[iq]*r/HBARC,FLinside,FLprimeinside);
-				Yl=SpherHarmonics::legendre(ll,ctheta);
-				psi+=(2.0*ll+1.0)*pow(ci,ll)*Yl*(A[iq][ll]*FLinside/x0-FL[ll]/x0);
+				GetF_Complex(iq,ll,x,FLinside,FLprimeinside);
+				Pl=SpherHarmonics::legendre(ll,ctheta);
+				psi+=(2.0*ll+1.0)*pow(ci,ll)*exp(-ci*sigmaL[iq][ll])*Pl*(A[iq][ll]*FLinside/x0-FL[ll]/x0);
 			}
 		}
 	}
@@ -279,11 +236,50 @@ double CWaveFunction_optical::CalcPsiSquared(int iq,double r,double ctheta){
 		for(ll=0;ll<=llmax[iq];ll++){
 			HL=FL[ll]-ci*GL[ll];
 			HLstar=conj(HL);
-			Yl=SpherHarmonics::legendre(ll,ctheta);
-			psi+=0.5*(2.0*ll+1.0)*pow(ci,ll)*Yl*(B[iq][ll]-1.0)*HLstar/x0;
+			Pl=SpherHarmonics::legendre(ll,ctheta);
+			psi+=0.5*(2.0*ll+1.0)*pow(ci,ll)*exp(-ci*sigmaL[iq][ll])*Pl*(B[iq][ll]-1.0)*HLstar/x0;
 		}
 	}
-	psisquared=real(psi*conj(psi));	
+	psisquared=real(psi*conj(psi));
 	return psisquared;
 
+}
+
+
+// Meligy (1958, NPA)
+void CWaveFunction_optical::GetExpansionCoefficients(){
+	int k,ll,iq;
+	complex<double> etaq,x;
+	for(iq=0;iq<int(etavec.size());iq++){
+		etaq=etavec[iq];
+		for(ll=0;ll<=llmax[iq];ll++){
+			a[iq][ll][0]=1.0;
+			a[iq][ll][1]=0.0;
+			x=etaq/(ll+1.0);
+			for(k=2;k<=kmax;k++){
+				a[iq][ll][k]=-2.0*x*(k-1.0)*a[iq][ll][k-1] -(1.0+x*x)*a[iq][ll][k-2];
+				a[iq][ll][k]=a[iq][ll][k]/double(k*(2*ll+k+1));
+			}
+		}
+	}
+}
+
+void CWaveFunction_optical::GetF_Complex(int iq,int L,complex<double> rho,complex<double> &F,complex<double> &Fprime){
+	int k;
+	complex<double> Phi,Phiprime,sum=1.0,sumprime=0.0,dsum=1.0,dsumprime,etaq,q;
+	Fprime=0.0;
+	etaq=etavec[iq];
+	Phi=exp(etaq*rho/(L+1.0));
+	Phiprime=Phi*etaq/(L+1.0);
+	k=2;
+	while(k<kmax && (k<10 || real(dsum*conj(dsum))>1.0E-30)){
+		dsum=a[iq][L][k]*pow(rho,k);
+		dsumprime=a[iq][L][k]*double(k)*pow(rho,k-1);
+		sum+=dsum;
+		sumprime+=dsumprime;
+		k+=1;
+	}
+	F=Phi*sum*pow(rho,L+1)*CL[iq][L];
+	Fprime+=(Phiprime*sum+Phi*sumprime)*pow(rho,L+1)*CL[iq][L];
+	Fprime+=F*(L+1.0)/rho;
 }

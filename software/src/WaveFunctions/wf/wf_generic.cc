@@ -23,7 +23,7 @@ double m2set,double symmweightset): CWaveFunction(){
   ellmax=0;
   InitArrays();
   InitWaves();
-  printf("initialization finished Generic WF: m1=%g, m2=%g\n",m1,m2);
+  //printf("initialization finished Generic WF: m1=%g, m2=%g\n",m1,m2);
 }
 
 void CWaveFunction_generic::reset(int q1q2set,double m1set,double m2set,

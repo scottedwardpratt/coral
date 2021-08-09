@@ -18,14 +18,14 @@ CWaveFunction_ppiplus_phaseshift::CWaveFunction_ppiplus_phaseshift(string  parsf
   nchannels=3;
   ellmax=1;
   InitArrays();
-  printf("Arrays Initialized\n");
+  //printf("Arrays Initialized\n");
 	
   ell[0]=0;
   ell[1]=1;
   ell[2]=1;
 	
   InitWaves();
-  printf("Partial Waves Initialized\n");
+  //printf("Partial Waves Initialized\n");
 	
   channelweight[0]=1.0;
   channelweight[1]=1.0; // J=1/2
@@ -46,7 +46,7 @@ CWaveFunction_ppiplus_phaseshift::CWaveFunction_ppiplus_phaseshift(string  parsf
 			/(4.0*PI*pow(epsilon,3));
     }
   }
-  printf("Initialization finished\n");
+  //printf("Initialization finished\n");
 }
 
 double CWaveFunction_ppiplus_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){
