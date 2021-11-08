@@ -7,12 +7,15 @@ CWaveFunction_classical::CWaveFunction_classical(){
 double CWaveFunction_classical::CalcPsiSquared(double q,double r,double ctheta,double m1,double m2,int q1q2){
 	double psisquared=1.0;
 	double mu,eratio,root,sign,Jacobian1,Jacobian2,q0ratio;
-	if(r>1000.0 || q1q2==0){
+	mu=m1*m2/(m1+m2);
+	eratio=2.0*mu*q1q2*ALPHA*HBARC/(r*q*q);  // ratio of PE to E
+	if(q1q2==0 || fabs(eratio)<1.0E-8){
 		psisquared=1.0;
 	}
+	else if(eratio!=eratio){
+		psisquared=0.0;
+	}
 	else{
-		mu=m1*m2/(m1+m2);
-		eratio=2.0*mu*q1q2*ALPHA*HBARC/(r*q*q);  // ratio of PE to E
 		//printf("mu=%g, eratio=%g, q=%g, r=%g, q1q2=%d, ALPHA=%g, HBARC=%g\n",mu,eratio,q,r,q1q2,ALPHA,HBARC);
 		root=1.0-2.0*eratio/(1.0+ctheta);
 		if(root<=0.0 || root!=root){
