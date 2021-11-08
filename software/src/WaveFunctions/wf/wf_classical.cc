@@ -7,7 +7,7 @@ CWaveFunction_classical::CWaveFunction_classical(){
 double CWaveFunction_classical::CalcPsiSquared(double q,double r,double ctheta,double m1,double m2,int q1q2){
 	double psisquared=1.0;
 	double mu,eratio,root,sign,Jacobian1,Jacobian2,q0ratio;
-	if(r>1000.0){
+	if(r>1000.0 || q1q2==0){
 		psisquared=1.0;
 	}
 	else{
@@ -28,14 +28,16 @@ double CWaveFunction_classical::CalcPsiSquared(double q,double r,double ctheta,d
 			if(Jacobian1!=Jacobian1){
 				printf("J1=%g, q0ratio=%g, eratio=%g\n",Jacobian1,q0ratio,eratio);
 				printf("ctheta=%g, root=%g\n",ctheta,root);
+				printf("q=%g, r=%g, q1q2=%d, ctheta=%g\n",q,r,q1q2,ctheta);
 				exit(1);
 			}
 			//Avoid dividing 0/0, instead use limit for ctheta0=0
 			sign=-1.0;
 			Jacobian2=1.0 +sign*pow(eratio/((1.0+sign*root)*(1.0+ctheta)),2)/root;
 			if(Jacobian2!=Jacobian2){
-				printf("J1=%g, q0ratio=%g, eratio=%g\n",Jacobian2,q0ratio,eratio);
+				printf("J2=%g, q0ratio=%g, eratio=%g\n",Jacobian2,q0ratio,eratio);
 				printf("ctheta=%g, root=%g\n",ctheta,root);
+				printf("q=%g, r=%g, q1q2=%d, ctheta=%g\n",q,r,q1q2,ctheta);
 				exit(1);
 			}
 			
