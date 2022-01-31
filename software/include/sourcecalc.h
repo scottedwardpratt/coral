@@ -15,6 +15,9 @@ public:
 	virtual void CalcS(CMCList *&lista,CMCList *&listb);
 	virtual void CalcS(C3DArray *threed);
 	virtual void GaussCFCalc(C3DArray *cf3d);
+	virtual void CalcS(CMCList *lista,CMCList *listb);
+	virtual void CalcS(CMCPRList ***&lista,CMCPRList ***&listb);
+	virtual void CalcS(CMCPRList *&lista,CMCPRList *&listb);
 
 	void CombineMCLists(CMCList *lista,CMCList *listb,CCHArray *A);
 	void CombineMCLists(CMCList *lista,CMCList *listb,CCHArray *A,int NMC);

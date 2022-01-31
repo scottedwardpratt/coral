@@ -206,7 +206,6 @@ double CWaveFunction_optical::CalcPsiSquared(int iq,double r,double ctheta){
 	complex<double> psi,x;
 	vector<double> FL,GL,FLprime,GLprime;
 	complex<double> FLinside,FLprimeinside,HL,HLstar;
-	complex<double> hL,hLprime;
 	double Amag,K=(0.5+iq)*delq,x0,psisquared,etak,Pl;
 	int ll;
 	if(int(FL.size())!=llmax[iq]+1){
@@ -266,7 +265,7 @@ void CWaveFunction_optical::GetExpansionCoefficients(){
 
 void CWaveFunction_optical::GetF_Complex(int iq,int L,complex<double> rho,complex<double> &F,complex<double> &Fprime){
 	int k;
-	complex<double> Phi,Phiprime,sum=1.0,sumprime=0.0,dsum=1.0,dsumprime,etaq,q;
+	complex<double> Phi,Phiprime,sum=1.0,sumprime=0.0,dsum=1.0,dsumprime,etaq;
 	Fprime=0.0;
 	etaq=etavec[iq];
 	Phi=exp(etaq*rho/(L+1.0));

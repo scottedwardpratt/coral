@@ -143,7 +143,6 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
   sigma=atan2(imag(cg),real(cg));
   psiout=new complex<double> [nr+1];
   psiout0=new complex<double> [nr+1];
-  complex<double>psi2,psi1,psi0;
 	
   r2=nr*delr;
   r1=(nr-1)*delr;

@@ -54,7 +54,7 @@ double CWaveFunction_pipluspiplus_phaseshift::CalcPsiSquared(int iq,double r,dou
 	double psisquared,x,dpsi2;
 	const double ROOT2=sqrt(2.0);
 	double delta_s,delta_d;
-	complex<double> psi,hstar,psi0,psisymm,psia,psib;
+	complex<double> psi,hstar,psia,psib;
 	double q;
 	int ichannel;
 	

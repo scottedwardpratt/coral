@@ -22,8 +22,6 @@ void CWaveFunction::SquareWell_Init(){
 	
   complex<double> eta0,eta1,eta2,eta3;
   complex<double> x1b,x2a,x2b,x3a,x3b,x,q1,q2,q3;
-  complex<double> U1b,U2a,U2b,U3a,U3b,U;
-  complex<double> U1bprime,U2aprime,U2bprime,U3aprime,U3bprime,Uprime;
   complex<double> **M,*Y;
   complex<double> x1,x2;
   double F2,G2,F2prime,G2prime,qsquared,r;
@@ -194,10 +192,9 @@ void CWaveFunction::SquareWell_GetDelPhi(int iq,double r,complex<double> *DelPhi
 }
 
 void CWaveFunction::SquareWell_CalcDelPhi(int iq,double r,complex<double> *DelPhi){
-  complex<double> psi,q1;
+  complex<double> q1;
   double mu_coulomb,E,qsquared,eta0;
   complex<double> x1, eta1;
-  complex<double> cx1, ceta1;
   double F,G,Fprime,Gprime;
   double F0[5],G0[5]; // assuming L is never bigger than 4
   int lexist[5]={0};

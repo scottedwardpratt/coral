@@ -5,6 +5,7 @@
 #include "parametermap.h"
 #include "constants.h"
 #include "sf.h"
+#include "gsl/gsl_sf.h"
 
 using namespace std;
 

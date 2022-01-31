@@ -64,7 +64,7 @@ CWaveFunction_ppbar_nocoulomb::CWaveFunction_ppbar_nocoulomb(string parsfilename
 }
 
 double CWaveFunction_ppbar_nocoulomb::CalcPsiSquared(int iq,double r,double ctheta){
-	complex<double> psi,Yl,psi0,x;
+	complex<double> psi,Yl,x;
 	double Amag,q=(0.5+iq)*delq,x0,psisquared;
 	int ll;
 	x0=q*r/HBARC;
@@ -163,8 +163,8 @@ void CWaveFunction_ppbar_nocoulomb::GetHankel(double x,int iq,vector<complex<dou
 		hlprime.resize(llmax[iq]+1);
 	}
 	for(ll=0;ll<=llmax[iq];ll++){
-		j=sph_bessel(ll,x);
-		y=sph_neumann(ll,x);
+		j=gsl_sf_bessel_jl(ll,x);
+		y=gsl_sf_bessel_yl(ll,x);
 		hl[ll]=j+ci*y;
 		if(ll==1){
 			j1=j;
@@ -172,8 +172,8 @@ void CWaveFunction_ppbar_nocoulomb::GetHankel(double x,int iq,vector<complex<dou
 		}
 	}
 	if(llmax[iq]==0){
-		j1=sph_bessel(1,x);
-		y1=sph_neumann(1,x);
+		j1=gsl_sf_bessel_jl(1,x);
+		y1=gsl_sf_bessel_yl(1,x);
 	}
 	hlprime[0]=-(j1+ci*y1);
 	for(ll=1;ll<=llmax[iq];ll++){

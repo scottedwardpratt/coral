@@ -22,7 +22,7 @@ CWaveFunction_lambdalambdaparspin_phaseshift::CWaveFunction_lambdalambdaparspin_
 
 double CWaveFunction_lambdalambdaparspin_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){
   double psisquared;
-  complex<double> psiantisymm,psia,psib,hstar0;
+  complex<double> psiantisymm,psia,psib;
   const double ROOT2=sqrt(2.0);
 	
   if(iq>=nqmax){

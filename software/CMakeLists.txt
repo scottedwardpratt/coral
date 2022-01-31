@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 set(GITHOME_MSU $ENV{GITHOME_MSU})
+set(GSL_INCLUDE_DIR $ENV{GSL_INCLUDE_DIR})
 set(CXX $ENV{CXX})
 project(coral CXX C)
 message("CXX is ${CXX}   GITHOME_MSU=${GITHOME_MSU}")
