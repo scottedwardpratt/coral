@@ -2,8 +2,8 @@
 #define __CWAVEFUNCTION_WF_PPIPLUS_PHASESHIFT_CC__
 
 #include "wavefunction.h"
-#include "constants.h"
-#include "misc.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/misc.h"
 
 CWaveFunction_ppiplus_phaseshift::CWaveFunction_ppiplus_phaseshift(string  parsfilename) : CWaveFunction() {
   int iq,ichannel;

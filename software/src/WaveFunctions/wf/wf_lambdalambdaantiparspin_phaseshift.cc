@@ -2,8 +2,8 @@
 #define __CWAVEFUNCTION_WF_LAMBDALAMBDAANTIPARSPIN_PHASESHIFT_CC__
 
 #include "wavefunction.h"
-#include "constants.h"
-#include "misc.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/misc.h"
 
 CWaveFunction_lambdalambdaantiparspin_phaseshift::CWaveFunction_lambdalambdaantiparspin_phaseshift(string  parsfilename){
 	int iq,ichannel;

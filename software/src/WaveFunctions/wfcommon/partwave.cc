@@ -2,9 +2,9 @@
 #define __INCLUDE_PARTWAVE_CC__
 
 #include "wavefunction.h"
-#include "constants.h"
-#include "misc.h"
-#include "sf.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/misc.h"
+#include "msu_commonutils/sf.h"
 
 CPartWave::CPartWave(double etaset,int q1q2set,double qset,int ellset,
 double epsilonset){

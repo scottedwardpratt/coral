@@ -2,15 +2,15 @@
 #define __INCLUDE_SOURCECALC_OSCAR__
 
 #include "sourcecalc.h"
-#include "randy.h"
+#include "msu_commonutils/randy.h"
 //#include "part.h"
-#include "constants.h"
+#include "msu_commonutils/constants.h"
 
 using namespace std;
 
 CSourceCalc_OSCAR_MultiBin::CSourceCalc_OSCAR_MultiBin(){
 	InitSPars();
-	randy=new CRandy(1234);
+	randy=new Crandy(1234);
 	B3D_BINARY_FORMAT=false;
 }
 
@@ -25,7 +25,7 @@ CSourceCalc_OSCAR_MultiBin::CSourceCalc_OSCAR_MultiBin(string sparsfilename){
 	PTMAX=PTMIN+NPTBINS*DELPT;
 	DELPHI=90.0/double(NPHIBINS);
 	spars.PrintPars();
-	randy=new CRandy(1234);
+	randy=new Crandy(1234);
 	B3D_BINARY_FORMAT=false;
 }
 

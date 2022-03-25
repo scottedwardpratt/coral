@@ -1,6 +1,6 @@
 #ifndef XGRAPH_INCLUDE_H
 #define XGRAPH_INCLUDE_H
-#include "commondefs.h"
+#include "msu_commonutils/commondefs.h"
 
 using namespace std;
 

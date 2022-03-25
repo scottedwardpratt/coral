@@ -9,7 +9,7 @@
 #include <cstring>
 
 #include "cfcalc.h"
-#include "commonutils.h"
+#include "msu_commonutils/commonutils.h"
 #include "kernel.h"
 #include "minimization.h"
 #include "sfit.h"

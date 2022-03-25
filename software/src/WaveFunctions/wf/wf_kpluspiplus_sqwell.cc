@@ -2,7 +2,7 @@
 #define __INCLUDE_KPLUSPIPLUS_CC__
 
 #include "wavefunction.h"
-#include "constants.h"
+#include "msu_commonutils/constants.h"
 
 using namespace std;
 

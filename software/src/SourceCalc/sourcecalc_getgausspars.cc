@@ -2,7 +2,7 @@
 #define INCLUDE_SOURCECALC_CC
 
 #include "sourcecalc.h"
-#include "constants.h"
+#include "msu_commonutils/constants.h"
 
 using namespace std;
 

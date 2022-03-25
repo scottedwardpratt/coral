@@ -1,11 +1,11 @@
 #ifndef  __INCLUDE_SFIT_H__
 #define  __INCLUDE_SFIT_H__
 
-#include  "commondefs.h"
+#include  "msu_commonutils/commondefs.h"
 #include "sourcecalc.h"
 #include  "minimization.h"
-#include "misc.h"
-#include "randy.h"
+#include "msu_commonutils/misc.h"
+#include "msu_commonutils/randy.h"
 
 using namespace std;
 
@@ -110,7 +110,7 @@ class  CCF2SFit :  public  CMinimization{
 	int  lx,ly,lz;
 	
 	
-	CRandy *randy;
+	Crandy *randy;
 	void  SwitchPars( int  ipara, int  iparb);
 	void  SwitchValues( double  *a, double  *b);
 	

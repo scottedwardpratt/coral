@@ -1,9 +1,9 @@
 #ifndef __INCLUDE_KERNEL_H
 #define __INCLUDE_KERNEL_H
 
-#include "commondefs.h"
-#include "sf.h"
-#include "constants.h"
+#include "msu_commonutils/commondefs.h"
+#include "msu_commonutils/sf.h"
+#include "msu_commonutils/constants.h"
 
 using namespace std;
 

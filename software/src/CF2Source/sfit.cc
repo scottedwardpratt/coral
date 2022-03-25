@@ -3,14 +3,14 @@
 
 #include  <ctime>
 
-#include "arrays.h"
+#include "msu_commonutils/arrays.h"
 #include "sourcecalc.h"
 #include  "sfit.h"
 #include "cfcalc.h"
 #include  "minimization.h"
-#include "misc.h"
-#include "randy.h"
-#include "parametermap.h"
+#include "msu_commonutils/misc.h"
+#include "msu_commonutils/randy.h"
+#include "msu_commonutils/parametermap.h"
 #include "source2cf.h"
 #include "gslmatrix.h"
 
@@ -187,7 +187,7 @@ void  CCF2SFit::Init(){
 	ResetChiSquared();
 	nfreepars=npars=0;
 	ncalls=0;
-	randy= new  CRandy(-1234);
+	randy= new  Crandy(-1234);
 	par= new  CParInfo *[nmaxpars];
 	ErrorMatrix= new   double  *[nmaxpars];
 	StepMatrix= new   double  *[nmaxpars];

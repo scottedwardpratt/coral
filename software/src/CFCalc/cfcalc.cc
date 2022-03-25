@@ -2,9 +2,9 @@
 #define __INCLUDE_CFCalc_CC__
 
 #include "cfcalc.h"
-#include "constants.h"
-#include "arrays.h"
-#include "sf.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/arrays.h"
+#include "msu_commonutils/sf.h"
 
 using namespace std;
 

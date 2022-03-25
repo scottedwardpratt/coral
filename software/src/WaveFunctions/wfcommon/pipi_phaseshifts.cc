@@ -2,7 +2,7 @@
 #define __CWAVEFUNCTION_WF_PIPI_PHASESHIFT_CC__
 
 #include "wavefunction.h"
-#include "constants.h"
+#include "msu_commonutils/constants.h"
 
 void WaveFunctionRoutines::getphaseshift_pipi(int I,int ell,double q,double *delta,double *ddeltadq){
   double a,a2,a3,reff,x,R,tandelta;

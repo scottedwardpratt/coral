@@ -2,9 +2,9 @@
 #define __INCLUDE_PARTWAVE_CC__
 
 #include "wavefunction.h"
-#include "constants.h"
-#include "sf.h"
-#include "misc.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/sf.h"
+#include "msu_commonutils/misc.h"
 
 CPlaneWave::CPlaneWave(double etaset,int Q1Q2,double qset){
   complex<double> a,b,a0,b0;

@@ -4,8 +4,8 @@
 #include "source2cf.h"
 #include "wavefunction.h"
 #include "kernel.h"
-#include "arrays.h"
-#include "randy.h"
+#include "msu_commonutils/arrays.h"
+#include "msu_commonutils/randy.h"
 
 using namespace std;
 
@@ -617,7 +617,7 @@ void S2CF::s2c(CMCList *lista,CMCList *listb,CKernel *kernel,C3DArray *cf){
 }
 
 void S2CF::s2c(CMCList *lista,CMCList *listb,CKernelWF *kernel,C3DArray *cf,int NMC){
-	CRandy randy(-time(NULL));
+	Crandy randy(-time(NULL));
 	bool samelists;
 	int ia,ib,na,jx,jy,jz,jsx,jsy,jsz,imc=0,jmc=0;
 	int nsx,nsy,nsz;
@@ -836,7 +836,7 @@ void S2CF::s2c_gauss(CSourceCalc *sourcecalc,CKernelWF *kernel,C3DArray *cf){
 	//double Euler_Phi=spars.set("Euler_Phi",0.0);
 	//double Euler_Theta=spars.set("Euler_Theta",0.0);
 	//double Euler_Psi=spars.set("Euler_Psi",0.0);
-	CRandy *randy=sourcecalc->randy;
+	Crandy *randy=sourcecalc->randy;
 	double x,y,z,r,q,ctheta,qx,qy,qz,wf2,xarray[3],gauss[2];
 	int igauss=2,ix;
 

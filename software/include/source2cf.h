@@ -1,7 +1,7 @@
 #ifndef __INCLUDE_S2C_H
 #define __INCLUDE_S2C_H
 
-#include "commondefs.h"
+#include "msu_commonutils/commondefs.h"
 #include "sourcecalc.h"
 
 using namespace std;

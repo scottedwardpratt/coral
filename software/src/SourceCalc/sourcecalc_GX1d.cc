@@ -2,7 +2,7 @@
 #define __INCLUDE_SOURCECALC_GX1D__
 
 #include "sourcecalc.h"
-#include "sf.h"
+#include "msu_commonutils/sf.h"
 
 using namespace std;
 

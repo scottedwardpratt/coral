@@ -1,9 +1,9 @@
 #ifndef __INCLUDE_SOURCECALC_H__
 #define __INCLUDE_SOURCECALC_H__
 
-#include "commondefs.h"
-#include "parametermap.h"
-#include "arrays.h"
+#include "msu_commonutils/commondefs.h"
+#include "msu_commonutils/parametermap.h"
+#include "msu_commonutils/arrays.h"
 
 using namespace std;
 
@@ -43,7 +43,7 @@ public:
 	void CalcEffGaussParsPureBose_GetYChi2(double ***C,double *x,int nxyz,double *y,double &chi2);
 	CSourceCalc();
 	CSourceCalc(string sparsfilename);
-	CRandy *randy;
+	Crandy *randy;
 	virtual ~CSourceCalc(){};
 private:
 

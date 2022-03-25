@@ -2,9 +2,9 @@
 #define __CWAVEFUNCTION_WF_Xipi_phaseshift_CC
 
 #include "wavefunction.h"
-#include "constants.h"
-#include "sf.h"
-#include "misc.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/sf.h"
+#include "msu_commonutils/misc.h"
 
 // See wavefunction.cc for parent class
 

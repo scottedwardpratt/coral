@@ -1,7 +1,7 @@
 #ifndef __INCLUDE_MINUIT_H__
 #define __INCLUDE_MINUIT_H__
 
-#include "commondefs.h"
+#include "msu_commonutils/commondefs.h"
 
 #include "sfit.h"
 #include "minuitfcn.h"

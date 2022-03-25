@@ -1,7 +1,7 @@
 #ifndef  MINIMIZATION_H 
 #define  MINIMIZATION_H 
 
-#include "commondefs.h"
+#include "msu_commonutils/commondefs.h"
 
 using namespace std;
 

@@ -2,9 +2,9 @@
 #include <iomanip>
 
 #include "kernel.h"
-#include "sf.h"
-#include "parametermap.h"
-#include "misc.h"
+#include "msu_commonutils/sf.h"
+#include "msu_commonutils/parametermap.h"
+#include "msu_commonutils/misc.h"
 #include "wavefunction.h"
 
 using namespace std;

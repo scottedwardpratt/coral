@@ -2,8 +2,8 @@
 #define __INCLUDE_PKPLUS_SQWELL_CC__
 
 #include "wavefunction.h"
-#include "constants.h"
-#include "sf.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/sf.h"
 using namespace std;
 
 CWaveFunction_pkplus_sqwell::CWaveFunction_pkplus_sqwell(string parsfilename) : CWaveFunction(){

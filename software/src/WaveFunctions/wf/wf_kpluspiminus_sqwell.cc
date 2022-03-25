@@ -2,7 +2,7 @@
 #define __INCLUDE_KPLUSPIMINUS_SQWELL__
 
 #include "wavefunction.h"
-#include "constants.h"
+#include "msu_commonutils/constants.h"
 
 using namespace std;
 

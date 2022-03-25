@@ -1,10 +1,10 @@
 #ifndef __CWAVEFUNCTION_WF_H__
 #define __CWAVEFUNCTION_WF_H__
 
-#include "commondefs.h"
-#include "parametermap.h"
-#include "constants.h"
-#include "sf.h"
+#include "msu_commonutils/commondefs.h"
+#include "msu_commonutils/parametermap.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/sf.h"
 #include "gsl/gsl_sf.h"
 
 using namespace std;
@@ -89,7 +89,7 @@ protected:
 
 	// This is done to account for the fact that there is a momentum dependence in the Coulomb potential
 	double RelativisticCorrection(double r,int iq);
-	static CRandy *randy;
+	static Crandy *randy;
 };
 
 class CPlaneWave{

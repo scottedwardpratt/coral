@@ -2,11 +2,11 @@
 #define __CWAVEFUNCTION_WFCOMMON_CC__
 
 #include "wavefunction.h"
-#include "constants.h"
-#include "randy.h"
-#include "parametermap.h"
-#include "sf.h"
-#include "misc.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/randy.h"
+#include "msu_commonutils/parametermap.h"
+#include "msu_commonutils/sf.h"
+#include "msu_commonutils/misc.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -16,12 +16,12 @@
 
 using namespace std;
 
-CRandy *CWaveFunction::randy=NULL;
+Crandy *CWaveFunction::randy=NULL;
 
 CWaveFunction::CWaveFunction(){
   generic=false;
   ci=complex<double>(0.0,1.0);
-	randy=new CRandy(-12345);
+	randy=new Crandy(-12345);
   MPI=139.58;
   MKAON=493.677;
   MPROTON=938.271;
