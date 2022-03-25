@@ -1,7 +1,4 @@
-#ifndef __CWAVEFUNCTION_WF_Xipi_phaseshift_CC
-#define __CWAVEFUNCTION_WF_Xipi_phaseshift_CC
-
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/sf.h"
 #include "msu_commonutils/misc.h"
@@ -107,5 +104,3 @@ void CWaveFunction_Xipi_phaseshift::get_phaseshifts_Xistar(double q,double &delt
 	ddeltadq_val=pow(cos(delta_val),2)*tandelta*((3.0/q)+(q/(MXistar-EXi-Epi))
 		*((1.0/EXi)+(1.0/Epi)));
 }
-
-#endif

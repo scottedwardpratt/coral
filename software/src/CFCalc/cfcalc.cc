@@ -1,7 +1,4 @@
-#ifndef __INCLUDE_CFCalc_CC__
-#define __INCLUDE_CFCalc_CC__
-
-#include "cfcalc.h"
+#include "msu_coral/cfcalc.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/arrays.h"
 #include "msu_commonutils/sf.h"
@@ -111,5 +108,3 @@ double CFCalc::GetChiSquared(CCHArray *cexp,CCHArray *error,CCHArray *ctheory){
 	delete(F);
 	return overlap;
 }
-
-#endif

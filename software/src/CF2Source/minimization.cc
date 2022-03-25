@@ -1,7 +1,7 @@
 #include  <cmath> 
 #include  <cstdlib> 
 #include  <cstdio> 
-#include  "minimization.h" 
+#include  "msu_coral/minimization.h" 
 
 using   namespace  std; 
 

@@ -1,7 +1,4 @@
-#ifndef __CWAVEFINCTION_WF_PIPLUSPIPLUS_PHASESHIFT_CC__
-#define __CWAVEFINCTION_WF_PIPLUSPIPLUS_PHASESHIFT_CC__
-
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/sf.h"
 #include "msu_commonutils/misc.h"
@@ -101,6 +98,3 @@ double CWaveFunction_pipluspiplus_phaseshift::CalcPsiSquared(int iq,double r,dou
 	return psisquared;
 	
 }
-
-#endif
-

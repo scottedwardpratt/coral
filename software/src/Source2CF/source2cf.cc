@@ -1,9 +1,6 @@
-#ifndef __INCLUDE_S2C_CC
-#define __INCLUDE_S2C_CC
-
-#include "source2cf.h"
-#include "wavefunction.h"
-#include "kernel.h"
+#include "msu_coral/source2cf.h"
+#include "msu_coral/wavefunction.h"
+#include "msu_coral/kernel.h"
 #include "msu_commonutils/arrays.h"
 #include "msu_commonutils/randy.h"
 
@@ -1036,5 +1033,3 @@ void S2CF::s2c_bowlersinyukov(CSourceCalc *sourcecalc,CKernel *kernel,C3DArray *
 	delete(sf);
 	delete(cf);
 }
-
-#endif

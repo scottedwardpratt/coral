@@ -1,4 +1,4 @@
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 
 // for non-identical particles: square will with complex optical potential
 

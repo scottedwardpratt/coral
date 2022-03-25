@@ -1,7 +1,4 @@
-#ifndef __CWAVEFUNCTION_WF_PP_PHASESHIFT_CC__
-#define __CWAVEFUNCTION_WF_PP_PHASESHIFT_CC__ 
-
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/misc.h"
 #include "msu_commonutils/sf.h"
@@ -176,5 +173,3 @@ void CWaveFunction_pp_phaseshift::read_phaseshifts(){
     }
   }
 }
-
-#endif

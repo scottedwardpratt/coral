@@ -1,7 +1,7 @@
 #ifndef __INCLUDE_PARTWAVE_CC__
 #define __INCLUDE_PARTWAVE_CC__
 
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/misc.h"
 #include "msu_commonutils/sf.h"

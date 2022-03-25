@@ -1,7 +1,4 @@
-#ifndef __INCLUDE_KPLUSPIPLUS_CC__
-#define __INCLUDE_KPLUSPIPLUS_CC__
-
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 
 using namespace std;
@@ -57,5 +54,3 @@ double CWaveFunction_kpluspiplus_sqwell::CalcPsiSquared(int iq,double r,double c
 	psisquared*=RelativisticCorrection(r,iq);
   return psisquared;
 }
-
-#endif

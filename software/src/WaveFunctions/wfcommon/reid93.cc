@@ -1,6 +1,6 @@
 #ifndef __INCLUDE_REID93CC__
 #define __INCLUDE_REID93CC__
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 
 /*******************************************************************************
 ** Reid93 soft core phenomenological potential, updated version,

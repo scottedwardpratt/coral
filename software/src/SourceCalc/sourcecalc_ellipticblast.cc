@@ -1,7 +1,4 @@
-#ifndef __SOURCECALC__ELLIPTIC_BLAST__
-#define __SOURCECALC__ELLIPTIC_BLAST__
-
-#include "sourcecalc.h"
+#include "msu_coral/sourcecalc.h"
 #include "msu_commonutils/randy.h"
 
 using namespace std;
@@ -224,4 +221,3 @@ void CSourceCalc_EllipticBlast::Get_r(double *p,int nsample,double **r){
 
   }
 }
-#endif

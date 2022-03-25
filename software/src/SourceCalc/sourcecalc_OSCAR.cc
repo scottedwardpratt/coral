@@ -1,5 +1,3 @@
-#ifndef __INCLUDE_SOURCECALC_OSCAR__
-#define __INCLUDE_SOURCECALC_OSCAR__
 #include "sourcecalc.h"
 #include "msu_commonutils/randy.h"
 #include "msu_commonutils/constants.h"
@@ -210,5 +208,3 @@ bool CSourceCalc_OSCAR::IDMatch(int ident,int *idlist,int nid){
 	}
 	return answer;
 }
-
-#endif

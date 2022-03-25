@@ -1,6 +1,4 @@
-#ifndef __INCLUDE_SFIT_GX1D_CC__
-#define __INCLUDE_SFIT_GX1D_CC__
-#include "sfit.h"
+#include "msu_coral/sfit.h"
 
 using namespace std;
 
@@ -46,5 +44,3 @@ CCF2SFit_GX1D::CCF2SFit_GX1D(CSourceCalc *scset,
   }
 
 }
-#endif
-

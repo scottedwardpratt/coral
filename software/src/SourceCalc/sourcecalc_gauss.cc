@@ -1,7 +1,4 @@
-#ifndef __INCLUDE_SOURCECALC_GAUSS__
-#define __INCLUDE_SOURCECALC_GAUSS__
-
-#include "sourcecalc.h"
+#include "msu_coral/sourcecalc.h"
 #include "msu_commonutils/arrays.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/randy.h"
@@ -279,5 +276,3 @@ void CSourceCalc_Gaussian::GaussCFCalc(C3DArray *cf3d){
 		}
 	}
 }
-
-#endif

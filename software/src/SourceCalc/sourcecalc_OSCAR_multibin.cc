@@ -1,7 +1,4 @@
-#ifndef __INCLUDE_SOURCECALC_OSCAR__
-#define __INCLUDE_SOURCECALC_OSCAR__
-
-#include "sourcecalc.h"
+#include "msu_coral/sourcecalc.h"
 #include "msu_commonutils/randy.h"
 //#include "part.h"
 #include "msu_commonutils/constants.h"
@@ -391,5 +388,3 @@ bool CSourceCalc_OSCAR_MultiBin::IDMatch(int ident,int *idlist,int nid){
 	}
 	return answer;
 }
-
-#endif

@@ -1,7 +1,4 @@
-#ifndef INCLUDE_SOURCECALC_CC
-#define INCLUDE_SOURCECALC_CC
-
-#include "sourcecalc.h"
+#include "msu_coral/sourcecalc.h"
 #include "msu_commonutils/constants.h"
 
 using namespace std;
@@ -260,5 +257,3 @@ void CSourceCalc::CalcEffGaussParsPureBose_GetYChi2(double ***C,double *x,int nx
 		}
 	}
 }
-
-#endif

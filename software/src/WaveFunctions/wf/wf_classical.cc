@@ -1,4 +1,4 @@
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 
 CWaveFunction_classical::CWaveFunction_classical(){

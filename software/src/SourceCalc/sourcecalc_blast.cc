@@ -1,7 +1,4 @@
-#ifndef __INCLUDE_SOURCECALC_BLAST__
-#define __INCLUDE_SOURCECALC_BLAST__
-
-#include "sourcecalc.h"
+#include "msu_coral/sourcecalc.h"
 #include "msu_commonutils/randy.h"
 #include "msu_commonutils/constants.h"
 
@@ -205,6 +202,3 @@ void CSourceCalc_Blast::CalcS(CMCList *lista,CMCList *listb){
 	}
 
 }
-
-#endif
-

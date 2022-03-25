@@ -1,7 +1,7 @@
 #ifndef __CWAVEFUNCTION_WFCOMMON_CC__
 #define __CWAVEFUNCTION_WFCOMMON_CC__
 
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/randy.h"
 #include "msu_commonutils/parametermap.h"

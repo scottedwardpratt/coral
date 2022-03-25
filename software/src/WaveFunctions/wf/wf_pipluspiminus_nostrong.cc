@@ -1,6 +1,4 @@
-#ifndef __CWAVEFUNCTION_WF_PIPLUSPIMINUS_NOSTRONG_CC__
-#define __CWAVEFUNCTION_WF_PIPLUSPIMINUS_NOSTRONG_CC__
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 
 CWaveFunction_pipluspiminus_nostrong::CWaveFunction_pipluspiminus_nostrong(string  parsfilename){
 	ParsInit(parsfilename);
@@ -32,5 +30,3 @@ double CWaveFunction_pipluspiminus_nostrong::CalcPsiSquared(int iq,double r,doub
 	}
 	return psisquared;
 }
-
-#endif

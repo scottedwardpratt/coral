@@ -1,7 +1,4 @@
-#ifndef __CWAVEFUNCTION_WF_LAMBDALAMBDAANTIPARSPIN_PHASESHIFT_CC__
-#define __CWAVEFUNCTION_WF_LAMBDALAMBDAANTIPARSPIN_PHASESHIFT_CC__
-
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/misc.h"
 
@@ -115,5 +112,3 @@ void CWaveFunction_lambdalambdaantiparspin_phaseshift::GetPhaseshifts(){
 	}
 
 }
-
-#endif
