@@ -1,6 +1,3 @@
-#ifndef __INCLUDE_PARTWAVE_CC__
-#define __INCLUDE_PARTWAVE_CC__
-
 #include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/misc.h"
@@ -104,5 +101,3 @@ complex<double> CPartWave::GetPhiOutgoing(double r){
 	if(q1q2!=0) answer=answer*Misc::ceiphi(-2.0*sigma);
 	return answer;
 }
-
-#endif

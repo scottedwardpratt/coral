@@ -1,6 +1,3 @@
-#ifndef __INCLUDE_PARTWAVE_CC__
-#define __INCLUDE_PARTWAVE_CC__
-
 #include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/sf.h"
@@ -133,5 +130,3 @@ complex<double> CPlaneWave::hyper(complex<double> a,complex<double> b,complex<do
   }
   return answer;
 }
-
-#endif

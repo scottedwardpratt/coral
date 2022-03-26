@@ -1,5 +1,3 @@
-#ifndef __INCLUDE_REID93CC__
-#define __INCLUDE_REID93CC__
 #include "msu_coral/wavefunction.h"
 
 /*******************************************************************************
@@ -376,5 +374,3 @@ double WaveFunctionRoutines::r93_z(const double *n, const double *m, const doubl
 	}
 	return y;
 }
-
-#endif

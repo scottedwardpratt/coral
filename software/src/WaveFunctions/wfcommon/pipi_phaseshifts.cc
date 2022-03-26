@@ -1,6 +1,3 @@
-#ifndef __CWAVEFUNCTION_WF_PIPI_PHASESHIFT_CC__
-#define __CWAVEFUNCTION_WF_PIPI_PHASESHIFT_CC__
-
 #include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 
@@ -123,5 +120,3 @@ void WaveFunctionRoutines::getphaseshift_pipi(int I,int ell,double q,double *del
   }
 
 }
-
-#endif
