@@ -1,6 +1,4 @@
-#ifndef __CWAVEFUNCTION_WF_GENERIC_CC__
-#define __CWAVEFUNCTION_WF_GENERIC_CC__
-#include "wavefunction.h"
+#include "msu_coral/wavefunction.h"
 
 CWaveFunction_generic::CWaveFunction_generic(string  parsfilename,int q1q2set,double m1set,
 double m2set,double symmweightset): CWaveFunction(){
@@ -71,5 +69,3 @@ double CWaveFunction_generic::CalcPsiSquared(int iq,double r,double ctheta){
   return psisquared;
 
 }
-
-#endif

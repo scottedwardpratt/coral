@@ -1,8 +1,5 @@
-#ifndef __INCLUDE_SFIT_3DGAUSSIAN_CC__
-#define __INCLUDE_SFIT_3DGAUSSIAN_CC__
-
-#include "sfit.h"
-#include "sourcecalc.h"
+#include "msu_coral/sfit.h"
+#include "msu_coral/sourcecalc.h"
 
 using namespace std;
 
@@ -34,5 +31,3 @@ CCF2SFit_3DGaussian::CCF2SFit_3DGaussian(CSourceCalc *scset,C3DArray *cexpset,C3
 	InitErrorMatrix();
 
 }
-#endif
-

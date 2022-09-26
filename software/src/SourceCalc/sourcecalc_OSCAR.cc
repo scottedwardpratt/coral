@@ -1,22 +1,20 @@
-#ifndef __INCLUDE_SOURCECALC_OSCAR__
-#define __INCLUDE_SOURCECALC_OSCAR__
 #include "sourcecalc.h"
-#include "randy.h"
-#include "constants.h"
+#include "msu_commonutils/randy.h"
+#include "msu_commonutils/constants.h"
 
 using namespace std;
 
 CSourceCalc_OSCAR::CSourceCalc_OSCAR(){
 	InitSPars();	
 	spars.PrintPars();
-	randy=new CRandy(1234);
+	randy=new Crandy(1234);
 }
 
 CSourceCalc_OSCAR::CSourceCalc_OSCAR(string sparsfilename){
 	InitSPars();
 	spars.ReadParsFromFile(sparsfilename);
 	spars.PrintPars();
-	randy=new CRandy(1234);
+	randy=new Crandy(1234);
 }
 
 void CSourceCalc_OSCAR::InitSPars(){
@@ -210,5 +208,3 @@ bool CSourceCalc_OSCAR::IDMatch(int ident,int *idlist,int nid){
 	}
 	return answer;
 }
-
-#endif

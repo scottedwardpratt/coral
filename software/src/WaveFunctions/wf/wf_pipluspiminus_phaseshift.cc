@@ -1,10 +1,7 @@
-#ifndef __CWAVEFUNCTION_WF_PIPLUSPIMINUS_PHASESHIFT_CC__
-#define __CWAVEFUNCTION_WF_PIPLUSPIMINUS_PHASESHIFT_CC__
-
-#include "wavefunction.h"
-#include "constants.h"
-#include "sf.h"
-#include "misc.h"
+#include "msu_coral/wavefunction.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/sf.h"
+#include "msu_commonutils/misc.h"
 
 CWaveFunction_pipluspiminus_phaseshift::CWaveFunction_pipluspiminus_phaseshift(string  parsfilename){
   int iq,ichannel,*I;
@@ -145,5 +142,3 @@ double CWaveFunction_pipluspiminus_phaseshift::CalcPsiSquared(int iq,double r,
   return psisquared;
 
 }
-
-#endif

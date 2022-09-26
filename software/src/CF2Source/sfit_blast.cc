@@ -1,6 +1,4 @@
-#ifndef __INCLUDE_SFIT_BLAST_CC__
-#define __INCLUDE_SFIT_BLAST_CC__
-#include "sfit.h"
+#include "msu_coral/sfit.h"
 
 using namespace std;
 
@@ -41,5 +39,3 @@ CCF2SFit_Blast::CCF2SFit_Blast(CSourceCalc *scset,C3DArray *cexp3Dset,C3DArray *
 		}
 	}
 }
-#endif
-

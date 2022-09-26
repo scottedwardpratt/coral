@@ -1,10 +1,7 @@
-#ifndef __INCLUDE_PARTWAVE_CC__
-#define __INCLUDE_PARTWAVE_CC__
-
-#include "wavefunction.h"
-#include "constants.h"
-#include "misc.h"
-#include "sf.h"
+#include "msu_coral/wavefunction.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/misc.h"
+#include "msu_commonutils/sf.h"
 
 CPartWave::CPartWave(double etaset,int q1q2set,double qset,int ellset,
 double epsilonset){
@@ -104,5 +101,3 @@ complex<double> CPartWave::GetPhiOutgoing(double r){
 	if(q1q2!=0) answer=answer*Misc::ceiphi(-2.0*sigma);
 	return answer;
 }
-
-#endif

@@ -1,9 +1,6 @@
-#ifndef __INCLUDE_WF_PPIMINUS_SQWELL_CC__
-#define __INCLUDE_WF_PPIMINUS_SQWELL_CC__
-
-#include "wavefunction.h"
-#include "constants.h"
-#include "sf.h"
+#include "msu_coral/wavefunction.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/sf.h"
 
 using namespace std;
 
@@ -87,5 +84,3 @@ double CWaveFunction_ppiminus_sqwell::CalcPsiSquared(int iq,double r,double cthe
 	psisquared*=RelativisticCorrection(r,iq);
   return psisquared;
 }
-
-#endif

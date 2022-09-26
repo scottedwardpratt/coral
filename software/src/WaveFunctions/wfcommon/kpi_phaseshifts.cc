@@ -1,8 +1,5 @@
-#ifndef __CWAVEFUNCTION_WF_KPI_PHASESHIFT_CC__
-#define __CWAVEFUNCTION_WF_KPI_PHASESHIFT_CC__
-
-#include "wavefunction.h"
-#include "misc.h"
+#include "msu_coral/wavefunction.h"
+#include "msu_commonutils/misc.h"
 
 void WaveFunctionRoutines::getphaseshift_kpi(int twoI,int ell,double q,double *delta,double *ddeltadq){
   double a,reff;
@@ -51,5 +48,3 @@ void WaveFunctionRoutines::getphaseshift_kpi(int twoI,int ell,double q,double *d
 	}
 	
 }
-
-#endif

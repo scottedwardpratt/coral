@@ -1,15 +1,12 @@
-#ifndef __INCLUDE_SOURCECALC_BLAST__
-#define __INCLUDE_SOURCECALC_BLAST__
-
-#include "sourcecalc.h"
-#include "randy.h"
-#include "constants.h"
+#include "msu_coral/sourcecalc.h"
+#include "msu_commonutils/randy.h"
+#include "msu_commonutils/constants.h"
 
 using namespace std;
 
 CSourceCalc_Blast::CSourceCalc_Blast(){
 	InitSPars();
-	randy=new CRandy(-1234);
+	randy=new Crandy(-1234);
 }
 
 void CSourceCalc_Blast::InitSPars(){
@@ -205,6 +202,3 @@ void CSourceCalc_Blast::CalcS(CMCList *lista,CMCList *listb){
 	}
 
 }
-
-#endif
-

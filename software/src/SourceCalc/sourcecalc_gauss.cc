@@ -1,16 +1,13 @@
-#ifndef __INCLUDE_SOURCECALC_GAUSS__
-#define __INCLUDE_SOURCECALC_GAUSS__
-
-#include "sourcecalc.h"
-#include "arrays.h"
-#include "constants.h"
-#include "randy.h"
+#include "msu_coral/sourcecalc.h"
+#include "msu_commonutils/arrays.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/randy.h"
 
 using namespace std;
 
 CSourceCalc_Gaussian::CSourceCalc_Gaussian(){
   InitSPars();
-	randy=new CRandy(-1234);
+	randy=new Crandy(-1234);
 }
 
 void CSourceCalc_Gaussian::InitSPars(){
@@ -279,5 +276,3 @@ void CSourceCalc_Gaussian::GaussCFCalc(C3DArray *cf3d){
 		}
 	}
 }
-
-#endif

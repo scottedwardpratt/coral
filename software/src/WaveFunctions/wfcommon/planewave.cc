@@ -1,10 +1,7 @@
-#ifndef __INCLUDE_PARTWAVE_CC__
-#define __INCLUDE_PARTWAVE_CC__
-
-#include "wavefunction.h"
-#include "constants.h"
-#include "sf.h"
-#include "misc.h"
+#include "msu_coral/wavefunction.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/sf.h"
+#include "msu_commonutils/misc.h"
 
 CPlaneWave::CPlaneWave(double etaset,int Q1Q2,double qset){
   complex<double> a,b,a0,b0;
@@ -133,5 +130,3 @@ complex<double> CPlaneWave::hyper(complex<double> a,complex<double> b,complex<do
   }
   return answer;
 }
-
-#endif

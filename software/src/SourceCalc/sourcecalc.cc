@@ -1,15 +1,13 @@
-#ifndef INCLUDE_SOURCECALC_CC
-#define INCLUDE_SOURCECALC_CC
 
-#include "sourcecalc.h"
-#include "arrays.h"
-#include "randy.h"
-#include "constants.h"
+#include "msu_coral/sourcecalc.h"
+#include "msu_commonutils/arrays.h"
+#include "msu_commonutils/randy.h"
+#include "msu_commonutils/constants.h"
 
 using namespace std;
 
 CSourceCalc::CSourceCalc(){
-	randy=new CRandy(-1234);
+	randy=new Crandy(-1234);
 }
 
 void CSourceCalc::CalcS(CCHArray *A){
@@ -437,6 +435,3 @@ void CSourceCalc::NormCheck(C3DArray *threed){
 	double norm=GetNorm(threed);
 	printf("Norm Check of 3DArray = %g\n",norm);
 }
-
-
-#endif

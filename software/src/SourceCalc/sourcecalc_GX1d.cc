@@ -1,8 +1,5 @@
-#ifndef __INCLUDE_SOURCECALC_GX1D__
-#define __INCLUDE_SOURCECALC_GX1D__
-
-#include "sourcecalc.h"
-#include "sf.h"
+#include "msu_coral/sourcecalc.h"
+#include "msu_commonutils/sf.h"
 
 using namespace std;
 
@@ -75,5 +72,3 @@ void CSourceCalc_GX1D::CalcS(CCHArray *A){
     }
   }
 }
-
-#endif

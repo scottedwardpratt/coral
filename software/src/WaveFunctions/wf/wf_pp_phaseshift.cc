@@ -1,10 +1,7 @@
-#ifndef __CWAVEFUNCTION_WF_PP_PHASESHIFT_CC__
-#define __CWAVEFUNCTION_WF_PP_PHASESHIFT_CC__ 
-
-#include "wavefunction.h"
-#include "constants.h"
-#include "misc.h"
-#include "sf.h"
+#include "msu_coral/wavefunction.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/misc.h"
+#include "msu_commonutils/sf.h"
 
 CWaveFunction_pp_phaseshift::CWaveFunction_pp_phaseshift(string  parsfilename) : CWaveFunction() {
   int iq,ichannel;
@@ -176,5 +173,3 @@ void CWaveFunction_pp_phaseshift::read_phaseshifts(){
     }
   }
 }
-
-#endif

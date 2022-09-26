@@ -1,14 +1,11 @@
-#ifndef __SOURCECALC__ELLIPTIC_BLAST__
-#define __SOURCECALC__ELLIPTIC_BLAST__
-
-#include "sourcecalc.h"
-#include "randy.h"
+#include "msu_coral/sourcecalc.h"
+#include "msu_commonutils/randy.h"
 
 using namespace std;
 
 CSourceCalc_EllipticBlast::CSourceCalc_EllipticBlast(){
   InitSPars();
-  randy=new CRandy(-1234);
+  randy=new Crandy(-1234);
 }
 
 void CSourceCalc_EllipticBlast::InitSPars(){
@@ -224,4 +221,3 @@ void CSourceCalc_EllipticBlast::Get_r(double *p,int nsample,double **r){
 
   }
 }
-#endif

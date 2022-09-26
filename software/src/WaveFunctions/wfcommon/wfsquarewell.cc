@@ -1,10 +1,7 @@
-#ifndef __INCLUDE_WFSQUAREWELL_CC__
-#define __INCLUDE_WFSQUAREWELL_CC__
-
-#include "wavefunction.h"
-#include "constants.h"
-#include "sf.h"
-#include "gslmatrix.h"
+#include "msu_coral/wavefunction.h"
+#include "msu_commonutils/constants.h"
+#include "msu_commonutils/sf.h"
+#include "msu_commonutils/gslmatrix.h"
 using namespace std;
 
 void CWaveFunction::SquareWell_Init(){
@@ -314,4 +311,3 @@ void CWaveFunction::SquareWell_DeleteArrays(){
 	delete [] DelPhiArray;
 	
 }
-#endif

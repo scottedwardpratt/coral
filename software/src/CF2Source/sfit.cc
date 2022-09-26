@@ -1,18 +1,14 @@
-#ifndef  __INCLUDE_SFIT_CC__
-#define  __INCLUDE_SFIT_CC__
-
 #include  <ctime>
-
-#include "arrays.h"
-#include "sourcecalc.h"
-#include  "sfit.h"
-#include "cfcalc.h"
-#include  "minimization.h"
-#include "misc.h"
-#include "randy.h"
-#include "parametermap.h"
-#include "source2cf.h"
-#include "gslmatrix.h"
+#include "msu_commonutils/arrays.h"
+#include "msu_coral/sourcecalc.h"
+#include "msu_coral/sfit.h"
+#include "msu_coral/cfcalc.h"
+#include "msu_coral/minimization.h"
+#include "msu_commonutils/misc.h"
+#include "msu_commonutils/randy.h"
+#include "msu_commonutils/parametermap.h"
+#include "msu_coral/source2cf.h"
+#include "msu_coral/gslmatrix.h"
 
 using namespace std;
 
@@ -187,7 +183,7 @@ void  CCF2SFit::Init(){
 	ResetChiSquared();
 	nfreepars=npars=0;
 	ncalls=0;
-	randy= new  CRandy(-1234);
+	randy= new  Crandy(-1234);
 	par= new  CParInfo *[nmaxpars];
 	ErrorMatrix= new   double  *[nmaxpars];
 	StepMatrix= new   double  *[nmaxpars];
@@ -838,4 +834,3 @@ void  CCF2SFit::SteepestDescent( int  maxtries){
 	delete [] qxratio;
 	delete [] qhat;
 }
-#endif
