@@ -20,8 +20,8 @@ file(GLOB coral_src ./src/*.cc)
 file(GLOB coral_src ./src/*/*.cc)
 file(GLOB coral_src ./src/*/*/*.cc)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "lib")
-add_library(coral STATIC ${coral_src})
-target_link_libraries(coral ${GSL_LIBRARY} ${GSL_CBLAS_LIBRARY} ${Boost_LIBRARIES})
+add_library(msu_coral STATIC ${coral_src})
+target_link_libraries(msu_coral ${GSL_LIBRARY} ${GSL_CBLAS_LIBRARY} ${Boost_LIBRARIES})
 message("Libraries: ${GSL_LIBRARY} ${GSL_CBLAS_LIBRARY}")
 
 

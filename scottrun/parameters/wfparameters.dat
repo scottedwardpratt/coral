@@ -2,6 +2,6 @@ int NQMAX 100
 double DELQ 1.0
 double EPSILON 0.5
 int KLMAX 6
-double DELR 0.5
+double DELR 0.1
 int NRMAX 150
 bool IDENTICAL true
