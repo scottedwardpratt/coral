@@ -1,4 +1,4 @@
-#include "sourcecalc.h"
+#include "msu_coral/sourcecalc.h"
 #include "msu_commonutils/randy.h"
 #include "msu_commonutils/constants.h"
 
@@ -86,7 +86,7 @@ void CSourceCalc_OSCAR::CalcS(CMCList *&lista,CMCList *&listb){
 		}
 		delete [] rb;
 	}
-	printf("______ FINISHED CREATING MCLISTS ___________\n");
+	CLog::Info("______ FINISHED CREATING MCLISTS ___________\n");
 
 }
 
@@ -104,7 +104,8 @@ void CSourceCalc_OSCAR::ReadR(double **ra,int &na,double **rb,int &nb){
 	bool AEQUALB=spars.getB("AEQUALB",false);
 	char dummy[160];
 	na=nb=0;
-	printf("Opening %s\n",OSCARfilename.c_str());
+	sprintf(message,"Opening %s\n",OSCARfilename.c_str());
+	CLog::Info(message);
 	oscarfile=fopen(OSCARfilename.c_str(),"r");
 	// Read Header Info
 	for(i=0;i<ndummy_header;i++){
@@ -131,7 +132,9 @@ void CSourceCalc_OSCAR::ReadR(double **ra,int &na,double **rb,int &nb){
 	} while(ievent<NEVENTSMAX && !feof(oscarfile));
 	fclose(oscarfile);
 	if(AEQUALB) nb=na;
-	printf("OSCAR file read: %d events, na=%d, nb=%d\n",ievent,na,nb);
+	sprintf(message,"OSCAR file read: %d events, na=%d, nb=%d\n",ievent,na,nb);
+	CLog::Info(message);
+	
 }
 
 bool CSourceCalc_OSCAR::Check(double *p,double *r,double m,double **ra,int &n){
@@ -156,7 +159,8 @@ bool CSourceCalc_OSCAR::Check(double *p,double *r,double m,double **ra,int &n){
 	pt=sqrt(p[1]*p[1]+p[2]*p[2]);
 	if(fabs(pt-pttarget)<DELPT){
 		if(p[1]!=p[1] || p[2]!=p[2] || p[3]!=p[3]){
-			printf("bad particle has nan, p=(%g,%g,%g)\n",p[1],p[2],p[3]);
+			sprintf(message,"bad particle has nan, p=(%g,%g,%g)\n",p[1],p[2],p[3]);
+			CLog::Info(message);
 			return false;
 		}
 		phi=atan2(p[1],p[2]);
@@ -173,7 +177,6 @@ bool CSourceCalc_OSCAR::Check(double *p,double *r,double m,double **ra,int &n){
 				tau=coshy*r[0]-sinhy*r[3];
 				eta=asinh(rlong/tau);
 				if(randy->ran()<exp(-0.5*eta*eta/(ETA_GAUSS*ETA_GAUSS))){
-				//printf("%g %g %g %g\n",tau,rout,rside,rlong);
 					vperp=pt/sqrt(m*m+pt*pt);
 					rout=rout-vperp*(tau-TAUCOMPARE);
 					tau=TAUCOMPARE;
@@ -185,8 +188,8 @@ bool CSourceCalc_OSCAR::Check(double *p,double *r,double m,double **ra,int &n){
 					n+=1;
 					success=true;
 					if(n==NPARTSMAX){
-						printf("TOO MANY PARTICLES FIT CRITERIA, increase parameter NPARTSMAX=%d\n",NPARTSMAX);
-						exit(1);
+						sprintf(message,"TOO MANY PARTICLES FIT CRITERIA, increase parameter NPARTSMAX=%d\n",NPARTSMAX);
+						CLog::Fatal(message);
 					}
 				}
 			}
@@ -203,8 +206,7 @@ bool CSourceCalc_OSCAR::IDMatch(int ident,int *idlist,int nid){
 		i+=1;
 	}
 	if(i==nid && answer==false){
-		printf("IDMATCH failed in CSourceCalc_OSCAR::IDMatch !!!\n");
-		exit(1);
+		CLog::Fatal("IDMATCH failed in CSourceCalc_OSCAR::IDMatch !!!\n");
 	}
 	return answer;
 }

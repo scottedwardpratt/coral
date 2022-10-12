@@ -204,6 +204,7 @@ void CSourceCalc_OSCAR_MultiBin::CalcS(CMCPRList ***&lista,CMCPRList ***&listb){
 	}
 }
 
+/*
 long long int CSourceCalc_OSCAR_MultiBin::ReadPR(double ****pa,double ****ra,int **&na,double ****pb,double ****rb,int **&nb){
 	CB3DBinaryPartInfo bpart;
 	long long int nread=0;
@@ -275,13 +276,13 @@ long long int CSourceCalc_OSCAR_MultiBin::ReadPR(double ****pa,double ****ra,int
 					iphi=int(lrint(floor(phi/DELPHI)));
 					ipt=int(lrint(floor((pt-PTMIN)/DELPT)));
 					if(ipt>=NPTBINS || ipt<0){
-						printf("ipt=%d is out of range\n",ipt);
-						exit(1);
+						sprintf(message,"ipt=%d is out of range\n",ipt);
+						CLog::Fatal(message);
 					}
 					if(iphi<0 || iphi>=NPHIBINS){
-						printf("iphi=%d is out of range, phi=%g\n",iphi,phi);
+						sprintf(message"iphi=%d is out of range, phi=%g\n",iphi,phi);
 						bpart.Print();
-						exit(1);
+						CLog::Fatal(message);
 					}
 					if(IDMatch(ID,idlist_a,nid_a) && na[ipt][iphi]<NPARTSMAX){
 						mass=MA;
@@ -305,7 +306,7 @@ long long int CSourceCalc_OSCAR_MultiBin::ReadPR(double ****pa,double ****ra,int
 	fclose(oscarfile);
 	if(AEQUALB) nb=na;
 	return nread;
-}
+}*/
 
 bool CSourceCalc_OSCAR_MultiBin::Check(double *p,double *r,double m,double **pa,double **ra,int &n){
 	double YMIN=spars.getD("YMIN",-1.0);
@@ -326,7 +327,8 @@ bool CSourceCalc_OSCAR_MultiBin::Check(double *p,double *r,double m,double **pa,
 	double gamma=sqrt(1.0+gammav*gammav);
 	if(n<NPARTSMAX){
 		if(p[1]!=p[1] || p[2]!=p[2] || p[3]!=p[3]){
-			printf("bad particle has nan, p=(%g,%g,%g)\n",p[1],p[2],p[3]);
+			sprintf(message,"bad particle has nan, p=(%g,%g,%g)\n",p[1],p[2],p[3]);
+			CLog::Info(message);
 			return false;
 		}
 		if(XREFLECTIONSYMMETRY){
@@ -355,8 +357,8 @@ bool CSourceCalc_OSCAR_MultiBin::Check(double *p,double *r,double m,double **pa,
 				eta=asinh(rlong/tau);
 				if(randy->ran()<exp(-0.5*eta*eta/(ETA_GAUSS*ETA_GAUSS))){
 					if(n==NPARTSMAX){
-						printf("TOO MANY PARTICLES FIT CRITERIA, increase parameter NPARTSMAX=%d if you want more\n",NPARTSMAX);
-						//exit(1);
+						sprintf(message,"TOO MANY PARTICLES FIT CRITERIA, increase parameter NPARTSMAX=%d if you want more\n",NPARTSMAX);
+						CLog::Fatal(message);
 					}
 					vperp=pt/sqrt(m*m+pt*pt);
 					rout=rout-vperp*(tau-TAUCOMPARE);

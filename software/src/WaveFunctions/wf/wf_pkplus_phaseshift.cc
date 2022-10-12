@@ -30,13 +30,7 @@ CWaveFunction_pkplus_phaseshift::CWaveFunction_pkplus_phaseshift(string  parsfil
 
 	for(ichannel=0;ichannel<nchannels;ichannel++){
 		for(iq=0;iq<nqmax;iq++){
-			//if(ichannel>=0){
-			//delta[ichannel][iq]=ddeltadq[ichannel][iq]=0.0;
-			//}
 			q=qarray[iq];
-			/* printf("ichannel=%d, q=%g, delta=%g, ddeltadq=%g\n",
-			ichannel,q,delta[ichannel][iq]*180.0/PI,
-				ddeltadq[ichannel][iq]*180.0/PI); */
 				Wepsilon[ichannel][iq]=ddeltadq[ichannel][iq]
 				-GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],delta[ichannel][iq])
 				+GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],0.0);
@@ -56,8 +50,7 @@ double CWaveFunction_pkplus_phaseshift::CalcPsiSquared(int iq,double r,double ct
 	x=q*r/HBARC;
 	psi0=planewave[iq]->planewave(r,ctheta);
 	if(iq>=nqmax){
-		printf("iq too large!\n");
-		exit(1);
+		CLog::Fatal("iq too large! in CWaveFunction_pkplus_phaseshift::CalcPsiSquared\n");
 	}
 
 	if(r<epsilon){
@@ -99,10 +92,13 @@ double CWaveFunction_pkplus_phaseshift::CalcPsiSquared(int iq,double r,double ct
 		}
 	}
 	if(psisquared>500.0){
-		printf("_____________________________________________\n");
-		printf("in CalcPsiSquared, q=%g,r=%g, psisquared=huge=%g\n",q,r,psisquared);
-		printf("hstar0=(%g,%g), hstar1=(%g,%g),psi=(%g,%g)\n",real(hstar0),imag(hstar0),
-			real(hstar1),imag(hstar1),real(psi),imag(psi));
+		sprintf(message,"_____________________________________________\n");
+		CLog::Info(message);
+		sprintf(message,"in CalcPsiSquared, q=%g,r=%g, psisquared=huge=%g\n",q,r,psisquared);
+		CLog::Info(message);
+		sprintf(message,"hstar0=(%g,%g), hstar1=(%g,%g),psi=(%g,%g)\n",real(hstar0),imag(hstar0),
+		real(hstar1),imag(hstar1),real(psi),imag(psi));
+		CLog::Info(message);
 	}
 	psisquared*=RelativisticCorrection(r,iq);
 	return psisquared;

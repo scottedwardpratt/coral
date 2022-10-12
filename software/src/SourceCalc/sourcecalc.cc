@@ -11,37 +11,38 @@ CSourceCalc::CSourceCalc(){
 }
 
 void CSourceCalc::CalcS(CCHArray *A){
+	CLog::Info("i'm a dummy CalcS(CCHArray)\n");
 	if(A==NULL)
-		printf("cmake sucks\n");
-	printf("i'm a dummy CalcS(CCHArray)\n");
+		CLog::Info("dummy\n");
 	// Dummy function to be over-written by inherited class
 }
 
 void CSourceCalc::CalcS(C3DArray *threed){
-	printf("i'm a dummy CalcS(C3DArray)\n");
+	CLog::Info("i'm a dummy CalcS(C3DArray)\n");
 	if(threed==NULL)
-		printf("cmake sucks\n");
+		CLog::Info("dummy\n");
 	// Dummy function to be over-written by inherited class
 }
 
 void CSourceCalc::GaussCFCalc(C3DArray *cf3d){
-	printf("i'm a dummy CalcS(C3DArray *)\n");
+	CLog::Info("i'm a dummy CalcS(C3DArray *)\n");
+	CLog::Info(message);
 	if(cf3d==NULL)
-		printf("cmake sucks\n");
+		CLog::Info("dummy\n");
 	// Dummy function to be over-written by inherited class
 }
 
 void CSourceCalc::CalcS(int lx,int ly,int lz,CCHArray *A){
-	printf("i'm a dummy CalcS(int,int,int,CCHArray *)\n");
+	CLog::Info("i'm a dummy CalcS(int,int,int,CCHArray *)\n");
 	if(lx==0 || ly==0 || lz==0 || A==NULL)
-		printf("cmake sucks\n");
+		CLog::Info("cmake sucks\n");
 	// Dummy function to be over-written by inherited class
 }
 
 void CSourceCalc::CalcS(CMCList *&lista,CMCList *&listb){
-	printf("i'm a dummy CalcS(CMCList *a,CMCList *b)\n");
+	CLog::Info("i'm a dummy CalcS(CMCList *a,CMCList *b)\n");
 	if(lista==NULL || listb==NULL)
-		printf("cmake sucks\n");
+		CLog::Info("cmake sucks\n");
 	// Dummy function to be over-written by inherited class
 }
 
@@ -62,7 +63,8 @@ void CSourceCalc::CombineMCLists(CMCList *lista,CMCList *listb,CCHArray *A){
 		ncalc=na*nb;
 	}
 	rcm[0]=0.0;
-	printf("_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	sprintf(message,"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	CLog::Info(message);
 	A->ZeroArray();
 	for(ia=0;ia<na;ia++){
 		ra=lista->GetR(ia);
@@ -83,7 +85,8 @@ void CSourceCalc::CombineMCLists(CMCList *lista,CMCList *listb,CCHArray *A){
 			icalc+=1;
 			icount+=1;
 			if(icount*10>=ncalc){
-				printf("finished %4.1f percent\n",100.0*double(icalc)/double(ncalc));
+				sprintf(message,"finished %4.1f percent\n",100.0*double(icalc)/double(ncalc));
+				CLog::Info(message);
 				icount=0;
 			}
 		}
@@ -121,7 +124,9 @@ void CSourceCalc::CombineMCPRLists(CMCPRList *lista,CMCPRList *listb,CCHArray *A
 		ncalc=na*nb;
 	}
 	rcm[0]=0.0;
-	printf("_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	sprintf(message,"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	CLog::Info(message);
+	
 	A->ZeroArray();
 	for(ia=0;ia<na;ia++){
 		ra=lista->GetR(ia);
@@ -182,7 +187,8 @@ void CSourceCalc::CombineMCPRLists(CMCPRList *lista,CMCPRList *listb,CCHArray *A
 			icalc+=1;
 			icount+=1;
 			if(icount*10>=ncalc){
-				printf("finished %4.1f percent\n",100.0*double(icalc)/double(ncalc));
+				sprintf(message,"finished %4.1f percent\n",100.0*double(icalc)/double(ncalc));
+				CLog::Info(message);
 				icount=0;
 			}
 		}
@@ -210,14 +216,16 @@ void CSourceCalc::CombineMCLists(CMCList *lista,CMCList *listb,CCHArray *A,int N
 		AEQUALB=false;
 	}
 	rcm[0]=0.0;
-	printf("_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	sprintf(message,"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	CLog::Info(message);
 	A->ZeroArray();
 	for(imc=0;imc<NMC;imc++){
 		ia=lrint(floor(randy->ran()*na));
 		do{
 			ib=lrint(floor(randy->ran()*na));
 		}while(AEQUALB && ia==ib);
-		printf("ia=%d, ib=%d\n",ia,ib);
+		sprintf(message,"ia=%d, ib=%d\n",ia,ib);
+		CLog::Info(message);
 		ra=lista->GetR(ia);
 		rb=listb->GetR(ib);
 		rcm[1]=ra[1]-rb[1];
@@ -233,7 +241,8 @@ void CSourceCalc::CombineMCLists(CMCList *lista,CMCList *listb,CCHArray *A,int N
 		icalc+=1;
 		icount+=1;
 		if(icount*10>=NMC){
-			printf("finished %4.1f percent\n",100.0*double(icalc)/double(NMC));
+			sprintf(message,"finished %4.1f percent\n",100.0*double(icalc)/double(NMC));
+			CLog::Info(message);
 			icount=0;
 			
 		}
@@ -264,14 +273,16 @@ void CSourceCalc::CombineMCPRLists(CMCPRList *lista,CMCPRList *listb,CCHArray *A
 		AEQUALB=false;
 	}
 	rcm[0]=0.0;
-	printf("_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	sprintf(message,"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	CLog::Info(message);
 	A->ZeroArray();
 	for(imc=0;imc<NMC;imc++){
 		ia=lrint(floor(randy->ran()*na));
 		do{
 			ib=lrint(floor(randy->ran()*na));
 		}while(AEQUALB && ia==ib);
-		printf("ia=%d, ib=%d\n",ia,ib);
+		sprintf(message,"ia=%d, ib=%d\n",ia,ib);
+		CLog::Info(message);
 		ra=lista->GetR(ia);
 		rb=listb->GetR(ib);
 		pa=lista->GetP(ia);
@@ -295,7 +306,8 @@ void CSourceCalc::CombineMCPRLists(CMCPRList *lista,CMCPRList *listb,CCHArray *A
 		icalc+=1;
 		icount+=1;
 		if(icount*10>=NMC){
-			printf("finished %4.1f percent\n",100.0*double(icalc)/double(NMC));
+			sprintf(message,"finished %4.1f percent\n",100.0*double(icalc)/double(NMC));
+			CLog::Info(message);
 			icount=0;
 			
 		}
@@ -329,8 +341,10 @@ void CSourceCalc::CombineMCLists(CMCList *lista,CMCList *listb,C3DArray *threed)
 			rcm[3]=ra[3]-rb[3];
 			threed->IncrementElement(rcm[1],rcm[2],rcm[3],1.0);	
 		}
-		if(10*(ia+1)%(10*int(na/10))==0)
-			printf("finished %g percent\n",100*double(ia+1)/(10*int(na/10)));
+		if(10*(ia+1)%(10*int(na/10))==0){
+			sprintf(message,"finished %g percent\n",100*double(ia+1)/(10*int(na/10)));
+			CLog::Info(message);
+		}
 	}
 	
 	if(AEQUALB) snorm=2.0/double(na*(na-1));
@@ -370,8 +384,10 @@ void CSourceCalc::CombineMCPRLists(CMCPRList *lista,CMCPRList *listb,C3DArray *t
 				threed->IncrementElement(rcm[1],rcm[2],rcm[3],1.0);
 			}
 		}
-		if(10*(ia+1)%(10*int(na/10))==0)
-			printf("finished %g percent\n",100*double(ia+1)/(10*int(na/10)));
+		if(10*(ia+1)%(10*int(na/10))==0){
+			sprintf(message,"finished %g percent\n",100*double(ia+1)/(10*int(na/10)));
+			CLog::Info(message);
+		}
 	}
 	snorm=1.0/double(npairs);
 	
@@ -398,7 +414,8 @@ double CSourceCalc::GetNorm(CCHArray *A){
 
 void CSourceCalc::NormCheck(CCHArray *A){
 	double check=GetNorm(A);
-	printf("normalization check = %g\n",check);
+	sprintf(message,"normalization check = %g\n",check);
+	CLog::Info(message);
 }
 
 double CSourceCalc::GetNorm(C3DArray *threed){
@@ -433,5 +450,6 @@ double CSourceCalc::GetNorm(C3DArray *threed){
 
 void CSourceCalc::NormCheck(C3DArray *threed){
 	double norm=GetNorm(threed);
-	printf("Norm Check of 3DArray = %g\n",norm);
+	sprintf(message,"Norm Check of 3DArray = %g\n",norm);
+	CLog::Info(message);
 }

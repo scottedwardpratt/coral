@@ -6,6 +6,7 @@
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/sf.h"
 #include "gsl/gsl_sf.h"
+#include "msu_commonutils/log.h"
 
 using namespace std;
 
@@ -42,11 +43,13 @@ public:
 	virtual ~CWaveFunction();
 	void PrintPhaseShifts();
 	double **Wepsilon,**delta,**ddeltadq,*eta,*channelweight;
-	double GetIW(int ell,double epsilon,double q,int q1q2,
-	double eta,double delta);
+	double GetIW(int ell,double epsilon,double q,int q1q2,double eta,double delta);
+	double m1,m2;
 	CPlaneWave **planewave;
 	CPartWave ***partwave;
 	void getqrctheta(double *pa,double *xa,double *pb,double *xb,double *q,double *r,double *ctheta);
+	void getqrctheta(FourVector &pa,FourVector &xa,FourVector &pb,FourVector &xb,double &q,double &r,double &ctheta);
+	char message[300];
 protected:
 	void ParsInit(string parsfilename);
 	complex<double> ci;
@@ -54,7 +57,6 @@ protected:
 	int *ell;
 	//double **Wepsilon,**delta,**ddeltadq,*eta,*channelweight;
 	int nchannels,q1q2;
-	double m1,m2;
 	bool generic;
 	double mu,muscale,symmweight,epsilon;
 	int q1q2scale;
@@ -109,6 +111,7 @@ private:
 	complex<double> chype2[11];
 	double q,eta; // q is the reduced mom., (p1-p2)/2
 	complex<double> *hyperarray;
+	char message[300];
 };
 
 class CPartWave{
@@ -130,6 +133,7 @@ private:
 		int nrmax;
 	double delr;
 	void phi_init();
+	char message[300];
 };
 
 // Parent class is CWaveFunction
@@ -328,6 +332,7 @@ public:
 	double CalcPsiSquared(double q,double r,double ctheta,double m1,double m2,int q1q2);
 	CWaveFunction_classical();
 	~CWaveFunction_classical(); 
+	char message[200];
 };
 
 class CWaveFunction_ppbar_nocoulomb : public CWaveFunction{

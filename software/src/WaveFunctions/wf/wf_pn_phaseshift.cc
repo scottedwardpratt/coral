@@ -16,13 +16,13 @@ CWaveFunction_pn_phaseshift::CWaveFunction_pn_phaseshift(string  parsfilename) :
 
 	ellmax=1;
 	InitArrays();
-	printf("Arrays Initialized\n");
+	CLog::Info("Arrays Initialized\n");
 
 	ell[0]=ell[1]=0;
 	ell[2]=ell[3]=ell[4]=ell[5]=1;
 
 	InitWaves();
-	printf("Partial Waves Initialized\n");
+	CLog::Info("Partial Waves Initialized\n");
 
 	// Channel weight is (2J+1)/[(2s1+1)*(2s2+1)]
 	channelweight[0]=0.25;
@@ -39,9 +39,6 @@ CWaveFunction_pn_phaseshift::CWaveFunction_pn_phaseshift(string  parsfilename) :
 	for(ichannel=0;ichannel<nchannels;ichannel++){
 		for(iq=0;iq<nqmax;iq++){
 			q=qarray[iq];
-			//printf("ichannel=%d, q=%g, delta=%g, ddeltadq=%g\n",
-			//      ichannel,q,delta[ichannel][iq]*180.0/PI,
-			//      ddeltadq[ichannel][iq]*180.0/PI);
 			Wepsilon[ichannel][iq]=ddeltadq[ichannel][iq]
 				-GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],delta[ichannel][iq])
 					+GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],0.0);
@@ -49,7 +46,6 @@ CWaveFunction_pn_phaseshift::CWaveFunction_pn_phaseshift(string  parsfilename) :
 				/(4.0*PI*pow(epsilon,3));
 		}
 	}
-	//printf("Initialization finished\n");
 }
 
 double CWaveFunction_pn_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){
@@ -61,8 +57,7 @@ double CWaveFunction_pn_phaseshift::CalcPsiSquared(int iq,double r,double ctheta
 
 	q=qarray[iq];
 	if(iq>=nqmax){
-		printf("iq too large!\n");
-		exit(1);
+		CLog::Fatal("iq too large! inside CWaveFunction_pn_phaseshift::CalcPsiSquared(\n");
 	}
 	psi0=planewave[iq]->planewave(r,ctheta);
 
@@ -127,8 +122,10 @@ double CWaveFunction_pn_phaseshift::CalcPsiSquared(int iq,double r,double ctheta
 	}
 	else psisquared=real(psi0*conj(psi0));
 	if(psisquared<0 && r>epsilon){
-		printf("psisquared<0, = %g, r=%g, q=%g\n",
+		sprintf(message,"psisquared<0, = %g, r=%g, q=%g\n",
 		psisquared,r,q);
+		CLog::Info(message);
+		
 	}
 	psisquared*=RelativisticCorrection(r,iq);
 	return psisquared;
@@ -171,7 +168,7 @@ void CWaveFunction_pn_phaseshift::read_phaseshifts(){
 	FILE *fptr;
 	iqsmooth=1;
 	qsmooth=25.0;
-	printf("BEWARE, MAKE SURE YOU HAVE MOVED COPY OF NN_phaseshifts.dat to run directory\n");
+	CLog::Info("BEWARE, MAKE SURE YOU HAVE MOVED COPY OF NN_phaseshifts.dat to run directory\n");
 	fptr=fopen("NN_phaseshifts.dat\0","r");
 	fgets(dummy,200,fptr);
 	for(iread=0;iread<NREAD;iread++){
@@ -216,8 +213,9 @@ void CWaveFunction_pn_phaseshift::read_phaseshifts(){
 		else{
 			delta[0][iq]=0.0;
 			ddeltadq[0][iq]=0.0;
-			printf("Warning: qarray goes beyond max. for phaseshift data =%g\n",
+			sprintf(message,"Warning: qarray goes beyond max. for phaseshift data =%g\n",
 			qread[NREAD-1]);
+			CLog::Info(message);
 			//exit(1);
 		}
 		iqsmooth=6;

@@ -31,7 +31,8 @@ class CKernel{
   double GetPsiSquared( int iq, int ir, double ctheta );
   double GetPsiSquared( int iq, double r, double ctheta );
   double GetPsiSquared( double q, double r, double ctheta);
-	string getKernelFilename( string datadir, int ell, double q );
+  string getKernelFilename( string datadir, int ell, double q );
+  char message[300];
 	
  private:
   bool IDENTICAL;
@@ -53,6 +54,7 @@ class CKernelExactHBT: public CKernel {
     double GetValue( int ell, double q, double r ){
 			return pow(-1.0,ell)*Bessel::jn(ell,2.0*q*r/HBARC);
 		}
+		char message[300];
 };
 
 
@@ -75,6 +77,7 @@ class CKernelWF{
   bool GetIDENTICAL();
   CKernelWF( string kparsfilename );
   ~CKernelWF();
+  char message[300];
 
  private:
 

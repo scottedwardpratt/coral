@@ -126,8 +126,10 @@ void CSourceCalc_EllipticBlast::CalcS(CCHArray *A){
 	A->IncrementAExpArrayFromE(ex,ey,ez,1.0,ir);
       }
     }
-    if(10*(ia+1)%nsample==0)
-      printf("finished %g percent\n",100*double(ia+1)/double(nsample));
+    if(10*(ia+1)%nsample==0){
+      sprintf(message,"finished %g percent\n",100*double(ia+1)/double(nsample));
+		CLog::Fatal(message);
+	}
   }
   A->FillRemainderX();
   if(SameMass) snorm=2.0/double(nsample*(nsample-1));
@@ -142,9 +144,11 @@ void CSourceCalc_EllipticBlast::CalcS(CCHArray *A){
   y2bar=y2bar-ybar*ybar;
   z2bar=z2bar-zbar*zbar;
 
-  printf("xbar=%g, ybar=%g, zbar=%g\n",xbar,ybar,zbar);
-  printf("Effective Gaussian Radii: Rout=%g, Rside=%g, Rlong=%g\n",
-	 sqrt(0.5*x2bar),sqrt(0.5*y2bar),sqrt(0.5*z2bar));
+  sprintf(message,"xbar=%g, ybar=%g, zbar=%g\n",xbar,ybar,zbar);
+  CLog::Info(message);
+  sprintf(message,"Effective Gaussian Radii: Rout=%g, Rside=%g, Rlong=%g\n",
+  sqrt(0.5*x2bar),sqrt(0.5*y2bar),sqrt(0.5*z2bar));
+  CLog::Info(message);
 
   for(ir=0;ir<nrmax;ir++){
     volume=(4.0*PI/3)*(pow((ir+1)*delr,3)
@@ -172,8 +176,8 @@ void CSourceCalc_EllipticBlast::Get_r(double *p,int nsample,double **r){
   Ry=spars.getD("Ry",-999);
   betaxmax=spars.getD("BetaX",-999);
   betaymax=spars.getD("BetaY",-999);
-	T=spars.getD("T",-999);
-	tau=spars.getD("tau",-999);
+  T=spars.getD("T",-999);
+  tau=spars.getD("tau",-999);
   uxmax=betaxmax/sqrt(1.0-betaxmax*betaxmax);
   uymax=betaymax/sqrt(1.0-betaymax*betaymax);
   rap=atanh(p[3]/p[0]);
@@ -182,42 +186,41 @@ void CSourceCalc_EllipticBlast::Get_r(double *p,int nsample,double **r){
   gamma=sqrt(1.0+gammav*gammav);
 
   for(imc=0;imc<nsample;imc++){
-    do{
-      eta=etaG*randy->ran_gauss();
-    TRY_AGAIN:
-      x=(1.0-2.0*randy->ran());
-      y=(1.0-2.0*randy->ran());
-      if(x*x+y*y>1.0) goto TRY_AGAIN;
-      u[1]=uxmax*x;
-      u[2]=uymax*y;
-      x=x*Rx;
-      y=y*Ry;
-      u[3]=sinh(eta);
-      u[0]=sqrt(1.0+u[1]*u[1]+u[2]*u[2]+u[3]*u[3]);
+	  do{
+		  eta=etaG*randy->ran_gauss();
+		  TRY_AGAIN:
+		  x=(1.0-2.0*randy->ran());
+		  y=(1.0-2.0*randy->ran());
+		  if(x*x+y*y>1.0) goto TRY_AGAIN;
+		  u[1]=uxmax*x;
+		  u[2]=uymax*y;
+		  x=x*Rx;
+		  y=y*Ry;
+		  u[3]=sinh(eta);
+		  u[0]=sqrt(1.0+u[1]*u[1]+u[2]*u[2]+u[3]*u[3]);
       
-      eprime=p[0]*cosh(eta)-p[3]*u[3];
-      eu=u[0]*p[0]-u[1]*p[1]-u[2]*p[2]-u[3]*p[3];
+		  eprime=p[0]*cosh(eta)-p[3]*u[3];
+		  eu=u[0]*p[0]-u[1]*p[1]-u[2]*p[2]-u[3]*p[3];
 
-      weight=(eprime/p[0])*exp(-(eu-m)/T);
-      if(weight>1.0){
-	printf("DISASTER! weight > 1.0\n");
-	exit(1);
-      }
-    } while(weight<randy->ran());
+		  weight=(eprime/p[0])*exp(-(eu-m)/T);
+		  if(weight>1.0){
+			  CLog::Fatal("DISASTER! weight > 1.0\n");
+		  }
+	  } while(weight<randy->ran());
 
-    z=tau*sinh(eta);
-    t=tau*cosh(eta);
+	  z=tau*sinh(eta);
+	  t=tau*cosh(eta);
 
-    rout=(p[1]*x+p[2]*y)/pt;
-    rside=(p[1]*y-p[2]*x)/pt;
-    sinhy=sinh(rap);
-    coshy=cosh(rap);
-    rlong=coshy*z-sinhy*t;
-    t=coshy*t-sinhy*z;
-    r[imc][0]=gamma*t-gammav*rout;
-    r[imc][1]=gamma*rout-gammav*t;
-    r[imc][2]=rside;
-    r[imc][3]=rlong;
+	  rout=(p[1]*x+p[2]*y)/pt;
+	  rside=(p[1]*y-p[2]*x)/pt;
+	  sinhy=sinh(rap);
+	  coshy=cosh(rap);
+	  rlong=coshy*z-sinhy*t;
+	  t=coshy*t-sinhy*z;
+	  r[imc][0]=gamma*t-gammav*rout;
+	  r[imc][1]=gamma*rout-gammav*t;
+	  r[imc][2]=rside;
+	  r[imc][3]=rlong;
 
   }
 }

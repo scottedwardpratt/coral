@@ -43,8 +43,8 @@ CWaveFunction_ppbar_nocoulomb::CWaveFunction_ppbar_nocoulomb(string parsfilename
 		phi=0.5*atan2(2.0*mu*VI,k*k-2.0*mu*VR);
 		qinside[iq]*=exp(ci*phi);
 		if(sin(phi)<0.0){
-			printf("what???? sin(phi)=%g, phi=%g\n",sin(phi),phi*180.0/PI);
-			exit(1);
+			sprintf(message,"what???? sin(phi)=%g, phi=%g\n",sin(phi),phi*180.0/PI);
+			CLog::Fatal(message);
 		}
 		qa=qmaga*cos(phi)+ci*qmaga*sin(phi);
 		GetBessel(qa,iq,jl,jlprime);
@@ -55,9 +55,10 @@ CWaveFunction_ppbar_nocoulomb::CWaveFunction_ppbar_nocoulomb(string parsfilename
 			B[iq][ll]=numer/denom;
 			A[iq][ll]=0.5*(B[iq][ll]*hl[ll]+conj(hl[ll]))/jl[ll];
 			if(ll==0){
-				printf("K=%g\n",k);
-				printf("A[%d][L=%d]=(%g,%g)\n",iq,ll,real(A[iq][ll]),imag(A[iq][ll]));
-				printf("B[%d][L=%d]=(%g,%g)\n",iq,ll,real(B[iq][ll]),imag(B[iq][ll]));
+				sprintf(message,"K=%g\n",k);
+				sprintf(message,"A[%d][L=%d]=(%g,%g)\n",iq,ll,real(A[iq][ll]),imag(A[iq][ll]));
+				sprintf(message,"B[%d][L=%d]=(%g,%g)\n",iq,ll,real(B[iq][ll]),imag(B[iq][ll]));
+				CLog::Info(message);
 			}
 		}
 	}

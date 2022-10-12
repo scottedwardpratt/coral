@@ -17,7 +17,7 @@ CWaveFunction_pipluspiminus_sqwell::CWaveFunction_pipluspiminus_sqwell(string pa
 
   ellmax=2;
   InitArrays();
-  printf("Arrays Initialized\n");
+  CLog::Info("Arrays Initialized\n");
 
   ell[0]=0; // S0
   ell[1]=2; // D0
@@ -72,8 +72,6 @@ double CWaveFunction_pipluspiminus_sqwell::CalcPsiSquared(int iq,double r,double
 
   SquareWell_GetDelPhi(iq,r,DelPhi);
 
-	//printf("r=%g, DelPhi[2]=(%g,%g)\n",r,real(DelPhi[2]),imag(DelPhi[2]));
-	
   psisquared=0.0;  
   x=q*r/HBARC;
   P1=SpherHarmonics::legendre(1,ctheta);

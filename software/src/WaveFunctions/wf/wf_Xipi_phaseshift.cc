@@ -33,13 +33,14 @@ CWaveFunction_Xipi_phaseshift::CWaveFunction_Xipi_phaseshift(string  parsfilenam
 		get_phaseshifts_Xistar(q,delta[0][iq],ddeltadq[0][iq]);
 		if (q1q2!=0)
 			CoulWave::phaseshift_CoulombCorrect(ell[ichannel],q,eta[iq],
-			delta[ichannel][iq],ddeltadq[ichannel][iq]);
-		printf("ichannel=%d, q=%g, E=%g, delta=%g, ddelta/dq=%g\n",
-			ichannel,q,sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2),
-			delta[ichannel][iq]*180.0/PI,ddeltadq[ichannel][iq]*180.0/PI);
+		delta[ichannel][iq],ddeltadq[ichannel][iq]);
+		sprintf(message,"ichannel=%d, q=%g, E=%g, delta=%g, ddelta/dq=%g\n",
+		ichannel,q,sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2),
+		delta[ichannel][iq]*180.0/PI,ddeltadq[ichannel][iq]*180.0/PI);
+		CLog::Info(message);
 		Wepsilon[ichannel][iq]=ddeltadq[ichannel][iq]
 			-GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],delta[ichannel][iq])
-			+GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],0.0);
+				+GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],0.0);
 		Wepsilon[ichannel][iq]=3.0*Wepsilon[ichannel][iq]
 			/(4.0*PI*pow(epsilon,3));
 	}

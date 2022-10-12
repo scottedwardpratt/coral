@@ -4,6 +4,7 @@
 #include "msu_commonutils/commondefs.h"
 #include "msu_commonutils/parametermap.h"
 #include "msu_commonutils/arrays.h"
+#include "coral.h"
 
 using namespace std;
 
@@ -12,10 +13,10 @@ public:
 	CparameterMap spars;
 	virtual void CalcS(CCHArray *A);
 	virtual void CalcS(int lx,int ly,int lz,CCHArray *A);
+	//virtual void CalcS(CMCList *lista,CMCList *listb);
 	virtual void CalcS(CMCList *&lista,CMCList *&listb);
 	virtual void CalcS(C3DArray *threed);
 	virtual void GaussCFCalc(C3DArray *cf3d);
-	virtual void CalcS(CMCList *lista,CMCList *listb);
 	virtual void CalcS(CMCPRList ***&lista,CMCPRList ***&listb);
 	virtual void CalcS(CMCPRList *&lista,CMCPRList *&listb);
 
@@ -45,6 +46,7 @@ public:
 	CSourceCalc(string sparsfilename);
 	Crandy *randy;
 	virtual ~CSourceCalc(){};
+	char message[300];
 private:
 
 };

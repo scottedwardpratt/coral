@@ -40,9 +40,6 @@ CWaveFunction_pipluspiminus_phaseshift::CWaveFunction_pipluspiminus_phaseshift(s
       q=qarray[iq];
       WaveFunctionRoutines::getphaseshift_pipi(I[ichannel],ell[ichannel],q,&delta[ichannel][iq],
 			 &ddeltadq[ichannel][iq]);
-      //delta[ichannel][iq]=ddeltadq[ichannel][iq]=0.0;
-      //printf("%6.2f : %g %g\n",q,(180.0/PI)*delta[ichannel][iq],
-      //     (180.0/PI)*ddeltadq[ichannel][iq]);
       if(q1q2!=0)
 	CoulWave::phaseshift_CoulombCorrect(ell[ichannel],q,eta[iq],
 					    delta[ichannel][iq],
@@ -55,13 +52,6 @@ CWaveFunction_pipluspiminus_phaseshift::CWaveFunction_pipluspiminus_phaseshift(s
     }
 
   }
-  /*  for(iq=0;iq<nqmax;iq++){
-      q=qarray[iq];
-      printf("q=%g, delta=%g, ddeltadq=%g, IW(epsilon=1.0)=%g\n",
-      q,delta[2][iq],ddeltadq[2][iq],
-      GetIW(1,1.0,q,0,0,delta[2][iq])-GetIW(1,1.0,q,0,0,0));
-      }*/
-  //printf("pipluspiminus_phaseshift wf initialized\n");
 }
 
 double CWaveFunction_pipluspiminus_phaseshift::CalcPsiSquared(int iq,double r,

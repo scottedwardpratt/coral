@@ -26,14 +26,10 @@ CWaveFunction_pipluspiplus_phaseshift::CWaveFunction_pipluspiplus_phaseshift(str
   I=new int[nchannels];
   I[0]=I[1]=2;
   for(ichannel=0;ichannel<nchannels;ichannel++){
-    //printf("_____ ell=%d, I=%d _____\n",ell[ichannel],I[ichannel]);
     for(iq=0;iq<nqmax;iq++){
       q=qarray[iq];
       WaveFunctionRoutines::getphaseshift_pipi(I[ichannel],ell[ichannel],q,&delta[ichannel][iq],
 				&ddeltadq[ichannel][iq]);
-      //delta[ichannel][iq]=ddeltadq[ichannel][iq]=0.0;
-      //printf("%6.2f: %g  %g\n",q,(180.0/PI)*delta[ichannel][iq],
-				//     (180.0/PI)*ddeltadq[ichannel][iq]);
       if(q1q2!=0)
 			CoulWave::phaseshift_CoulombCorrect(ell[ichannel],q,eta[iq],
 				delta[ichannel][iq],ddeltadq[ichannel][iq]);
@@ -44,7 +40,7 @@ CWaveFunction_pipluspiplus_phaseshift::CWaveFunction_pipluspiplus_phaseshift(str
 			/(4.0*PI*pow(epsilon,3));
     }
   }
-  printf("pipluspiplus wf initialized\n");
+  CLog::Info("pipluspiplus wf initialized\n");
 }
 
 double CWaveFunction_pipluspiplus_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){
@@ -93,7 +89,6 @@ double CWaveFunction_pipluspiplus_phaseshift::CalcPsiSquared(int iq,double r,dou
 		}
 	}
 	
-	//printf("psisquared=%g\n",psisquared);
 	psisquared*=RelativisticCorrection(r,iq);
 	return psisquared;
 	

@@ -16,7 +16,7 @@ CWaveFunction_kpluspiminus_sqwell::CWaveFunction_kpluspiminus_sqwell(string pars
 
   ellmax=1;
   InitArrays();
-  printf("Arrays Initialized\n");
+  CLog::Info("Arrays Initialized\n");
 
   ell[0]=0; // S I=1/2
   ell[1]=0; // S I=3/2

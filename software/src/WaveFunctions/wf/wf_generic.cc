@@ -21,7 +21,6 @@ double m2set,double symmweightset): CWaveFunction(){
   ellmax=0;
   InitArrays();
   InitWaves();
-  //printf("initialization finished Generic WF: m1=%g, m2=%g\n",m1,m2);
 }
 
 void CWaveFunction_generic::reset(int q1q2set,double m1set,double m2set,
@@ -30,11 +29,11 @@ void CWaveFunction_generic::reset(int q1q2set,double m1set,double m2set,
   m2=m2set;
   mu=m1*m2/(m1+m2);
   if(q1q2*q1q2set<0){
-    printf("Illegal: Trying to reset q1q2 to opposite charge\n");
-    exit(1);
+	  sprintf(message,"Illegal: Trying to reset q1q2 to opposite charge\n");
+	  CLog::Fatal(message);
   }
   q1q2=q1q2set;
-	if(q1q2!=0)
+  if(q1q2!=0)
 		COULOMB=true;
 	else
 		COULOMB=false;
@@ -47,8 +46,8 @@ double CWaveFunction_generic::CalcPsiSquared(int iq,double r,double ctheta){
   const double ROOT2=sqrt(2.0);
 	
   if(iq>=nqmax){
-    printf("iq too large!\n");
-		printf("iq=%d, nqmax=%d\n",iq,nqmax);
+    sprintf(message,"iq too large =%d, nqmax=%d\n",iq,nqmax);
+	 CLog::Info(message);
     psisquared=1.0;
   }
   else{

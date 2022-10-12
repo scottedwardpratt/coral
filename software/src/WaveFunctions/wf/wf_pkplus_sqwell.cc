@@ -15,7 +15,7 @@ CWaveFunction_pkplus_sqwell::CWaveFunction_pkplus_sqwell(string parsfilename) : 
 
   ellmax=1;
   InitArrays();
-  printf("Arrays Initialized\n");
+  CLog::Info("Arrays Initialized\n");
 
   ell[0]=0;
   ell[1]=1;

@@ -79,22 +79,22 @@ void CSourceCalc_Gaussian::CalcAlpha(double **alpha,CCHArray *A){
   
   if(A->GetXSYM() && (fabs(Xoff)>1.0E-8 || fabs(phi)>1.0E-8 
 											|| fabs(theta)>1.0E-8 || fabs(psi)>1.0E-8)){
-    printf("Xsym true, but Xoff, Euler_phi, Euler_Theta or Euler_Psi !=0\n");
-    exit(1);
+    sprintf(message,"Xsym true, but Xoff, Euler_phi, Euler_Theta or Euler_Psi !=0\n");
+    CLog::Fatal(message);
   }
   if(A->GetYSYM() && (fabs(Yoff)>1.0E-8 || fabs(phi)>1.0E-8 ||
 											fabs(psi)>1.0E-8)){
-    printf("Ysym true, but Yoff, Euler_phi, or Euler_Psi !=0\n");
-    exit(1);
+    sprintf(message,"Ysym true, but Yoff, Euler_phi, or Euler_Psi !=0\n");
+    CLog::Fatal(message);
   }
   if(A->GetZSYM() && fabs(theta)>1.0E-8){
-    printf("Zsym true, but Zoff or Euler_Theta !=0\n");
-    exit(1);
+    sprintf(message,"Zsym true, but Zoff or Euler_Theta !=0\n");
+    CLog::Fatal(message);
   }
 	
   ctheta=cos(theta); cphi=cos(phi); cpsi=cos(psi);
   stheta=sin(theta); sphi=sin(phi); spsi=sin(psi);
-  double U[4][4]={0.0},Udagger[4][4]={0.0};
+  double U[4][4]={{0.0}},Udagger[4][4]={{0.0}};
   U[1][1]=ctheta*cphi*cpsi-sphi*spsi;
   U[1][2]=ctheta*sphi*cpsi+cphi*spsi;
   U[1][3]=-stheta*cpsi;

@@ -2,6 +2,7 @@
 #define  MINIMIZATION_H 
 
 #include "msu_commonutils/commondefs.h"
+#include "msu_commonutils/log.h"
 
 using namespace std;
 
@@ -61,7 +62,8 @@ class  CMinimization{
 		double  c=b; 
 		b=a; 
 		a=c; 
-	} 
+	}
+	char message[300];
 
 }; 
 

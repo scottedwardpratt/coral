@@ -10,7 +10,7 @@ CWaveFunction_pipluspiplus_nostrong::CWaveFunction_pipluspiplus_nostrong(string 
   nchannels=0;
   InitArrays();
   InitWaves();  
-  printf("pipluspiplus_nostrong wf initialized\n");
+  CLog::Info("pipluspiplus_nostrong wf initialized\n");
 }
 
 double CWaveFunction_pipluspiplus_nostrong::CalcPsiSquared(int iq,double r,double ctheta){

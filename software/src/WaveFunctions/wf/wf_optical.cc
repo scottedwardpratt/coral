@@ -186,16 +186,6 @@ void CWaveFunction_optical::GetAB(){
 			A[iq][ll]=0.5*(HL+B[iq][ll]*HLstar)/FLinside;
 			delsigma=2.0*real(1.0-B[iq][ll])-real((1.0-B[iq][ll])*conj(1.0-B[iq][ll]));
 			sigma_annihilation[iq]+=delsigma*(2.0*ll+1.0);
-			/*
-			if(ll==0){
-				printf("------------------------\n");
-				printf("kR=%g,qR=(%g,%g), etak=(%g,%g)\n",kR,real(qR),imag(qR),real(etak),imag(etak));
-				printf("iq=%d ll=%d : B=(%g,%g), A=(%g,%g)\n",iq,ll,real(B[iq][ll]),imag(B[iq][ll]),real(A[iq][ll]),imag(A[iq][ll]));
-				printf("|B|^2=%g, |A|^2=%g\n",real(B[iq][ll]*conj(B[iq][ll])),real(A[iq][ll]*conj(A[iq][ll])));
-				double Bstrength=real((B[iq][ll]-1.0)*conj(B[iq][ll]-1.0));
-				printf("|B-1|^2=%g\n",Bstrength);
-			}
-			*/
 			
 		}
 		sigma_annihilation[iq]=PI*HBARC*HBARC*sigma_annihilation[iq]/(K*K);

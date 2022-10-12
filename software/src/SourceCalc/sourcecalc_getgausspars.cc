@@ -26,7 +26,6 @@ void CSourceCalc::CalcEffGaussPars(CMCPRList *list,double &Rx,double &Ry,double 
 	Rx=sqrt((Rx/norm)-Xoff*Xoff);
 	Ry=sqrt((Ry/norm)-Yoff*Yoff);
 	Rz=sqrt((Rz/norm)-Zoff*Zoff);
-	//printf("Rx,y,z=(%g,%g,%g), offset=(%g,%g,%g)\n",Rx,Ry,Rz,Xoff,Yoff,Zoff);
 }
 
 void CSourceCalc::CalcEffGaussParsQ2(CMCPRList *list,double &Rx,double &Ry,double &Rz){
@@ -55,13 +54,14 @@ void CSourceCalc::CalcEffGaussParsQ2(CMCPRList *list,double &Rx,double &Ry,doubl
 		Rx=sqrt(0.5*numerx/(1.0-numerx/ax2));
 		Ry=sqrt(0.5*numery/(1.0-numery/ay2));
 		Rz=sqrt(0.5*numerz/(1.0-numerz/az2));
-		printf("Rx,y,z=(%g,%g,%g)\n",Rx,Ry,Rz);
+		sprintf(message,"Rx,y,z=(%g,%g,%g)\n",Rx,Ry,Rz);
+		CLog::Info(message);
 		ax2=afact*Rx*Rx;
 		ay2=afact*Ry*Ry;
 		az2=afact*Rz*Rz;
 		numerx=numery=numerz=denom=0.0;
 	}
-	printf("---------------------------\n");
+	CLog::Info("---------------------------\n");
 }
 
 void CSourceCalc::CalcEffGaussPars(CCHArray *A){
@@ -102,16 +102,18 @@ void CSourceCalc::CalcEffGaussPars(CCHArray *A,double &Rx,double &Ry,double &Rz,
 	x2bar=x2bar/norm;
 	y2bar=y2bar/norm;
 	z2bar=z2bar/norm;
-	printf("__________  EFFECTIVE GAUSSIAN PARAMETERS ____________\n");
-	printf("Rinv=%g\n",sqrt(2.0*PI*DELR*r2bar/3.0));
+	CLog::Info("__________  EFFECTIVE GAUSSIAN PARAMETERS ____________\n");
+	sprintf(message,"Rinv=%g\n",sqrt(2.0*PI*DELR*r2bar/3.0));
+	CLog::Info(message);
 	x2bar=4.0*PI*DELR*(2.0*x2bar/15.0+(r2bar/3.0))-xbar*xbar;
 	y2bar=4.0*PI*DELR*(2.0*y2bar/15.0+(r2bar/3.0))-ybar*ybar;
 	z2bar=4.0*PI*DELR*(2.0*z2bar/15.0+(r2bar/3.0))-zbar*zbar;
-	printf("Gaussian distribution with same offsets and 1-part. radii\n");
-	printf("offset_xyz=(%g,%g,%g), R_xyz=(%g,%g,%g)\n",
+	CLog::Info("Gaussian distribution with same offsets and 1-part. radii\n");
+	sprintf(message,"offset_xyz=(%g,%g,%g), R_xyz=(%g,%g,%g)\n",
 	xbar,ybar,zbar,
 	sqrt(fabs(0.5*x2bar)),sqrt(fabs(0.5*y2bar)),sqrt(fabs(0.5*z2bar)));
-	printf("______________________________________________________\n");
+	CLog::Info(message);
+	CLog::Info("______________________________________________________\n");
 	
 	Xoff=xbar;
 	Yoff=ybar;
@@ -150,7 +152,8 @@ void CSourceCalc::CalcEffGaussParsPureBose(CMCPRList *list,double &lambda,double
 		}
 	}
 	int i,n=list->GetNMC();
-	printf("nmc=%d\n",n);
+	sprintf(message,"nmc=%d\n",n);
+	CLog::Info(message);
 	for(ix=0;ix<nxyz;ix++){
 		qx=(0.5+ix)*delq;
 		for(iy=0;iy<nxyz;iy++){

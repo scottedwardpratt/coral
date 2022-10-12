@@ -15,12 +15,12 @@ CWaveFunction_plambda_phaseshift::CWaveFunction_plambda_phaseshift(string  parsf
   nchannels=1;
   ellmax=0;
   InitArrays();
-  printf("Arrays Initialized\n");
+  CLog::Info("Arrays Initialized\n");
 
   ell[0]=0;
 
   InitWaves();
-  printf("Partial Waves Initialized\n");
+  CLog::Info("Partial Waves Initialized\n");
 
   // Channel weight is (2J+1)/[(2s1+1)*(2s2+1)]
   channelweight[0]=1.0;
@@ -29,9 +29,6 @@ CWaveFunction_plambda_phaseshift::CWaveFunction_plambda_phaseshift(string  parsf
   for(ichannel=0;ichannel<nchannels;ichannel++){
       for(iq=0;iq<nqmax;iq++){
 	q=qarray[iq];
-	//printf("ichannel=%d, q=%g, delta=%g, ddeltadq=%g\n",
-	//     ichannel,q,delta[ichannel][iq]*180.0/PI,
-	//     ddeltadq[ichannel][iq]*180.0/PI);
 	Wepsilon[ichannel][iq]=ddeltadq[ichannel][iq]
 	  -GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],delta[ichannel][iq])
 	  +GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],0.0);
@@ -39,7 +36,6 @@ CWaveFunction_plambda_phaseshift::CWaveFunction_plambda_phaseshift(string  parsf
 	  /(4.0*PI*pow(epsilon,3));
     }
   }
-  //printf("Initialization finished\n");
 }
 
 double CWaveFunction_plambda_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){
@@ -50,8 +46,7 @@ double CWaveFunction_plambda_phaseshift::CalcPsiSquared(int iq,double r,double c
 
   q=qarray[iq];
   if(iq>=nqmax){
-    printf("iq too large!\n");
-    exit(1);
+    CLog::Fatal("iq too large! in CWaveFunction_plambda_phaseshift::CalcPsiSquared\n");
   }
   psi0=planewave[iq]->planewave(r,ctheta);
  

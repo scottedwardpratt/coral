@@ -88,8 +88,8 @@ bool  CMinimization::AllocVectors()
 	} 
 	else 
 	{ 
-		printf("Error: please input positive integer value of dimension! input n=%d", n); 
-		exit(0); 
+		sprintf(message,"Error: please input positive integer value of dimension! input n=%d", n); 
+		CLog::Fatal(message); 
 	} 
 
 	return  true ; 
@@ -319,7 +319,7 @@ double  CMinimization::brent( double  ax,  double  bx,  double  cx,  double  &xm
 		} 
 
 	} 
-	printf("Warning: cann't find the minimum after maximum iteration in brent!\n"); 
+	CLog::Info("Warning: cann't find the minimum after maximum iteration in brent!\n"); 
 	xmin = x; 
 	return  fx; 
 
@@ -352,7 +352,8 @@ bool  CMinimization::linear_Min( double  &fmin)
 	double  bx; 
 	double  fa, fb, fx; 
 	bracket(ax, xx, bx, fa, fx, fb); 
-	printf("bracket done as [%g, %g]\n", ax, bx); 
+	sprintf(message,"bracket done as [%g, %g]\n", ax, bx); 
+	CLog::Info(message);
 	double  xmin; 
 	fmin = brent(ax, xx, bx, xmin); 
 	for ( int  i=0;i<n;i++) 
@@ -394,9 +395,11 @@ bool  CMinimization::conjugate_gradient( double  * x,  int  &iteration,  double 
 
 		for ( int  kk=0;kk<n;kk++) 
 		{ 
-			printf("x[%d] : %g  ", kk, vec_x[kk]); 
+			sprintf(message,"x[%d] : %g  ", kk, vec_x[kk]); 
+			CLog::Info(message);
 		} 
-		printf("f(x)=%g after %d iterations\n", fmin, i); 
+		sprintf(message,"f(x)=%g after %d iterations\n", fmin, i); 
+		CLog::Info(message);
 
 		if (2.0 * fabs(fmin-fx) <= TOL_CG * (fabs(fmin)+fabs(fx)+1.0e-15))  // Using relative criteria for convergence. 
 		// adding 1.0e-15 to deal with the possibility that the function has miminum  value 0.0. 
@@ -439,7 +442,8 @@ bool  CMinimization::conjugate_gradient( double  * x,  int  &iteration,  double 
 	} 
 	delete []  g; 
 	delete []  h; 
-	printf("Cannot converge to minimum after %d iterations with f(x) = %g\n", iteration, fx); 
+	sprintf(message,"Cannot converge to minimum after %d iterations with f(x) = %g\n", iteration, fx); 
+	CLog::Info(message);
 	return  false ; 
 } 
 

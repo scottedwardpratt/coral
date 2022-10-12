@@ -1,5 +1,6 @@
 #include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
+#include "msu_commonutils/log.h"
 
 void WaveFunctionRoutines::getphaseshift_pipi(int I,int ell,double q,double *delta,double *ddeltadq){
   double a,a2,a3,reff,x,R,tandelta;
@@ -7,10 +8,11 @@ void WaveFunctionRoutines::getphaseshift_pipi(int I,int ell,double q,double *del
   const double qrho=sqrt(0.25*MRHO*MRHO-MPI*MPI);
   double q1,q2,delta1,delta2,M,piself,delq;
   double ff;
+  char message[200];
 
   if((ell+I)%2 != 0){
-    printf("pipi phase shift: bad (ell,I) comb, ell=%d, I=%d\n",ell,I);
-    exit(1);
+    sprintf(message,"pipi phase shift: bad (ell,I) comb, ell=%d, I=%d\n",ell,I);
+	 CLog::Fatal(message);
   }
 
   // For I=0, See R. Kaminski et al. Acta Phys. Polonica, B31 (2000)

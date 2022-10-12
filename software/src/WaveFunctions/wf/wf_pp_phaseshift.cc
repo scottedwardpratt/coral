@@ -17,12 +17,10 @@ CWaveFunction_pp_phaseshift::CWaveFunction_pp_phaseshift(string  parsfilename) :
 
   ellmax=1;
   InitArrays();
-  //printf("Arrays Initialized\n");
   ell[0]=0;
   ell[1]=ell[2]=ell[3]=1;
 
   InitWaves();
-  //printf("Partial Waves Initialized\n");
 
   // Channel weight is (2J+1)/[(2s1+1)*(2s2+1)]
   channelweight[0]=2*0.25;
@@ -30,31 +28,18 @@ CWaveFunction_pp_phaseshift::CWaveFunction_pp_phaseshift(string  parsfilename) :
   channelweight[2]=2*0.75;
   channelweight[3]=2*1.25;
   read_phaseshifts();
-  //printf("phaseshifts read in\n");
 
   for(ichannel=0;ichannel<nchannels;ichannel++){
     for(iq=0;iq<nqmax;iq++){
       q=qarray[iq];
-      /*if(ichannel==0) printf("q=%g, ddeltadq=%g, W=%g, W0=%g\n",
-	qarray[iq],ddeltadq[ichannel][iq],
-	GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],delta[ichannel][iq]),
-	GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],0.0));*/
       Wepsilon[ichannel][iq]=ddeltadq[ichannel][iq]
 	-GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],delta[ichannel][iq])
 	+GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],0.0);
       Wepsilon[ichannel][iq]=3.0*Wepsilon[ichannel][iq]
 	*pow(HBARC/epsilon,3)/(2.0*q*q);
-      /*if(ichannel==0){
-	printf("q=%g, W=%g, wprime=%g\n",q,Wepsilon[ichannel][iq],
-	ddeltadq[ichannel][iq]*3.0*pow(HBARC/epsilon,3)/(2.0*q*q));
-	}
-	else{
-	Wepsilon[ichannel][iq]=0.0;
-	delta[ichannel][iq]=0.0;
-	}*/
+ 
     }
   }
-  //printf("Initialization finished\n");
 }
 
 double CWaveFunction_pp_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){
@@ -66,8 +51,7 @@ double CWaveFunction_pp_phaseshift::CalcPsiSquared(int iq,double r,double ctheta
 
   q=qarray[iq];
   if(iq>=nqmax){
-    printf("iq too large!\n");
-    exit(1);
+    CLog::Fatal("iq too large! in CWaveFunction_pp_phaseshift::CalcPsiSquared(\n");
   }
   psia=planewave[iq]->planewave(r,ctheta);
   psib=planewave[iq]->planewave(r,-ctheta);
@@ -127,12 +111,9 @@ double CWaveFunction_pp_phaseshift::CalcPsiSquared(int iq,double r,double ctheta
   else psisquared=0.25*real(psisymm*conj(psisymm))
 	 +0.75*real(psianti*conj(psianti));
   if(r>epsilon && psisquared<-0.001){
-    printf("in CalcPsiSquared psisquared=%g,q=%g,r=%g\n",psisquared,q,r);
-    if(r>epsilon) exit(1);
+    sprintf(message,"in CalcPsiSquared psisquared=%g,q=%g,r=%g\n",psisquared,q,r);
+    CLog::Fatal(message);
   }
-  //if(psisquared<0.0){
-  //  printf("psisquared <0, = %g, r=%g, q=%g\n",psisquared,r,q);
-  //}
 	psisquared*=RelativisticCorrection(r,iq);
   return psisquared;
 

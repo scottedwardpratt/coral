@@ -144,11 +144,6 @@ void CWaveFunction::SquareWell_Init(){
 				
 				Y[4]=0.5*(F-ci*G); Y[5]=0.5*q*(Fprime-ci*Gprime);
 				cmatrix->SolveLinearEqs(Y,M,A[ichannel][iq]);	
-				
-				//for(i=0;i<6;i++) printf("A[%d][%d][%d]=(%g,%g), Y[%d]=(%g,%g)\n",
-					//		      ichannel,iq,i,real(A[ichannel][iq][i]),
-					//		      imag(A[ichannel][iq][i]),i,real(Y[i]),imag(Y[i]));
-				
 				delta[ichannel][iq]=-0.5*atan2(imag(A[ichannel][iq][5]),real(A[ichannel][iq][5]));
 				if(delta[ichannel][iq]<0.0) delta[ichannel][iq]=delta[ichannel][iq]+PI;
 			}
@@ -158,8 +153,8 @@ void CWaveFunction::SquareWell_Init(){
 			delete [] M;
 		}
 		else{
-			printf("nwells[%d] not equal to 1, 2 or 3??? =%d\n",ichannel,nwells[ichannel]);
-			exit(1);
+			sprintf(message,"nwells[%d] not equal to 1, 2 or 3??? =%d\n",ichannel,nwells[ichannel]);
+			CLog::Fatal(message);
 		}
 	}
 	
@@ -170,7 +165,8 @@ void CWaveFunction::SquareWell_Init(){
 			SquareWell_CalcDelPhi(iq,r,DelPhiArray[iq][ir]);
 		}
 	}
-	printf("FINISHED INITIALIZATION OF WAVEFUNCTIONS FOR PARTIAL WAVES\n");
+	sprintf(message,"FINISHED INITIALIZATION OF WAVEFUNCTIONS FOR PARTIAL WAVES\n");
+	CLog::Info(message);
 	
 }
 
@@ -233,8 +229,6 @@ void CWaveFunction::SquareWell_CalcDelPhi(int iq,double r,complex<double> *DelPh
     }
 		DelPhi[ichannel]*=cgsqwell[iq][ell[ichannel]];
   }
-  //printf("r=%6.2f, DelPhi[2]=(%g,%g)\n",r,real(DelPhi[2]),imag(DelPhi[2]));
-	
 }
 
 void CWaveFunction::SquareWell_MakeArrays(){

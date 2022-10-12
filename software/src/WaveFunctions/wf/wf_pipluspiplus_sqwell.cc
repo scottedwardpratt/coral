@@ -16,13 +16,11 @@ CWaveFunction_pipluspiplus_sqwell::CWaveFunction_pipluspiplus_sqwell(string  par
 
   ellmax=2;
   InitArrays();
-  //printf("Arrays Initialized\n");
 
   ell[0]=0; // S2
   ell[1]=2; // D2
 
   InitWaves();
-  //printf("Partial Waves Initialized\n");
   nwells=new int[nchannels];
   nwells[0]=1;
   nwells[1]=1;

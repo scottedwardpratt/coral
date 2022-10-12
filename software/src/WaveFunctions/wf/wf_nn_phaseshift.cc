@@ -16,13 +16,13 @@ CWaveFunction_nn_phaseshift::CWaveFunction_nn_phaseshift(string  parsfilename) :
 	
   ellmax=1;
   InitArrays();
-  printf("Arrays Initialized\n");
+  CLog::Info("Arrays Initialized\n");
 	
   ell[0]=0;
   ell[1]=ell[2]=ell[3]=1;
 	
   InitWaves();
-  printf("Partial Waves Initialized\n");
+  CLog::Info("Partial Waves Initialized\n");
 	
   // Channel weight is (2J+1)/[(2s1+1)*(2s2+1)]
   channelweight[0]=2*0.25;
@@ -35,10 +35,6 @@ CWaveFunction_nn_phaseshift::CWaveFunction_nn_phaseshift(string  parsfilename) :
   for(ichannel=0;ichannel<nchannels;ichannel++){
     for(iq=0;iq<nqmax;iq++){
       q=qarray[iq];
-      /* if(ichannel==0) printf("q=%g, ddeltadq=%g, W=%g, W0=%g\n",
-				qarray[iq],ddeltadq[ichannel][iq],
-				GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],delta[ichannel][iq]),
-				GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],0.0)); */
       Wepsilon[ichannel][iq]=ddeltadq[ichannel][iq]
 			-GetIW(ell[ichannel],epsilon,q,q1q2,eta[iq],delta[ichannel][iq])
 			+GetIW(ell[ichannel],epsilon,q,q1q2,0.0,0.0);
@@ -46,7 +42,6 @@ CWaveFunction_nn_phaseshift::CWaveFunction_nn_phaseshift(string  parsfilename) :
 			/(4.0*PI*pow(epsilon,3));
     }
   }
-  //printf("Initialization finished\n");
 }
 
 double CWaveFunction_nn_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){
@@ -58,8 +53,7 @@ double CWaveFunction_nn_phaseshift::CalcPsiSquared(int iq,double r,double ctheta
 	
   q=qarray[iq];
   if(iq>=nqmax){
-    printf("iq too large!\n");
-    exit(1);
+    CLog::Fatal("iq too large! inside CWaveFunction_nn_phaseshift::CalcPsiSquared\n");
   }
   psia=planewave[iq]->planewave(r,ctheta);
   psib=planewave[iq]->planewave(r,-ctheta);
@@ -76,9 +70,7 @@ double CWaveFunction_nn_phaseshift::CalcPsiSquared(int iq,double r,double ctheta
 				//dpsi2=0.0;
 				psisquared+=dpsi2;
       }
-      //if(psisquared<0.0){
-				//	printf("ALERT: q=%g,r=%g,psisquared=%g\n",q,r,psisquared);
-      //}
+
     }
     else{
       theta=acos(ctheta);
@@ -144,27 +136,21 @@ void CWaveFunction_nn_phaseshift::read_phaseshifts(){
   int iqdata,iq,ichannel;
   double w1,w2,q;
   for(ichannel=0;ichannel<4;ichannel++){
-    for(iq=0;iq<nqmax;iq++){
-      q=qarray[iq];
-      iqdata=int(floor(q)/delqdata);
-      if(iqdata<nqdata){
-				w1=(delqdata*double(iqdata+1)-q)/delqdata;
-				w2=1.0-w1;
-				delta[ichannel][iq]=w1*data_delta[ichannel][iqdata]
-				+w2*data_delta[ichannel][iqdata+1];
-				ddeltadq[ichannel][iq]=w1*data_ddeltadq[ichannel][iqdata]
-				+w2*data_ddeltadq[ichannel][iqdata+1];
-      }
-      else{
-				delta[ichannel][iq]=0.0;
-				ddeltadq[ichannel][iq]=0.0;
-      }
-			/* if(ichannel==0){
-				printf("iq=%d, q=%g _________ w1=%g, w2=%g ___________\n",iq,q,w1,w2);
-				printf("q=%g, delta=%g, dddq=%g\n",q,delta[0][iq]*180.0/PI,ddeltadq[0][iq]*HBARC);
-				printf("iqdata=%d, data_delta=%g\n",iqdata,data_delta[0][iqdata]*180.0/PI);
-			}*/
-			
-    }
+	  for(iq=0;iq<nqmax;iq++){
+		  q=qarray[iq];
+		  iqdata=int(floor(q)/delqdata);
+		  if(iqdata<nqdata){
+			  w1=(delqdata*double(iqdata+1)-q)/delqdata;
+			  w2=1.0-w1;
+			  delta[ichannel][iq]=w1*data_delta[ichannel][iqdata]
+				  +w2*data_delta[ichannel][iqdata+1];
+			  ddeltadq[ichannel][iq]=w1*data_ddeltadq[ichannel][iqdata]
+				  +w2*data_ddeltadq[ichannel][iqdata+1];
+		  }
+		  else{
+			  delta[ichannel][iq]=0.0;
+			  ddeltadq[ichannel][iq]=0.0;
+		  }			
+	  }
   }
 }

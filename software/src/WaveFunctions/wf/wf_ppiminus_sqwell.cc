@@ -16,7 +16,7 @@ CWaveFunction_ppiminus_sqwell::CWaveFunction_ppiminus_sqwell(string parsfilename
 
   ellmax=1;
   InitArrays();
-  printf("Arrays Initialized\n");
+  CLog::Info("Arrays Initialized\n");
 
   ell[0]=0; //S31 I=3/2, J=1/2
   ell[1]=1; //P31 I=3/2, J=1/2
@@ -24,7 +24,7 @@ CWaveFunction_ppiminus_sqwell::CWaveFunction_ppiminus_sqwell(string parsfilename
   ell[3]=0; //S11 I=1/2, J=1/2
 
   InitWaves();
-  printf("Partial Waves Initialized\n");
+  CLog::Info("Partial Waves Initialized\n");
 
   nwells=new int[nchannels];
   nwells[0]=1;

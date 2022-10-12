@@ -109,7 +109,8 @@ complex<double> CPlaneWave::hyper(complex<double> a,complex<double> b,complex<do
       realcz=real(czstarj); imagcz=imag(czstarj);
       if(fabs(sqrt(realcz*realcz+imagcz*imagcz))<1.0E-6) goto GOOD_ENOUGH;
     }
-    printf("hyper not coverging!.\n");
+    sprintf(message,"hyper not coverging! in CPlaneWave::hyper\n");
+	 CLog::Info(message);
   GOOD_ENOUGH:
     answer=cf1;
   }

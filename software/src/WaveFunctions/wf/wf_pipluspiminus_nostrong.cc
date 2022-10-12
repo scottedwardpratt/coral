@@ -13,7 +13,7 @@ CWaveFunction_pipluspiminus_nostrong::CWaveFunction_pipluspiminus_nostrong(strin
 	InitArrays();
 	InitWaves();
 
-	printf("pipluspiminus_nostrong wf initialized\n");
+	CLog::Info("pipluspiminus_nostrong wf initialized\n");
 }
 
 double CWaveFunction_pipluspiminus_nostrong::CalcPsiSquared(int iq,double r,double ctheta){

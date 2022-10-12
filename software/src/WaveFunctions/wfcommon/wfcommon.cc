@@ -7,6 +7,7 @@
 #include "msu_commonutils/parametermap.h"
 #include "msu_commonutils/sf.h"
 #include "msu_commonutils/misc.h"
+#include "msu_commonutils/log.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -95,8 +96,6 @@ void CWaveFunction::ParsInit(string parsfilename){
   
   stemp=parameters.getS("QARRAYFILENAME","no_qarray_file");
   strcpy(qarrayfilename,stemp.c_str());
-  //printf("qarrayfilename set to %s\n",qarrayfilename);
-	
   delq=parameters.getD("DELQ",-999);
   nqmax=parameters.getI("NQMAX",-999);
   epsilon=parameters.getD("EPSILON",-999);
@@ -108,7 +107,8 @@ void CWaveFunction::ParsInit(string parsfilename){
   if(delq<0) filetest=1;
   if(filetest==1){
     parameters.set("delq",-1.0);
-    printf("will read qarray from %s\n",qarrayfilename);
+    sprintf(message,"will read qarray from %s\n",qarrayfilename);
+	 CLog::Info(message);
     qarrayfile=fopen(qarrayfilename,"r");
     fscanf(qarrayfile,"%d",&nqmax);
     parameters.set("NQMAX",nqmax);
@@ -125,15 +125,6 @@ void CWaveFunction::ParsInit(string parsfilename){
       qarray[iq]=(iq+0.5)*delq;
     }
   }
-	/*
-  printf("    WaveFunction Parameters:\n");
-  printf("        delq set to %g\n",delq);
-  printf("        nqmax set to %d\n",nqmax);
-  printf("        epsilon set to %g\n",epsilon);
-  printf("        STRONG set to %d\n",STRONG);
-  printf("        COULOMB set to %d\n",COULOMB);
-  printf("        IDENTICAL set to %d\n",IDENTICAL);
-	*/
 }
 
 void CWaveFunction::InitArrays(){
@@ -236,15 +227,22 @@ double CWaveFunction::GetPsiSquared(double q,double r,double ctheta){
 					+whigh*CalcPsiSquared(iqhigh,rscaled,ctheta);
 			}
 			if(rscaled>1.0 && qscaled>qarray[0] && qscaled<qarray[nqmax-1] && interpolate<-0.01){
-				printf("interpolate=%g, qscaled=%g, qlow=%g, qhigh=%g, rscaled=%g, r=%g\n",
+				sprintf(message,"interpolate=%g, qscaled=%g, qlow=%g, qhigh=%g, rscaled=%g, r=%g\n",
 				interpolate,qscaled,qarray[iqlow],qarray[iqhigh],rscaled,r);
-				printf("wlow=%g, whigh=%g\n",wlow,whigh);
-				printf("iqlow=%d,  %g\n",iqlow,CalcPsiSquared(iqlow,rscaled,ctheta));
-				printf("iqhigh=%d, %g\n",iqhigh,CalcPsiSquared(iqhigh,rscaled,ctheta));
-				printf("nqmax=%d\n",nqmax);
-				for(iq=0;iq<nqmax;iq++)
-					printf("qarray[%d]=%g\n",iq,qarray[iq]);
-				exit(1);
+				CLog::Info(message);
+				sprintf(message,"wlow=%g, whigh=%g\n",wlow,whigh);
+				CLog::Info(message);
+				sprintf(message,"iqlow=%d,  %g\n",iqlow,CalcPsiSquared(iqlow,rscaled,ctheta));
+				CLog::Info(message);
+				sprintf(message,"iqhigh=%d, %g\n",iqhigh,CalcPsiSquared(iqhigh,rscaled,ctheta));
+				CLog::Info(message);
+				sprintf(message,"nqmax=%d\n",nqmax);
+				CLog::Info(message);
+				for(iq=0;iq<nqmax;iq++){
+					sprintf(message,"qarray[%d]=%g\n",iq,qarray[iq]);
+					CLog::Info(message);
+				}
+				CLog::Fatal("dying in CWaveFunction::GetPsiSquared\n");
 			}
 			return interpolate;
 		}
@@ -294,8 +292,8 @@ void CWaveFunction::getqrctheta(double *p1,double *r1,double *p2,double *r2,doub
 		*ctheta-=g[alpha]*rvec[alpha]*qvec[alpha];
 	}
 	if(*r<0.0 || *q<0.0 || fabs(*ctheta)/sqrt(*q**r)>1.0000001){
-		printf("Disaster, r^2=%g, q^2=%g, ctheta=%g\n",*r,*q,*ctheta/sqrt(*r**q));
-		exit(1);
+		sprintf(message,"Disaster, r^2=%g, q^2=%g, ctheta=%g\n",*r,*q,*ctheta/sqrt(*r**q));
+		CLog::Fatal(message);
 	}
 	*r=sqrt(*r);
 	*q=sqrt(*q);
@@ -306,23 +304,80 @@ void CWaveFunction::getqrctheta(double *p1,double *r1,double *p2,double *r2,doub
 	if(*ctheta>1.0)*ctheta=1.0;
 }
 
+void CWaveFunction::getqrctheta(FourVector &p1,FourVector &r1,FourVector &p2,FourVector &r2,double &q,double &r,double &ctheta){
+	int alpha;
+	const double g[4]={1.0,-1.0,-1.0,-1.0};
+	double n[4],qvec[4],rvec[4],nnorm,ndotq,ndotr;
+	
+	nnorm=0.0;
+	ndotq=0.0;
+	ndotr=0.0;
+	for(alpha=0;alpha<4;alpha++){
+		n[alpha]=p1[alpha]+p2[alpha];
+		qvec[alpha]=0.5*(p1[alpha]-p2[alpha]);
+		rvec[alpha]=r1[alpha]-r2[alpha];
+		nnorm+=g[alpha]*n[alpha]*n[alpha];
+		ndotq+=n[alpha]*qvec[alpha]*g[alpha];
+		ndotr+=n[alpha]*rvec[alpha]*g[alpha];
+	}
+	nnorm=sqrt(nnorm);
+	ndotq=ndotq/nnorm;
+	ndotr=ndotr/nnorm;
+	
+	ctheta=0.0;
+	r=0.0;
+	q=0.0;
+	for(alpha=0;alpha<4;alpha++){
+		n[alpha]=n[alpha]/nnorm;
+		rvec[alpha]=rvec[alpha]-ndotr*n[alpha];
+		qvec[alpha]=qvec[alpha]-ndotq*n[alpha];
+		r-=g[alpha]*rvec[alpha]*rvec[alpha];
+		q-=g[alpha]*qvec[alpha]*qvec[alpha];
+		ctheta-=g[alpha]*rvec[alpha]*qvec[alpha];
+	}
+	if(r<0.0 || q<0.0 || fabs(ctheta)/sqrt(q*r)>1.0000001){
+		sprintf(message,"Disaster, r^2=%g, q^2=%g, ctheta=%g\n",r,q,ctheta/sqrt(r*q));
+		CLog::Fatal(message);
+	}
+	r=sqrt(r);
+	q=sqrt(q);
+	if(q*r>0.1)
+		ctheta=ctheta/(r*q);
+	else{
+		ctheta=(1.0-2.0*randy->ran());
+	}
+	if(ctheta>1.0)
+		ctheta=1.0;
+}
+
 void CWaveFunction::PrintPhaseShifts(){
 	int iq,ichannel;
-	printf("-------- PHASE SHIFTS --------\n");
-	printf("q(MeV/c)");
-	for(ichannel=0;ichannel<nchannels;ichannel++) printf("    l=%d   ",ell[ichannel]);
-	printf("\n");
+	sprintf(message,"-------- PHASE SHIFTS --------\n");
+	CLog::Info(message);
+	sprintf(message,"q(MeV/c)");
+	CLog::Info(message);
+	for(ichannel=0;ichannel<nchannels;ichannel++){
+		sprintf(message,"    l=%d   ",ell[ichannel]);
+		CLog::Info(message);
+	}
+	sprintf(message,"\n");
+	
 	for(iq=0;iq<nqmax;iq++){
-		printf("%7.2f ",GetQ(iq));
-		for(ichannel=0;ichannel<nchannels;ichannel++) printf("% 10.3f",(180.0/PI)*delta[ichannel][iq]);
-		printf("\n");
+		sprintf(message,"%7.2f ",GetQ(iq));
+		CLog::Info(message);
+		for(ichannel=0;ichannel<nchannels;ichannel++){
+			sprintf(message,"% 10.3f",(180.0/PI)*delta[ichannel][iq]);
+		}
+		sprintf(message,"\n");
+		CLog::Info(message);
 	}
 }
 
 void CWaveFunction::PrintCdelta(double Rx,double Ry,double Rz){
 	double q,clocal;
 	int ichannel,iq;
-	printf("! Qinv  C(Q)_estimated ~ ddelta/dq\n");
+	sprintf(message,"! Qinv  C(Q)_estimated ~ ddelta/dq\n");
+	CLog::Info(message);
 	for(iq=0;iq<nqmax;iq++){
 		q=qarray[iq];
 		clocal=1.0;
@@ -331,9 +386,11 @@ void CWaveFunction::PrintCdelta(double Rx,double Ry,double Rz){
 				/(q*q*Rx*Ry*Rz*pow(4.0*PI,1.5)))
 			*ddeltadq[ichannel][iq];
 		}
-		printf("%6.2f  %8.4f  %g\n",q,clocal,4.0*q*q*(clocal-1.0));    
+		sprintf(message,"%6.2f  %8.4f  %g\n",q,clocal,4.0*q*q*(clocal-1.0));
+		CLog::Info(message); 
 	}
-	printf("_________________________________\n");
+	sprintf(message,"_________________________________\n");
+	CLog::Info(message);
 }
 
 double CWaveFunction::RelativisticCorrection(double r,int iq){
@@ -358,8 +415,6 @@ void CWaveFunction::EffectiveRange(int ichannel,double scattlength,double Reff){
 		delta[ichannel][iq]=atan(tandel);
 		ddeltadq[ichannel][iq]=(tandel*tandel/(1.0+tandel*tandel))
 		*((-HBARC/(q*q*scattlength))-0.5*Reff/HBARC);
-		//printf("%g %g %g\n",q,delta[ichannel][iq]*180/PI,
-			//   ddeltadq[ichannel][iq]*180/PI);
 	}
 }
 
@@ -447,9 +502,6 @@ double CWaveFunction::GetIW(int ellval,double epsval,double q,int q1q2val,double
 			psiplus=0.5*x*(Bessel::hstarn(1,x)
 				+Misc::ceiphi(2.0*deltaval)*Bessel::hn(1,x));
 			psi*=Misc::ceiphi(-deltaval); psiplus*=Misc::ceiphi(-deltaval);
-			//printf("x=%g, psi=(%g,%g), psiplus=(%g,%g)\n",x,real(psi),imag(psi),
-				//     real(psiplus),imag(psiplus));
-			
 			
 			I=(conj(psi)*psi+conj(psiplus)*psiplus)*x;
 			I-=conj(psi)*psiplus;

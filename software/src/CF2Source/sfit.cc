@@ -8,7 +8,7 @@
 #include "msu_commonutils/randy.h"
 #include "msu_commonutils/parametermap.h"
 #include "msu_coral/source2cf.h"
-#include "msu_coral/gslmatrix.h"
+#include "msu_commonutils/gslmatrix.h"
 
 using namespace std;
 
@@ -48,7 +48,10 @@ void  CCF2SFit::SetPar(string parstring, double  xset){
 		i+=1;
 	}
 	if (i<nmaxpars) par[i]->currentx=xset;
-	else  printf("Can not set %s, parameter with that name does not exist\n",parname);
+	else{
+		sprintf(message,"Can not set %s, parameter with that name does not exist\n",parname);
+		CLog::Info(message);
+	}
 }
 
 double CCF2SFit::GetPar(string parstring){
@@ -62,7 +65,8 @@ double CCF2SFit::GetPar(string parstring){
 	}
 	if(i<nmaxpars) xvalue=par[i]->bestx;
 	else{
-		printf("Can not set %s, parameter with that name does not exist\n",parname);
+		sprintf(message,"Can not set %s, parameter with that name does not exist\n",parname);
+		CLog::Info(message);
 		xvalue=0.0;
 	}
 	return xvalue;
@@ -77,8 +81,11 @@ void  CCF2SFit::SetPar(string parstring, double  xset, double  errorset,double  
 		i+=1;
 	}
 	if (i<nmaxpars) par[i]->Set(parstring,xset,errorset,xminset,xmaxset);
-	else  printf("Can not set %s, parameter with that name does not exist\n",
-		parname); 
+	else {
+		sprintf(message,"Can not set %s, parameter with that name does not exist\n",
+		parname);
+		CLog::Info(message); 
+	}
 }
 
 void  CCF2SFit::AddPar(string parstring, double  xset, double  errorset,double  xminset, double  xmaxset){
@@ -90,8 +97,8 @@ void  CCF2SFit::AddPar(string parstring, double  xset, double  errorset,double  
 		(sourcecalc->spars).set(parstring,xset);
 	}
 	else{
-		printf("Too Many Parameters! Increase static int CCF2SFit::nmaxpars\n");
-		exit(1);
+		sprintf(message,"Too Many Parameters! Increase static int CCF2SFit::nmaxpars\n");
+		CLog::Fatal(message);
 	}
 	ErrorMatrix[nfreepars-1][nfreepars-1]=errorset*errorset;
 	StepMatrix[nfreepars-1][nfreepars-1]=errorset;
@@ -139,12 +146,16 @@ void  CCF2SFit::FreePar(string parstring){
 	while (Misc::comparestrings(par[i]->name,parname)==0 && i<npars){
 		i+=1;
 	}
-	if (i==nmaxpars) printf("Par %s already free or does not exist\n",
+	if (i==nmaxpars){
+		sprintf(message,"Par %s already free or does not exist\n",
 		parstring.c_str());
+		CLog::Info(message);
+	}
 	else{
 		if (i!=nfreepars) SwitchPars(i,nfreepars);
 		par[nfreepars]->fixed=false;
-		printf("Freeing par[%d], name=%s\n",nfreepars,par[nfreepars]->name);
+		sprintf(message,"Freeing par[%d], name=%s\n",nfreepars,par[nfreepars]->name);
+		CLog::Info(message);
 		nfreepars+=1;
 	}
 }
@@ -157,24 +168,29 @@ void  CCF2SFit::FixPar(string parstring){
 	while (Misc::comparestrings(par[i]->name,parname)==0 && i<nfreepars){
 		i+=1;
 	}
-	if (i==nfreepars) printf("Par %s already fixed or does not exist\n",
+	if (i==nfreepars){
+		sprintf(message,"Par %s already fixed or does not exist\n",
 		parstring.c_str());
+		CLog::Info(message);
+	}
 	else{
 		if (i!=nfreepars-1) SwitchPars(i,nfreepars-1);
 		nfreepars-=1;
 		par[nfreepars]->fixed=true;
-		printf("Fixing par[%d], name=%s\n",nfreepars,par[nfreepars]->name);
+		sprintf(message,"Fixing par[%d], name=%s\n",nfreepars,par[nfreepars]->name);
+		CLog::Info(message);
 	}
-
 }
 
 void  CCF2SFit::PrintPars(){
 	int  i;
-	printf("ipar        name     value       error       min         max     fixed\n");
+	sprintf(message,"ipar        name     value       error       min         max     fixed\n");
+	CLog::Info(message);
 	for (i=0;i<npars;i++){
-		printf("%2d : %12s %11.4e %11.4e %11.4e %11.4e  %d\n",
-			i,par[i]->name,par[i]->currentx,par[i]->error,
-			par[i]->xmin,par[i]->xmax,int(par[i]->fixed));
+		sprintf(message,"%2d : %12s %11.4e %11.4e %11.4e %11.4e  %d\n",
+		i,par[i]->name,par[i]->currentx,par[i]->error,
+		par[i]->xmin,par[i]->xmax,int(par[i]->fixed));
+		CLog::Info(message);
 	}
 }
 
@@ -199,7 +215,8 @@ void  CCF2SFit::Init(){
 			StepMatrix[i][j]=0.0;
 		}
 	}
-	printf("SFit Initialized\n");
+	sprintf(message,"SFit Initialized\n");
+	CLog::Info(message);
 }
 
 void CCF2SFit::ResetChiSquared(){
@@ -231,9 +248,9 @@ void  CCF2SFit::UpdateStepMatrix(){
 	matrixcalc->EigenFind(ErrorMatrix,StepMatrix,SMeigenval);
 	for (i=0;i<nfreepars;i++){
 		if (SMeigenval[i]<-1.0E-10){
-			printf("FATAL: In UpdateStepSize, negative eigenvalue, =%g\n",
+			sprintf(message,"FATAL: In UpdateStepSize, negative eigenvalue, =%g\n",
 				SMeigenval[i]);
-			exit(1);
+			CLog::Fatal(message);
 		}
 	}
 	for (i=0;i<nfreepars;i++){
@@ -251,22 +268,34 @@ void  CCF2SFit::UpdateStepMatrix(){
 
 void  CCF2SFit::PrintErrorMatrix(){
 	int  ia,ib;
-	printf("________ < delX_i delX_j > ________\n");
+	sprintf(message,"________ < delX_i delX_j > ________\n");
+	CLog::Info(message);
 	for (ia=0;ia<nfreepars;ia++){
-		for (ib=0;ib<nfreepars;ib++) printf("%9.2e ",ErrorMatrix[ia][ib]);
-		printf("\n");
+		for (ib=0;ib<nfreepars;ib++){
+			sprintf(message,"%9.2e ",ErrorMatrix[ia][ib]);
+			CLog::Info(message);
+		}
+		sprintf(message,"\n");
+		CLog::Info(message);
 	}
-	printf("___________________________________\n");
+	sprintf(message,"___________________________________\n");
+	CLog::Info(message);
 }
 
 void  CCF2SFit::PrintStepMatrix(){
 	int  ia,ib;
-	printf("________ < StepMatrix_ij > ________\n");
+	sprintf(message,"________ < StepMatrix_ij > ________\n");
+	CLog::Info(message);
 	for (ia=0;ia<nfreepars;ia++){
-		for (ib=0;ib<nfreepars;ib++) printf("%9.2e ",StepMatrix[ia][ib]);
-		printf("\n");
+		for (ib=0;ib<nfreepars;ib++){
+			sprintf(message,"%9.2e ",StepMatrix[ia][ib]);
+			CLog::Info(message);
+		}
+		sprintf(message,"\n");
+		CLog::Info(message);
 	}
-	printf("___________________________________\n");
+	sprintf(message,"___________________________________\n");
+	CLog::Info(message);
 }
 
 CCF2SFit::CCF2SFit(){
@@ -322,10 +351,6 @@ double  CCF2SFit::GetChiSquared( double  *xx){
 	x= new   double [nfreepars];
 	for (i=0;i<nfreepars;i++) x[i]=xx[i];
 
-	//printf("In GetChiSquare, x[] = ");
-//  for(i=0;i<nfreepars;i++) printf("%g,",x[i]);
-	//for (i=0;i<nfreepars;i++) printf("%f,",x[i]);
-	//printf(" ncalls=%d\n",ncalls);
 	for (i=0;i<nfreepars;i++){
 		(sourcecalc->spars).set(par[i]->name,x[i]);
 	}
@@ -335,18 +360,11 @@ double  CCF2SFit::GetChiSquared( double  *xx){
 		chisquared=CFCalc::GetChiSquared(lx,ly,lz,cexpCH,cerrorCH,ctheoryCH);
 	}
 	else   if (calcflag==2){
-		//time_t start,end;
-		//time(&start);
-
 		sourcecalc->CalcS(sourceCH);
 		S2CF::s2c(sourceCH,kernel,ctheoryCH);
 		ctheoryCH->FillRemainderX();
 		ArrayCalc::Calc3DArrayFromAExpArray(ctheoryCH,ctheory3D);
 		chisquared=CFCalc::GetChiSquared(cexp3D,cerror3D,ctheory3D);
-
-		//time(&end);
-		//double  dif = difftime(end, start);
-		//printf("%g seconds ",dif);
 
 	}
 	else   if (calcflag==3){
@@ -372,7 +390,8 @@ double  CCF2SFit::GetChiSquared( double  *xx){
 
 		time(&end);
 		double  dif = difftime(end, start);
-		printf("%g seconds ",dif);
+		sprintf(message,"%g seconds ",dif);
+		CLog::Info(message);
 
 	}
 	else   if (calcflag==6){
@@ -405,8 +424,8 @@ double  CCF2SFit::GetChiSquared( double  *xx){
 			par[i]->bestx=x[i];
 	}
 	if(chisquared!=chisquared){
-		printf("GetChiSquared Failed: chisquared=%g\n",chisquared);
-		exit(1);
+		sprintf(message,"GetChiSquared Failed: chisquared=%g\n",chisquared);
+		CLog::Fatal(message);
 	}
 	return  chisquared;
 	delete  [] x;
@@ -460,8 +479,9 @@ void  CCF2SFit::Newton(int  maxtries){
 				chi2d=GetChiSquared(xd);
 				curvature[i][j]=(chi2a+chi2d-chi2b-chi2c)/(4.0*dx[i]*dx[j]);
 				curvature[j][i]=curvature[i][j];
-				printf("___ itry=%d, Curvature[%d][%d]=%g ___\n",
-					itry,i,j,curvature[i][j]);
+				sprintf(message,"___ itry=%d, Curvature[%d][%d]=%g ___\n",
+				itry,i,j,curvature[i][j]);
+				CLog::Info(message);
 			}
 		}
 		for (i=0;i<nfreepars;i++){
@@ -471,7 +491,8 @@ void  CCF2SFit::Newton(int  maxtries){
 			chi2a=GetChiSquared(xa);
 			chi2b=GetChiSquared(xb);
 			curvature[i][i]=(chi2a-2*chi2+chi2b)/(dx[i]*dx[i]);
-			printf("___ itry=%d, Curvature[%d][%d]=%g ___\n",itry,i,i,curvature[i][i]);
+			sprintf(message,"___ itry=%d, Curvature[%d][%d]=%g ___\n",itry,i,i,curvature[i][i]);
+			CLog::Info(message);
 			slope[i]=(chi2a-chi2b)/(2.0*dx[i]);
 		}
 		matrixcalc->SolveLinearEqs(slope,curvature,delx);
@@ -479,7 +500,8 @@ void  CCF2SFit::Newton(int  maxtries){
 		screwy=0;
 		for(i=0;i<nfreepars;i++){
 			if(eigenval[i]<0.0){
-				printf("NEWTON's METHOD: screwy eigenval[i]=%g, is less than zero\n",eigenval[i]);
+				sprintf(message,"NEWTON's METHOD: screwy eigenval[i]=%g, is less than zero\n",eigenval[i]);
+				CLog::Info(message);
 				screwy=1;
 			}
 		}
@@ -491,18 +513,22 @@ void  CCF2SFit::Newton(int  maxtries){
 		}
 		nrescale=0;
 		TRY_RESCALED:
-		printf("delx[] = ");
+		sprintf(message,"delx[] = ");
+		CLog::Info(message);
 		for (i=0;i<nfreepars;i++){
-			printf("%g ",delx[i]);
+			sprintf(message,"%g ",delx[i]);
+			CLog::Info(message);
 			xnew[i]=x[i]-delx[i];
 		}
-		printf("\n");
+		sprintf(message,"\n");
+		CLog::Info(message);
 
 		for (i=0;i<nfreepars;i++){
 			if (par[i]->fixed==false){
 				if (xnew[i]<par[i]->xmin || xnew[i]>par[i]->xmax){
 					for (j=0;j<nfreepars;j++) delx[j]=0.5*delx[j];
-					printf("Stepped outside min/max, will rescale delx[]\n");
+					sprintf(message,"Stepped outside min/max, will rescale delx[]\n");
+					CLog::Info(message);
 					if (nrescale>4) exit(1);
 					nrescale+=1;
 					goto  TRY_RESCALED;
@@ -515,7 +541,8 @@ void  CCF2SFit::Newton(int  maxtries){
 			for (j=0;j<nfreepars;j++){
 				delx[j]=0.5*delx[j];
 			}
-			printf("new chi^2 bigger than previous, will rescale delx[]\n");
+			sprintf(message,"new chi^2 bigger than previous, will rescale delx[]\n");
+			CLog::Info(message);
 			goto  TRY_RESCALED;
 		}
 
@@ -529,7 +556,8 @@ void  CCF2SFit::Newton(int  maxtries){
 		if (scheck<1.0) success=1;
 
 		if (success){
-			printf("SUCCESS!!!!!!!!!!!\n");
+			sprintf(message,"SUCCESS!!!!!!!!!!!\n");
+			CLog::Info(message);
 			nsuccess+=1;
 			CalcErrorMatrixFromCurvature(curvature);
 			for (i=0;i<nfreepars;i++) dx[i]=par[i]->error;
@@ -605,7 +633,8 @@ void  CCF2SFit::ConjugateGradient(int  maxcalls){
 	int  iter;
 	if (conjugate_gradient(x, iter, fmin) ==  true )
 	{
-		printf("SUCCESS in Conjugate gradient method after %d iterations\n",iter);
+		sprintf(message,"SUCCESS in Conjugate gradient method after %d iterations\n",iter);
+		CLog::Info(message);
 		currentchisquared=fmin;
 		for (i=0;i<nfreepars;i++)
 		{
@@ -613,12 +642,18 @@ void  CCF2SFit::ConjugateGradient(int  maxcalls){
 		}
 	}
 	if(iter>maxcalls){
-		printf("In CCF2SFit::ConjugateGradient, iter=%d, maxcalls=%d\n",iter,maxcalls);
+		sprintf(message,"In CCF2SFit::ConjugateGradient, iter=%d, maxcalls=%d\n",iter,maxcalls);
+		CLog::Info(message);
 	}
 
-	printf("Best chi^2=%g, Best x[] = ",bestchisquared);
-	for (i=0;i<nfreepars;i++) printf("%g ",par[i]->bestx);
-	printf("\n");
+	sprintf(message,"Best chi^2=%g, Best x[] = ",bestchisquared);
+	CLog::Info(message);
+	for (i=0;i<nfreepars;i++){
+		sprintf(message,"%g ",par[i]->bestx);
+		CLog::Info(message);
+	}
+	sprintf(message,"\n");
+	CLog::Info(message);
 
 	delete []  x;
 }
@@ -651,9 +686,11 @@ bool  CCF2SFit::dfn( double  * x){
 	}
 	for ( int  i=0;i<nfreepars;i++)
 	{
-		printf("dx[%d] = %g, ", i, vec_dx[i]);
+		sprintf(message,"dx[%d] = %g, ", i, vec_dx[i]);
+		CLog::Info(message);
 	}
-	printf("\n");
+	sprintf(message,"\n");
+	CLog::Info(message);
 	delete []  x_minus;
 	delete []  x_plus;
 	return  true ;
@@ -706,8 +743,11 @@ void  CCF2SFit::Metropolis(int  maxcalls){
 		if (success==1){
 			Nsuccess+=1;
 			currentchisquared=chisquared;
-			for (i=0;i<nfreepars;i++) par[i]->currentx=x[i];
-			printf("SUCCESS, Nsuccess=%d\n",Nsuccess);
+			for (i=0;i<nfreepars;i++){
+				par[i]->currentx=x[i];
+			}
+			sprintf(message,"SUCCESS, Nsuccess=%d\n",Nsuccess);
+			CLog::Info(message);
 		}
 
 		for (i=0;i<nfreepars;i++){
@@ -724,9 +764,14 @@ void  CCF2SFit::Metropolis(int  maxcalls){
 		for (j=0;j<nfreepars;j++) ErrorMatrix[i][j]=(ErrorMatrix[i][j]-par[i]->xbar*par[j]->xbar)
 		* double (Nsuccess)/ double (Nsuccess-1);
 
-	printf("Best chi^2=%g, Best x[] = ",bestchisquared);
-	for (i=0;i<nfreepars;i++) printf("%g ",par[i]->bestx);
-	printf("\n");
+	sprintf(message,"Best chi^2=%g, Best x[] = ",bestchisquared);
+	CLog::Info(message);
+	for (i=0;i<nfreepars;i++){
+		sprintf(message,"%g ",par[i]->bestx);
+		CLog::Info(message);
+	}
+	sprintf(message,"\n");
+	CLog::Info(message);
 
 	delete  [] x;
 	delete  [] xran;
@@ -785,11 +830,16 @@ void  CCF2SFit::SteepestDescent( int  maxtries){
 			dchi2dq=(chi2b-chi2a)/dq;
 			d2chi2dq2=4.0*(chi2b+chi2a-2.0*chisquared)/(dq*dq);
 			qstep=-dchi2dq/d2chi2dq2;
-			printf("||||||||| qstep=%g, ",qstep);
-			if(d2chi2dq2<0.0) printf("upside down curvature\n");
+			sprintf(message,"||||||||| qstep=%g, ",qstep);
+			CLog::Info(message);
+			if(d2chi2dq2<0.0){
+				sprintf(message,"upside down curvature\n");
+				CLog::Info(message);
+			}
 			if (fabs(qstep)>1.0) qstep=qstep/fabs(qstep);
 			if(qstep*dchi2dq>0) qstep=-0.5*qstep/fabs(qstep);
-			printf("-> %g |||||||||\n",qstep);
+			sprintf(message,"-> %g |||||||||\n",qstep);
+			CLog::Info(message);
 
 			TRYNEWQSTEP:
 			nfailure=0;
@@ -802,12 +852,13 @@ void  CCF2SFit::SteepestDescent( int  maxtries){
 				qstep=0.5*qstep;
 				nfailure+=1;
 				if (nfailure>5){
-					printf("STEEPEST DESCENT FAILURE\n");
-					exit(1);
+					sprintf(message,"STEEPEST DESCENT FAILURE\n");
+					CLog::Info(message);
 				}
 				goto TRYNEWQSTEP;
 			}
-			printf("++++++++++++ qstep=%g ++++++++++++++\n",qstep);
+			sprintf(message,"++++++++++++ qstep=%g ++++++++++++++\n",qstep);
+			CLog::Info(message);
 			chisquared=newchisquared;
 			for(i=0;i<nfreepars;i++) x[i]=xnew[i];
 			if(fabs(qstep)<2.0*dq){
@@ -816,7 +867,8 @@ void  CCF2SFit::SteepestDescent( int  maxtries){
 			}
 
 		}
-		printf("_______________________ finished itry=%d _______________________________\n",itry);
+		sprintf(message,"_______________________ finished itry=%d _______________________________\n",itry);
+		CLog::Info(message);
 	}
 
 	chisquared=GetChiSquared(x);

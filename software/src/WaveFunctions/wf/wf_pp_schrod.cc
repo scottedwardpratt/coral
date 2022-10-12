@@ -164,11 +164,6 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
 		psiout[ir]=2.0*psiout[ir+1]-psiout[ir+2]
 			+delx2*(-1.0+vr+(2.0*eta[iq]/x1)+double(L)*double(L+1)/(x1*x1))
 				*psiout[ir+1];
-		/*if(L==0 && ir<10){
-		printf("r=%g, x=%g, vr=%g, vc=%g, psiout0=(%g,%g), psiout=(%g,%g)\n",
-		r1-delr,x1-delr*q/HBARC,vr,2.0*eta[iq]/x1,
-		real(psiout0[ir]),imag(psiout0[ir]),real(psiout[ir]),imag(psiout[ir]));	
-		}*/
 	}
 	phase=atan2(imag(psiout[1]),real(psiout[1]))+0.5*PI;
 	phase0=atan2(imag(psiout0[1]),real(psiout0[1]))+0.5*PI;
@@ -177,9 +172,7 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
 	phase=2.0*phase-phaseb;
 	phase0=2.0*phase0-phaseb0;
 	delta[ichannel][iq]=-phase+phase0;
-	//printf("channel %d: L=%d,  q=%g, phase=%g, phase0=%g, sigma=%g, delta=%g\n",
-	// ichannel,L, q,phase,phase0,sigma,180.0*delta[ichannel][iq]/PI);
-	
+
 	int ir1,ir2,ir_schrod;
 	double w1,w2;
 	delpsi[ichannel][iq][0]=0.0;
@@ -205,14 +198,14 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
 					+conj(exp(-2.0*ci*phase)*psiout[ir1]
 						-exp(-2.0*ci*phase0)*psiout0[ir1]));
 		else{
-			printf("OOPS, out of bounds, shouldn't be here, ir1=%d, nr=%d\n",ir1,nr);
-			exit(1);
+			sprintf(message,"OOPS, out of bounds, shouldn't be here, ir1=%d, nr=%d\n",ir1,nr);
+			CLog::Fatal(message);
 		}
 	}
-	
+
 	delete [] psiout;
 	delete [] psiout0;
-	
+
 }
 
 double CWaveFunction_pp_schrod::Vreid(double r,int ipart){

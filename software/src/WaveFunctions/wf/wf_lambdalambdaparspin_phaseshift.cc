@@ -41,21 +41,22 @@ void CWaveFunction_lambdalambdaparspin_phaseshift::GetPhaseshifts(){
   double MH0,M,EH0,GammaH0,lambda=500.0;
   int iq;
 
-  printf("Enter the energy of the H0 above the 2Lambda threshold in MeV : ");
+  CLog::Info("Enter the energy of the H0 above the 2Lambda threshold in MeV : ");
   scanf("%lf",&EH0);
-  printf("Enter the width of the H0 in MeV : ");
+  CLog::Info("Enter the width of the H0 in MeV : ");
   scanf("%lf",&GammaH0);
 
   // Scattering length and effective range parameters
-  printf("Enter scattering length in fm (Do not include effect of H0): ");
+  CLog::Info("Enter scattering length in fm (Do not include effect of H0): ");
   scanf("%lf",&alength);
   lambda=500.0; // Arbitrary choice, returns delta to zero at large q
   //reff=2*HBARC*HBARC/(lambda*lambda*a); // Effective range (not used)
 
   MH0=m1+m2+EH0;
   q0=sqrt(0.25*MH0*MH0-m1*m1);
-  printf("Resonance occurs at q=%g, mesh goes q=%g\n",
-	 q0,qarray[nqmax-1]);
+  sprintf(message,"Resonance occurs at q=%g, mesh goes q=%g\n",
+  q0,qarray[nqmax-1]);
+  CLog::Info(message);
 
   for(iq=0;iq<nqmax;iq++){
     q=qarray[iq];

@@ -17,12 +17,14 @@ CWaveFunction_kpluspiminus_phaseshift::CWaveFunction_kpluspiminus_phaseshift(str
 
   ellmax=1;
   InitArrays();
-  printf("Arrays Initialized\n");
+  sprintf(message,"Arrays Initialized\n");
+  CLog::Info(message);
 
   ell[0]=1;
 
   InitWaves();
-  printf("Partial Waves Initialized\n");
+  sprintf(message,"Partial Waves Initialized\n");
+  CLog::Info(message);
 
   channelweight[0]=3.0;
 
@@ -42,7 +44,6 @@ CWaveFunction_kpluspiminus_phaseshift::CWaveFunction_kpluspiminus_phaseshift(str
 	/(4.0*PI*pow(epsilon,3));
     }
   }
-  //printf("Initialization finished\n");
 }
 
 double CWaveFunction_kpluspiminus_phaseshift::CalcPsiSquared(int iq,double r,double ctheta){
@@ -51,8 +52,7 @@ double CWaveFunction_kpluspiminus_phaseshift::CalcPsiSquared(int iq,double r,dou
 
   q=qarray[iq];
   if(iq>=nqmax){
-    printf("iq too large!\n");
-    exit(1);
+	  CLog::Fatal("iq too large! inside CWaveFunction_kpluspiminus_phaseshift::CalcPsiSquared\n");
   }
   psi0=planewave[iq]->planewave(r,ctheta);
 
@@ -90,7 +90,8 @@ void CWaveFunction_kpluspiminus_phaseshift::get_phaseshifts_kpluspiminus(){
   q0=sqrt((pow(mres,4.0)+pow(m1,4.0)+pow(m2,4.0)
 	   -2*m1*m1*m2*m2-2*mres*mres*(m1*m1+m2*m2))/(4.0*mres*mres));
   mtest=sqrt(m1*m1+q0*q0)+sqrt(m2*m2+q0*q0);
-  printf("mtest=%g =? 891.66, q0=%g\n",mtest,q0);
+  sprintf(message,"mtest=%g =? 891.66, q0=%g\n",mtest,q0);
+  CLog::Info(message);
   for(iq=0;iq<=nqmax;iq++){
     q=qarray[iq];
     gamma=gamma0*pow((q/q0)*(1.0+q0*q0*aa*aa)/(1.0+q*q*aa*aa),double(2*ellres+1));
@@ -104,9 +105,10 @@ void CWaveFunction_kpluspiminus_phaseshift::get_phaseshifts_kpluspiminus(){
     ddeltadq[0][iq]=dtandeltadq/(1.0+tandelta*tandelta);
     
     if(iq>0) old=delta[0][iq-1];
-    printf("q=%g, m=%g, delta=%g, ddeltadq=%g =? %g\n",
+    sprintf(message,"q=%g, m=%g, delta=%g, ddeltadq=%g =? %g\n",
 	     q,m,delta[0][iq]*180.0/PI,ddeltadq[0][iq]*180.0/PI,
 	   (delta[0][iq]-old)*180.0/(delq*PI));
+		CLog::Info(message);
 
   }
 }

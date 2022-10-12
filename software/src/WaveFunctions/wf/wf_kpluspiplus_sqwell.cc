@@ -16,7 +16,7 @@ CWaveFunction_kpluspiplus_sqwell::CWaveFunction_kpluspiplus_sqwell(string parsfi
 
   ellmax=1;
   InitArrays();
-  printf("Arrays Initialized\n");
+  CLog::Info("Arrays Initialized\n");
   ell[0]=0; // S I=3/2
   InitWaves();
 
