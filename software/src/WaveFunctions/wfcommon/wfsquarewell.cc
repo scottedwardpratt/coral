@@ -23,7 +23,7 @@ void CWaveFunction::SquareWell_Init(){
   complex<double> x1,x2;
   double F2,G2,F2prime,G2prime,qsquared,r;
   int i,j,iq,ir,ichannel;
-	mu=m1*m2/(m1+m2);
+  mu=m1*m2/(m1+m2);
 	
 	for(ichannel=0;ichannel<nchannels;ichannel++){
 		if(nwells[ichannel]==1){

@@ -371,5 +371,19 @@ public:
 	vector<double> sigma_annihilation;
 };
 
+class CWaveFunction_pd_sqwell : public CWaveFunction{
+public:
+	double CalcPsiSquared(int iq,double r,double ctheta);
+	CWaveFunction_pd_sqwell(string parsfilename);
+	~CWaveFunction_pd_sqwell();
+};
+
+class CWaveFunction_Kd_sqwell : public CWaveFunction{
+public:
+	double CalcPsiSquared(int iq,double r,double ctheta);
+	CWaveFunction_Kd_sqwell(string parsfilename);
+	~CWaveFunction_Kd_sqwell();
+};
+
 #endif
 
