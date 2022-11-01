@@ -53,7 +53,8 @@ void CWaveFunction::SquareWell_Init(){
 			cmatrix=new CGSLMatrix_Complex(4);
 			Y=new complex<double>[4];
 			M=new complex<double> *[4];
-			for(i=0;i<4;i++) M[i]=new complex<double>[4];
+			for(i=0;i<4;i++)
+				M[i]=new complex<double>[4];
 			
 			for(iq=0;iq<nqmax;iq++){
 				q=GetQ(iq);
@@ -101,13 +102,12 @@ void CWaveFunction::SquareWell_Init(){
 			cmatrix=new CGSLMatrix_Complex(6);
 			Y=new complex<double>[6];
 			M=new complex<double> *[6];
-			for(i=0;i<6;i++) M[i]=new complex<double>[6];
-			
+			for(i=0;i<6;i++)
+				M[i]=new complex<double>[6];
 			for(iq=0;iq<nqmax;iq++){
 				q=GetQ(iq);
 				E=sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2);
 				mu_coulomb=0.25*(E-pow(m1*m1-m2*m2,2)/pow(E,3));
-				
 				q1=sqrt(abs(q*q-2.0*mu*V0[ichannel][0]));
 				if(q*q-2.0*mu*V0[ichannel][0]<0.0) q1=ci*q1;
 				q2=sqrt(abs(q*q-2.0*mu*V0[ichannel][1]));
@@ -214,8 +214,10 @@ void CWaveFunction::SquareWell_CalcDelPhi(int iq,double r,complex<double> *DelPh
       iwell=0;
       while(r>a[ichannel][iwell]) iwell+=1;
       qsquared=q*q-2.0*mu*V0[ichannel][iwell];
-      if(qsquared > 0.0) q1=sqrt(qsquared);
-      else q1=ci*sqrt(abs(qsquared));
+      if(qsquared > 0.0)
+				q1=sqrt(qsquared);
+      else
+				q1=ci*sqrt(abs(qsquared));
       eta1=q1q2*mu_coulomb*ALPHA/q1;
       x1=q1*r/HBARC;
       CoulWave::GetFGprime_ComplexQ(ell[ichannel],x1,eta1,&F,&G,&Fprime, &Gprime);
