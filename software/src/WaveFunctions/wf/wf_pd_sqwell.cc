@@ -32,6 +32,7 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 
   V0[0][0]=-28.005; V0[0][1]=37.283; V0[0][2]=-5.829;
   V0[1][0]=108.203;
+	//V0[0][0]=V0[0][1]=V0[0][2]=V0[1][0]=0.0;
 
   SquareWell_Init();
 }
