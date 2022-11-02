@@ -145,7 +145,8 @@ void CWaveFunction::SquareWell_Init(){
 				Y[4]=0.5*(F-ci*G); Y[5]=0.5*q*(Fprime-ci*Gprime);
 				cmatrix->SolveLinearEqs(Y,M,A[ichannel][iq]);	
 				delta[ichannel][iq]=-0.5*atan2(imag(A[ichannel][iq][5]),real(A[ichannel][iq][5]));
-				if(delta[ichannel][iq]<0.0) delta[ichannel][iq]=delta[ichannel][iq]+PI;
+				if(delta[ichannel][iq]<0.0)
+					delta[ichannel][iq]=delta[ichannel][iq]+PI;
 			}
 			delete(cmatrix);
 			delete [] Y;
@@ -203,14 +204,23 @@ void CWaveFunction::SquareWell_CalcDelPhi(int iq,double r,complex<double> *DelPh
       l=ell[ichannel];
       CoulWave::GetFGprime_ComplexQ(l,0.0*ci+q*r/HBARC,0.0*ci+eta0,&F0[l],&G0[l],&Fprime,&Gprime);
       lexist[l]=1;
-    }
-  }
+		}
+	}
 	
-  for(ichannel=0;ichannel<nchannels;ichannel++){
-    if(r>a[ichannel][nwells[ichannel]-1]){
-      DelPhi[ichannel]=0.5*(A[ichannel][iq][2*nwells[ichannel]-1]-1.0) *(F0[ell[ichannel]]+ci*G0[ell[ichannel]]);
-    }
-    else{
+	for(ichannel=0;ichannel<nchannels;ichannel++){
+		if(r>a[ichannel][nwells[ichannel]-1]){
+			DelPhi[ichannel]=0.5*(A[ichannel][iq][2*nwells[ichannel]-1]-1.0) *(F0[ell[ichannel]]+ci*G0[ell[ichannel]]);
+			/*
+			if(ichannel==1){
+				x1=q*r/HBARC;
+				complex<double> guess=0.5*ci*exp(-ci*x1)*(exp(-2.0*ci*delta[ichannel][iq])-1.0);
+				printf("ichannel=%d: r=%g, (%g,%g) =? (%g,%g), %g=?%g, ratio=(%g,%g)\n",
+				ichannel,r,real(DelPhi[ichannel]),imag(DelPhi[ichannel]),real(guess),imag(guess),real(DelPhi[ichannel]*conj(DelPhi[ichannel])),real(guess*conj(guess)),
+				real(guess/DelPhi[ichannel]),imag(guess/DelPhi[ichannel]));
+			}*/
+				
+		}
+		else{
       iwell=0;
       while(r>a[ichannel][iwell]) iwell+=1;
       qsquared=q*q-2.0*mu*V0[ichannel][iwell];

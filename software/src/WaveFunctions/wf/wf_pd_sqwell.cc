@@ -10,7 +10,7 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
   m2=2*MPROTON-2.224;
   IDENTICAL=0;
 
-  q1q2=1;
+  q1q2=0;
   nchannels=2;
 
   ellmax=0;
