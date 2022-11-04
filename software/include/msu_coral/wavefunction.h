@@ -378,11 +378,18 @@ public:
 	~CWaveFunction_pd_sqwell();
 };
 
-class CWaveFunction_Kd_sqwell : public CWaveFunction{
+class CWaveFunction_Kminusd_sqwell : public CWaveFunction{
 public:
 	double CalcPsiSquared(int iq,double r,double ctheta);
-	CWaveFunction_Kd_sqwell(string parsfilename);
-	~CWaveFunction_Kd_sqwell();
+	CWaveFunction_Kminusd_sqwell(string parsfilename);
+	~CWaveFunction_Kminusd_sqwell();
+};
+
+class CWaveFunction_pid_sqwell : public CWaveFunction{
+public:
+	double CalcPsiSquared(int iq,double r,double ctheta);
+	CWaveFunction_pid_sqwell(string parsfilename);
+	~CWaveFunction_pid_sqwell();
 };
 
 #endif
