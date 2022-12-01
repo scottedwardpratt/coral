@@ -122,7 +122,7 @@ double CWaveFunction_pn_phaseshift::CalcPsiSquared(int iq,double r,double ctheta
 	}
 	else psisquared=real(psi0*conj(psi0));
 	if(psisquared<0 && r>epsilon){
-		sprintf(message,"psisquared<0, = %g, r=%g, q=%g\n",
+		snprintf(message,strlen(message),"psisquared<0, = %g, r=%g, q=%g\n",
 		psisquared,r,q);
 		CLog::Info(message);
 		
@@ -213,7 +213,7 @@ void CWaveFunction_pn_phaseshift::read_phaseshifts(){
 		else{
 			delta[0][iq]=0.0;
 			ddeltadq[0][iq]=0.0;
-			sprintf(message,"Warning: qarray goes beyond max. for phaseshift data =%g\n",
+			snprintf(message,strlen(message),"Warning: qarray goes beyond max. for phaseshift data =%g\n",
 			qread[NREAD-1]);
 			CLog::Info(message);
 			//exit(1);

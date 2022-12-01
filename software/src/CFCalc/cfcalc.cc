@@ -31,7 +31,7 @@ double CFCalc::GetChiSquared(C3DArray *CFexp,C3DArray *Error, C3DArray *CFtheory
 							numer=numer*numer;
 							denom=Error->GetElement(isx,ix,isy,iy,isz,iz);
 							if(denom<-1.0E-8){
-								sprintf(message,"CFCalc::GetChiSquared : \nSuspiciously small or negative error = %g, isx=%d,ix=%d, isy=%d,iy=%d, isz=%d,iz=%d\n",
+								snprintf(message,sizeof(message),"CFCalc::GetChiSquared : \nSuspiciously small or negative error = %g, isx=%d,ix=%d, isy=%d,iy=%d, isz=%d,iz=%d\n",
 								denom,isx,ix,isy,iy,isz,iz);
 								CLog::Info(message);
 							}
@@ -46,7 +46,7 @@ double CFCalc::GetChiSquared(C3DArray *CFexp,C3DArray *Error, C3DArray *CFtheory
 			}
 		}
 	}
-	sprintf(message,"chi^2/Ndof=%g\n",chisquared/double(ndof));
+	snprintf(message,sizeof(message),"chi^2/Ndof=%g\n",chisquared/double(ndof));
 	CLog::Info(message);
 	return chisquared;
 }
@@ -59,14 +59,14 @@ double CFCalc::GetChiSquared(int lx,int ly,int lz,CCHArray *CFexp, CCHArray *Err
 	for(ir=0;ir<nrmax;ir++){
 		denom=Error->GetElement(lx,ly,lz,ir);
 		if(denom<1.0E-8){
-			sprintf(message,"CFCalc::GetChiSquared : \nSuspiciously small or negative error = %g, l=(%d,%d,%d)d\n",denom,lx,ly,lz);
+			snprintf(message,sizeof(message),"CFCalc::GetChiSquared : \nSuspiciously small or negative error = %g, l=(%d,%d,%d)d\n",denom,lx,ly,lz);
 			CLog::Fatal(message);
 		}
 		numer=CFexp->GetElement(lx,ly,lz,ir)
 			-CFtheory->GetElement(lx,ly,lz,ir);
 		chisquared+=numer*numer/(denom*denom);
 	}
-	sprintf(message,"chi^2/Ndof=%g\n",chisquared/double(nrmax));
+	snprintf(message,sizeof(message),"chi^2/Ndof=%g\n",chisquared/double(nrmax));
 	CLog::Info(message);
 	return chisquared;
 }
@@ -116,7 +116,7 @@ double CFCalc::GetChiSquared(CCHArray *cexp,CCHArray *error,CCHArray *ctheory){
 			}
 		}
 	}
-	sprintf(message,"chi^2=%g\n",overlap);
+	snprintf(message,sizeof(message),"chi^2=%g\n",overlap);
 	CLog::Info(message);
 	delete(F);
 	return overlap;

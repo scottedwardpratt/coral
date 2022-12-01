@@ -79,16 +79,16 @@ void CSourceCalc_Gaussian::CalcAlpha(double **alpha,CCHArray *A){
   
   if(A->GetXSYM() && (fabs(Xoff)>1.0E-8 || fabs(phi)>1.0E-8 
 											|| fabs(theta)>1.0E-8 || fabs(psi)>1.0E-8)){
-    sprintf(message,"Xsym true, but Xoff, Euler_phi, Euler_Theta or Euler_Psi !=0\n");
+    snprintf(message,sizeof(message),"Xsym true, but Xoff, Euler_phi, Euler_Theta or Euler_Psi !=0\n");
     CLog::Fatal(message);
   }
   if(A->GetYSYM() && (fabs(Yoff)>1.0E-8 || fabs(phi)>1.0E-8 ||
 											fabs(psi)>1.0E-8)){
-    sprintf(message,"Ysym true, but Yoff, Euler_phi, or Euler_Psi !=0\n");
+    snprintf(message,sizeof(message),"Ysym true, but Yoff, Euler_phi, or Euler_Psi !=0\n");
     CLog::Fatal(message);
   }
   if(A->GetZSYM() && fabs(theta)>1.0E-8){
-    sprintf(message,"Zsym true, but Zoff or Euler_Theta !=0\n");
+    snprintf(message,sizeof(message),"Zsym true, but Zoff or Euler_Theta !=0\n");
     CLog::Fatal(message);
   }
 	

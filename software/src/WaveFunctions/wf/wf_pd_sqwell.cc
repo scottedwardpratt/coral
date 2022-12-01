@@ -12,7 +12,7 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
   m2=ProtonMass+NeutronMass-2.224;
   IDENTICAL=0;
 
-  q1q2=0;
+  q1q2=1;
   nchannels=2;
 
   ellmax=0;

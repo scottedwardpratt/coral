@@ -127,7 +127,7 @@ void CSourceCalc_EllipticBlast::CalcS(CCHArray *A){
       }
     }
     if(10*(ia+1)%nsample==0){
-      sprintf(message,"finished %g percent\n",100*double(ia+1)/double(nsample));
+      snprintf(message,sizeof(message),"finished %g percent\n",100*double(ia+1)/double(nsample));
 		CLog::Fatal(message);
 	}
   }
@@ -144,9 +144,9 @@ void CSourceCalc_EllipticBlast::CalcS(CCHArray *A){
   y2bar=y2bar-ybar*ybar;
   z2bar=z2bar-zbar*zbar;
 
-  sprintf(message,"xbar=%g, ybar=%g, zbar=%g\n",xbar,ybar,zbar);
+  snprintf(message,sizeof(message),"xbar=%g, ybar=%g, zbar=%g\n",xbar,ybar,zbar);
   CLog::Info(message);
-  sprintf(message,"Effective Gaussian Radii: Rout=%g, Rside=%g, Rlong=%g\n",
+  snprintf(message,sizeof(message),"Effective Gaussian Radii: Rout=%g, Rside=%g, Rlong=%g\n",
   sqrt(0.5*x2bar),sqrt(0.5*y2bar),sqrt(0.5*z2bar));
   CLog::Info(message);
 

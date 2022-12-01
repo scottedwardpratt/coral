@@ -154,7 +154,7 @@ void CWaveFunction::SquareWell_Init(){
 			delete [] M;
 		}
 		else{
-			sprintf(message,"nwells[%d] not equal to 1, 2 or 3??? =%d\n",ichannel,nwells[ichannel]);
+			snprintf(message,strlen(message),"nwells[%d] not equal to 1, 2 or 3??? =%d\n",ichannel,nwells[ichannel]);
 			CLog::Fatal(message);
 		}
 	}
@@ -166,7 +166,7 @@ void CWaveFunction::SquareWell_Init(){
 			SquareWell_CalcDelPhi(iq,r,DelPhiArray[iq][ir]);
 		}
 	}
-	sprintf(message,"FINISHED INITIALIZATION OF WAVEFUNCTIONS FOR PARTIAL WAVES\n");
+	snprintf(message,strlen(message),"FINISHED INITIALIZATION OF WAVEFUNCTIONS FOR PARTIAL WAVES\n");
 	CLog::Info(message);
 	
 }

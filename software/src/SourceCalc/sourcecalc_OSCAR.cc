@@ -104,7 +104,7 @@ void CSourceCalc_OSCAR::ReadR(double **ra,int &na,double **rb,int &nb){
 	bool AEQUALB=spars.getB("AEQUALB",false);
 	char dummy[160];
 	na=nb=0;
-	sprintf(message,"Opening %s\n",OSCARfilename.c_str());
+	snprintf(message,sizeof(message),"Opening %s\n",OSCARfilename.c_str());
 	CLog::Info(message);
 	oscarfile=fopen(OSCARfilename.c_str(),"r");
 	// Read Header Info
@@ -132,7 +132,7 @@ void CSourceCalc_OSCAR::ReadR(double **ra,int &na,double **rb,int &nb){
 	} while(ievent<NEVENTSMAX && !feof(oscarfile));
 	fclose(oscarfile);
 	if(AEQUALB) nb=na;
-	sprintf(message,"OSCAR file read: %d events, na=%d, nb=%d\n",ievent,na,nb);
+	snprintf(message,sizeof(message),"OSCAR file read: %d events, na=%d, nb=%d\n",ievent,na,nb);
 	CLog::Info(message);
 	
 }
@@ -159,7 +159,7 @@ bool CSourceCalc_OSCAR::Check(double *p,double *r,double m,double **ra,int &n){
 	pt=sqrt(p[1]*p[1]+p[2]*p[2]);
 	if(fabs(pt-pttarget)<DELPT){
 		if(p[1]!=p[1] || p[2]!=p[2] || p[3]!=p[3]){
-			sprintf(message,"bad particle has nan, p=(%g,%g,%g)\n",p[1],p[2],p[3]);
+			snprintf(message,sizeof(message),"bad particle has nan, p=(%g,%g,%g)\n",p[1],p[2],p[3]);
 			CLog::Info(message);
 			return false;
 		}
@@ -188,7 +188,7 @@ bool CSourceCalc_OSCAR::Check(double *p,double *r,double m,double **ra,int &n){
 					n+=1;
 					success=true;
 					if(n==NPARTSMAX){
-						sprintf(message,"TOO MANY PARTICLES FIT CRITERIA, increase parameter NPARTSMAX=%d\n",NPARTSMAX);
+						snprintf(message,sizeof(message),"TOO MANY PARTICLES FIT CRITERIA, increase parameter NPARTSMAX=%d\n",NPARTSMAX);
 						CLog::Fatal(message);
 					}
 				}

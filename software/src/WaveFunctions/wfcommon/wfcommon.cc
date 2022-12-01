@@ -107,7 +107,7 @@ void CWaveFunction::ParsInit(string parsfilename){
   if(delq<0) filetest=1;
   if(filetest==1){
     parameters.set("delq",-1.0);
-    sprintf(message,"will read qarray from %s\n",qarrayfilename);
+    snprintf(message,strlen(message),"will read qarray from %s\n",qarrayfilename);
 	 CLog::Info(message);
     qarrayfile=fopen(qarrayfilename,"r");
     fscanf(qarrayfile,"%d",&nqmax);
@@ -227,19 +227,19 @@ double CWaveFunction::GetPsiSquared(double q,double r,double ctheta){
 					+whigh*CalcPsiSquared(iqhigh,rscaled,ctheta);
 			}
 			if(rscaled>1.0 && qscaled>qarray[0] && qscaled<qarray[nqmax-1] && interpolate<-0.01){
-				sprintf(message,"interpolate=%g, qscaled=%g, qlow=%g, qhigh=%g, rscaled=%g, r=%g\n",
+				snprintf(message,strlen(message),"interpolate=%g, qscaled=%g, qlow=%g, qhigh=%g, rscaled=%g, r=%g\n",
 				interpolate,qscaled,qarray[iqlow],qarray[iqhigh],rscaled,r);
 				CLog::Info(message);
-				sprintf(message,"wlow=%g, whigh=%g\n",wlow,whigh);
+				snprintf(message,strlen(message),"wlow=%g, whigh=%g\n",wlow,whigh);
 				CLog::Info(message);
-				sprintf(message,"iqlow=%d,  %g\n",iqlow,CalcPsiSquared(iqlow,rscaled,ctheta));
+				snprintf(message,strlen(message),"iqlow=%d,  %g\n",iqlow,CalcPsiSquared(iqlow,rscaled,ctheta));
 				CLog::Info(message);
-				sprintf(message,"iqhigh=%d, %g\n",iqhigh,CalcPsiSquared(iqhigh,rscaled,ctheta));
+				snprintf(message,strlen(message),"iqhigh=%d, %g\n",iqhigh,CalcPsiSquared(iqhigh,rscaled,ctheta));
 				CLog::Info(message);
-				sprintf(message,"nqmax=%d\n",nqmax);
+				snprintf(message,strlen(message),"nqmax=%d\n",nqmax);
 				CLog::Info(message);
 				for(iq=0;iq<nqmax;iq++){
-					sprintf(message,"qarray[%d]=%g\n",iq,qarray[iq]);
+					snprintf(message,strlen(message),"qarray[%d]=%g\n",iq,qarray[iq]);
 					CLog::Info(message);
 				}
 				CLog::Fatal("dying in CWaveFunction::GetPsiSquared\n");
@@ -292,7 +292,7 @@ void CWaveFunction::getqrctheta(double *p1,double *r1,double *p2,double *r2,doub
 		*ctheta-=g[alpha]*rvec[alpha]*qvec[alpha];
 	}
 	if(*r<0.0 || *q<0.0 || fabs(*ctheta)/sqrt(*q**r)>1.0000001){
-		sprintf(message,"Disaster, r^2=%g, q^2=%g, ctheta=%g\n",*r,*q,*ctheta/sqrt(*r**q));
+		snprintf(message,strlen(message),"Disaster, r^2=%g, q^2=%g, ctheta=%g\n",*r,*q,*ctheta/sqrt(*r**q));
 		CLog::Fatal(message);
 	}
 	*r=sqrt(*r);
@@ -336,7 +336,7 @@ void CWaveFunction::getqrctheta(FourVector &p1,FourVector &r1,FourVector &p2,Fou
 		ctheta-=g[alpha]*rvec[alpha]*qvec[alpha];
 	}
 	if(r<0.0 || q<0.0 || fabs(ctheta)/sqrt(q*r)>1.0000001){
-		sprintf(message,"Disaster, r^2=%g, q^2=%g, ctheta=%g\n",r,q,ctheta/sqrt(r*q));
+		snprintf(message,strlen(message),"Disaster, r^2=%g, q^2=%g, ctheta=%g\n",r,q,ctheta/sqrt(r*q));
 		CLog::Fatal(message);
 	}
 	r=sqrt(r);
@@ -352,23 +352,23 @@ void CWaveFunction::getqrctheta(FourVector &p1,FourVector &r1,FourVector &p2,Fou
 
 void CWaveFunction::PrintPhaseShifts(){
 	int iq,ichannel;
-	sprintf(message,"-------- PHASE SHIFTS --------\n");
+	snprintf(message,strlen(message),"-------- PHASE SHIFTS --------\n");
 	CLog::Info(message);
-	sprintf(message,"q(MeV/c)");
+	snprintf(message,strlen(message),"q(MeV/c)");
 	CLog::Info(message);
 	for(ichannel=0;ichannel<nchannels;ichannel++){
-		sprintf(message,"    l=%d   ",ell[ichannel]);
+		snprintf(message,strlen(message),"    l=%d   ",ell[ichannel]);
 		CLog::Info(message);
 	}
-	sprintf(message,"\n");
+	snprintf(message,strlen(message),"\n");
 	
 	for(iq=0;iq<nqmax;iq++){
-		sprintf(message,"%7.2f ",GetQ(iq));
+		snprintf(message,strlen(message),"%7.2f ",GetQ(iq));
 		CLog::Info(message);
 		for(ichannel=0;ichannel<nchannels;ichannel++){
-			sprintf(message,"% 10.3f",(180.0/PI)*delta[ichannel][iq]);
+			snprintf(message,strlen(message),"% 10.3f",(180.0/PI)*delta[ichannel][iq]);
 		}
-		sprintf(message,"\n");
+		snprintf(message,strlen(message),"\n");
 		CLog::Info(message);
 	}
 }
@@ -376,7 +376,7 @@ void CWaveFunction::PrintPhaseShifts(){
 void CWaveFunction::PrintCdelta(double Rx,double Ry,double Rz){
 	double q,clocal;
 	int ichannel,iq;
-	sprintf(message,"! Qinv  C(Q)_estimated ~ ddelta/dq\n");
+	snprintf(message,strlen(message),"! Qinv  C(Q)_estimated ~ ddelta/dq\n");
 	CLog::Info(message);
 	for(iq=0;iq<nqmax;iq++){
 		q=qarray[iq];
@@ -386,10 +386,10 @@ void CWaveFunction::PrintCdelta(double Rx,double Ry,double Rz){
 				/(q*q*Rx*Ry*Rz*pow(4.0*PI,1.5)))
 			*ddeltadq[ichannel][iq];
 		}
-		sprintf(message,"%6.2f  %8.4f  %g\n",q,clocal,4.0*q*q*(clocal-1.0));
+		snprintf(message,strlen(message),"%6.2f  %8.4f  %g\n",q,clocal,4.0*q*q*(clocal-1.0));
 		CLog::Info(message); 
 	}
-	sprintf(message,"_________________________________\n");
+	snprintf(message,strlen(message),"_________________________________\n");
 	CLog::Info(message);
 }
 
