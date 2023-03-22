@@ -7,7 +7,7 @@
 using namespace std;
 
 double CFCalc::GetChiSquared(C3DArray *CFexp,C3DArray *Error, C3DArray *CFtheory){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	if(!ArrayCalc::CompareArrayParameters(CFexp,Error)) exit(1);
 	if(!ArrayCalc::CompareArrayParameters(CFexp,CFtheory)) exit(1);
 	double chisquared=0.0,numer,denom;
@@ -31,7 +31,7 @@ double CFCalc::GetChiSquared(C3DArray *CFexp,C3DArray *Error, C3DArray *CFtheory
 							numer=numer*numer;
 							denom=Error->GetElement(isx,ix,isy,iy,isz,iz);
 							if(denom<-1.0E-8){
-								snprintf(message,sizeof(message),"CFCalc::GetChiSquared : \nSuspiciously small or negative error = %g, isx=%d,ix=%d, isy=%d,iy=%d, isz=%d,iz=%d\n",
+								snprintf(message,CLog::CHARLENGTH,"CFCalc::GetChiSquared : \nSuspiciously small or negative error = %g, isx=%d,ix=%d, isy=%d,iy=%d, isz=%d,iz=%d\n",
 								denom,isx,ix,isy,iy,isz,iz);
 								CLog::Info(message);
 							}
@@ -46,33 +46,33 @@ double CFCalc::GetChiSquared(C3DArray *CFexp,C3DArray *Error, C3DArray *CFtheory
 			}
 		}
 	}
-	snprintf(message,sizeof(message),"chi^2/Ndof=%g\n",chisquared/double(ndof));
+	snprintf(message,CLog::CHARLENGTH,"chi^2/Ndof=%g\n",chisquared/double(ndof));
 	CLog::Info(message);
 	return chisquared;
 }
 
 double CFCalc::GetChiSquared(int lx,int ly,int lz,CCHArray *CFexp, CCHArray *Error,CCHArray *CFtheory){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	int ir,nrmax;
 	double chisquared=0.0,numer,denom;
 	nrmax=CFexp->GetNRADIAL();
 	for(ir=0;ir<nrmax;ir++){
 		denom=Error->GetElement(lx,ly,lz,ir);
 		if(denom<1.0E-8){
-			snprintf(message,sizeof(message),"CFCalc::GetChiSquared : \nSuspiciously small or negative error = %g, l=(%d,%d,%d)d\n",denom,lx,ly,lz);
+			snprintf(message,CLog::CHARLENGTH,"CFCalc::GetChiSquared : \nSuspiciously small or negative error = %g, l=(%d,%d,%d)d\n",denom,lx,ly,lz);
 			CLog::Fatal(message);
 		}
 		numer=CFexp->GetElement(lx,ly,lz,ir)
 			-CFtheory->GetElement(lx,ly,lz,ir);
 		chisquared+=numer*numer/(denom*denom);
 	}
-	snprintf(message,sizeof(message),"chi^2/Ndof=%g\n",chisquared/double(nrmax));
+	snprintf(message,CLog::CHARLENGTH,"chi^2/Ndof=%g\n",chisquared/double(nrmax));
 	CLog::Info(message);
 	return chisquared;
 }
 
 double CFCalc::GetChiSquared(CCHArray *cexp,CCHArray *error,CCHArray *ctheory){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	int L,Lmax,lx,ly,lz,lxprime,lyprime,lzprime,lxprime0,lyprime0,iq,nqmax;
 	double lfact,lprimefact;
 	int dlx,dly,dlz;
@@ -116,7 +116,7 @@ double CFCalc::GetChiSquared(CCHArray *cexp,CCHArray *error,CCHArray *ctheory){
 			}
 		}
 	}
-	snprintf(message,sizeof(message),"chi^2=%g\n",overlap);
+	snprintf(message,CLog::CHARLENGTH,"chi^2=%g\n",overlap);
 	CLog::Info(message);
 	delete(F);
 	return overlap;

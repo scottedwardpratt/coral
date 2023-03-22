@@ -49,7 +49,7 @@ void  CCF2SFit::SetPar(string parstring, double  xset){
 	}
 	if (i<nmaxpars) par[i]->currentx=xset;
 	else{
-		snprintf(message,sizeof(message),"Can not set %s, parameter with that name does not exist\n",parname);
+		snprintf(message,CLog::CHARLENGTH,"Can not set %s, parameter with that name does not exist\n",parname);
 		CLog::Info(message);
 	}
 }
@@ -65,7 +65,7 @@ double CCF2SFit::GetPar(string parstring){
 	}
 	if(i<nmaxpars) xvalue=par[i]->bestx;
 	else{
-		snprintf(message,sizeof(message),"Can not set %s, parameter with that name does not exist\n",parname);
+		snprintf(message,CLog::CHARLENGTH,"Can not set %s, parameter with that name does not exist\n",parname);
 		CLog::Info(message);
 		xvalue=0.0;
 	}
@@ -82,7 +82,7 @@ void  CCF2SFit::SetPar(string parstring, double  xset, double  errorset,double  
 	}
 	if (i<nmaxpars) par[i]->Set(parstring,xset,errorset,xminset,xmaxset);
 	else {
-		snprintf(message,sizeof(message),"Can not set %s, parameter with that name does not exist\n",
+		snprintf(message,CLog::CHARLENGTH,"Can not set %s, parameter with that name does not exist\n",
 		parname);
 		CLog::Info(message); 
 	}
@@ -97,7 +97,7 @@ void  CCF2SFit::AddPar(string parstring, double  xset, double  errorset,double  
 		(sourcecalc->spars).set(parstring,xset);
 	}
 	else{
-		snprintf(message,sizeof(message),"Too Many Parameters! Increase static int CCF2SFit::nmaxpars\n");
+		snprintf(message,CLog::CHARLENGTH,"Too Many Parameters! Increase static int CCF2SFit::nmaxpars\n");
 		CLog::Fatal(message);
 	}
 	ErrorMatrix[nfreepars-1][nfreepars-1]=errorset*errorset;
@@ -147,14 +147,14 @@ void  CCF2SFit::FreePar(string parstring){
 		i+=1;
 	}
 	if (i==nmaxpars){
-		snprintf(message,sizeof(message),"Par %s already free or does not exist\n",
+		snprintf(message,CLog::CHARLENGTH,"Par %s already free or does not exist\n",
 		parstring.c_str());
 		CLog::Info(message);
 	}
 	else{
 		if (i!=nfreepars) SwitchPars(i,nfreepars);
 		par[nfreepars]->fixed=false;
-		snprintf(message,sizeof(message),"Freeing par[%d], name=%s\n",nfreepars,par[nfreepars]->name);
+		snprintf(message,CLog::CHARLENGTH,"Freeing par[%d], name=%s\n",nfreepars,par[nfreepars]->name);
 		CLog::Info(message);
 		nfreepars+=1;
 	}
@@ -169,7 +169,7 @@ void  CCF2SFit::FixPar(string parstring){
 		i+=1;
 	}
 	if (i==nfreepars){
-		snprintf(message,sizeof(message),"Par %s already fixed or does not exist\n",
+		snprintf(message,CLog::CHARLENGTH,"Par %s already fixed or does not exist\n",
 		parstring.c_str());
 		CLog::Info(message);
 	}
@@ -177,17 +177,17 @@ void  CCF2SFit::FixPar(string parstring){
 		if (i!=nfreepars-1) SwitchPars(i,nfreepars-1);
 		nfreepars-=1;
 		par[nfreepars]->fixed=true;
-		snprintf(message,sizeof(message),"Fixing par[%d], name=%s\n",nfreepars,par[nfreepars]->name);
+		snprintf(message,CLog::CHARLENGTH,"Fixing par[%d], name=%s\n",nfreepars,par[nfreepars]->name);
 		CLog::Info(message);
 	}
 }
 
 void  CCF2SFit::PrintPars(){
 	int  i;
-	snprintf(message,sizeof(message),"ipar        name     value       error       min         max     fixed\n");
+	snprintf(message,CLog::CHARLENGTH,"ipar        name     value       error       min         max     fixed\n");
 	CLog::Info(message);
 	for (i=0;i<npars;i++){
-		snprintf(message,sizeof(message),"%2d : %12s %11.4e %11.4e %11.4e %11.4e  %d\n",
+		snprintf(message,CLog::CHARLENGTH,"%2d : %12s %11.4e %11.4e %11.4e %11.4e  %d\n",
 		i,par[i]->name,par[i]->currentx,par[i]->error,
 		par[i]->xmin,par[i]->xmax,int(par[i]->fixed));
 		CLog::Info(message);
@@ -215,7 +215,7 @@ void  CCF2SFit::Init(){
 			StepMatrix[i][j]=0.0;
 		}
 	}
-	snprintf(message,sizeof(message),"SFit Initialized\n");
+	snprintf(message,CLog::CHARLENGTH,"SFit Initialized\n");
 	CLog::Info(message);
 }
 
@@ -248,7 +248,7 @@ void  CCF2SFit::UpdateStepMatrix(){
 	matrixcalc->EigenFind(ErrorMatrix,StepMatrix,SMeigenval);
 	for (i=0;i<nfreepars;i++){
 		if (SMeigenval[i]<-1.0E-10){
-			snprintf(message,sizeof(message),"FATAL: In UpdateStepSize, negative eigenvalue, =%g\n",
+			snprintf(message,CLog::CHARLENGTH,"FATAL: In UpdateStepSize, negative eigenvalue, =%g\n",
 				SMeigenval[i]);
 			CLog::Fatal(message);
 		}
@@ -268,33 +268,33 @@ void  CCF2SFit::UpdateStepMatrix(){
 
 void  CCF2SFit::PrintErrorMatrix(){
 	int  ia,ib;
-	snprintf(message,sizeof(message),"________ < delX_i delX_j > ________\n");
+	snprintf(message,CLog::CHARLENGTH,"________ < delX_i delX_j > ________\n");
 	CLog::Info(message);
 	for (ia=0;ia<nfreepars;ia++){
 		for (ib=0;ib<nfreepars;ib++){
-			snprintf(message,sizeof(message),"%9.2e ",ErrorMatrix[ia][ib]);
+			snprintf(message,CLog::CHARLENGTH,"%9.2e ",ErrorMatrix[ia][ib]);
 			CLog::Info(message);
 		}
-		snprintf(message,sizeof(message),"\n");
+		snprintf(message,CLog::CHARLENGTH,"\n");
 		CLog::Info(message);
 	}
-	snprintf(message,sizeof(message),"___________________________________\n");
+	snprintf(message,CLog::CHARLENGTH,"___________________________________\n");
 	CLog::Info(message);
 }
 
 void  CCF2SFit::PrintStepMatrix(){
 	int  ia,ib;
-	snprintf(message,sizeof(message),"________ < StepMatrix_ij > ________\n");
+	snprintf(message,CLog::CHARLENGTH,"________ < StepMatrix_ij > ________\n");
 	CLog::Info(message);
 	for (ia=0;ia<nfreepars;ia++){
 		for (ib=0;ib<nfreepars;ib++){
-			snprintf(message,sizeof(message),"%9.2e ",StepMatrix[ia][ib]);
+			snprintf(message,CLog::CHARLENGTH,"%9.2e ",StepMatrix[ia][ib]);
 			CLog::Info(message);
 		}
-		snprintf(message,sizeof(message),"\n");
+		snprintf(message,CLog::CHARLENGTH,"\n");
 		CLog::Info(message);
 	}
-	snprintf(message,sizeof(message),"___________________________________\n");
+	snprintf(message,CLog::CHARLENGTH,"___________________________________\n");
 	CLog::Info(message);
 }
 
@@ -390,7 +390,7 @@ double  CCF2SFit::GetChiSquared( double  *xx){
 
 		time(&end);
 		double  dif = difftime(end, start);
-		snprintf(message,sizeof(message),"%g seconds ",dif);
+		snprintf(message,CLog::CHARLENGTH,"%g seconds ",dif);
 		CLog::Info(message);
 
 	}
@@ -424,7 +424,7 @@ double  CCF2SFit::GetChiSquared( double  *xx){
 			par[i]->bestx=x[i];
 	}
 	if(chisquared!=chisquared){
-		snprintf(message,sizeof(message),"GetChiSquared Failed: chisquared=%g\n",chisquared);
+		snprintf(message,CLog::CHARLENGTH,"GetChiSquared Failed: chisquared=%g\n",chisquared);
 		CLog::Fatal(message);
 	}
 	return  chisquared;
@@ -479,7 +479,7 @@ void  CCF2SFit::Newton(int  maxtries){
 				chi2d=GetChiSquared(xd);
 				curvature[i][j]=(chi2a+chi2d-chi2b-chi2c)/(4.0*dx[i]*dx[j]);
 				curvature[j][i]=curvature[i][j];
-				snprintf(message,sizeof(message),"___ itry=%d, Curvature[%d][%d]=%g ___\n",
+				snprintf(message,CLog::CHARLENGTH,"___ itry=%d, Curvature[%d][%d]=%g ___\n",
 				itry,i,j,curvature[i][j]);
 				CLog::Info(message);
 			}
@@ -491,7 +491,7 @@ void  CCF2SFit::Newton(int  maxtries){
 			chi2a=GetChiSquared(xa);
 			chi2b=GetChiSquared(xb);
 			curvature[i][i]=(chi2a-2*chi2+chi2b)/(dx[i]*dx[i]);
-			snprintf(message,sizeof(message),"___ itry=%d, Curvature[%d][%d]=%g ___\n",itry,i,i,curvature[i][i]);
+			snprintf(message,CLog::CHARLENGTH,"___ itry=%d, Curvature[%d][%d]=%g ___\n",itry,i,i,curvature[i][i]);
 			CLog::Info(message);
 			slope[i]=(chi2a-chi2b)/(2.0*dx[i]);
 		}
@@ -500,7 +500,7 @@ void  CCF2SFit::Newton(int  maxtries){
 		screwy=0;
 		for(i=0;i<nfreepars;i++){
 			if(eigenval[i]<0.0){
-				snprintf(message,sizeof(message),"NEWTON's METHOD: screwy eigenval[i]=%g, is less than zero\n",eigenval[i]);
+				snprintf(message,CLog::CHARLENGTH,"NEWTON's METHOD: screwy eigenval[i]=%g, is less than zero\n",eigenval[i]);
 				CLog::Info(message);
 				screwy=1;
 			}
@@ -513,21 +513,21 @@ void  CCF2SFit::Newton(int  maxtries){
 		}
 		nrescale=0;
 		TRY_RESCALED:
-		snprintf(message,sizeof(message),"delx[] = ");
+		snprintf(message,CLog::CHARLENGTH,"delx[] = ");
 		CLog::Info(message);
 		for (i=0;i<nfreepars;i++){
-			snprintf(message,sizeof(message),"%g ",delx[i]);
+			snprintf(message,CLog::CHARLENGTH,"%g ",delx[i]);
 			CLog::Info(message);
 			xnew[i]=x[i]-delx[i];
 		}
-		snprintf(message,sizeof(message),"\n");
+		snprintf(message,CLog::CHARLENGTH,"\n");
 		CLog::Info(message);
 
 		for (i=0;i<nfreepars;i++){
 			if (par[i]->fixed==false){
 				if (xnew[i]<par[i]->xmin || xnew[i]>par[i]->xmax){
 					for (j=0;j<nfreepars;j++) delx[j]=0.5*delx[j];
-					snprintf(message,sizeof(message),"Stepped outside min/max, will rescale delx[]\n");
+					snprintf(message,CLog::CHARLENGTH,"Stepped outside min/max, will rescale delx[]\n");
 					CLog::Info(message);
 					if (nrescale>4) exit(1);
 					nrescale+=1;
@@ -541,7 +541,7 @@ void  CCF2SFit::Newton(int  maxtries){
 			for (j=0;j<nfreepars;j++){
 				delx[j]=0.5*delx[j];
 			}
-			snprintf(message,sizeof(message),"new chi^2 bigger than previous, will rescale delx[]\n");
+			snprintf(message,CLog::CHARLENGTH,"new chi^2 bigger than previous, will rescale delx[]\n");
 			CLog::Info(message);
 			goto  TRY_RESCALED;
 		}
@@ -556,7 +556,7 @@ void  CCF2SFit::Newton(int  maxtries){
 		if (scheck<1.0) success=1;
 
 		if (success){
-			snprintf(message,sizeof(message),"SUCCESS!!!!!!!!!!!\n");
+			snprintf(message,CLog::CHARLENGTH,"SUCCESS!!!!!!!!!!!\n");
 			CLog::Info(message);
 			nsuccess+=1;
 			CalcErrorMatrixFromCurvature(curvature);
@@ -633,7 +633,7 @@ void  CCF2SFit::ConjugateGradient(int  maxcalls){
 	int  iter;
 	if (conjugate_gradient(x, iter, fmin) ==  true )
 	{
-		snprintf(message,sizeof(message),"SUCCESS in Conjugate gradient method after %d iterations\n",iter);
+		snprintf(message,CLog::CHARLENGTH,"SUCCESS in Conjugate gradient method after %d iterations\n",iter);
 		CLog::Info(message);
 		currentchisquared=fmin;
 		for (i=0;i<nfreepars;i++)
@@ -642,17 +642,17 @@ void  CCF2SFit::ConjugateGradient(int  maxcalls){
 		}
 	}
 	if(iter>maxcalls){
-		snprintf(message,sizeof(message),"In CCF2SFit::ConjugateGradient, iter=%d, maxcalls=%d\n",iter,maxcalls);
+		snprintf(message,CLog::CHARLENGTH,"In CCF2SFit::ConjugateGradient, iter=%d, maxcalls=%d\n",iter,maxcalls);
 		CLog::Info(message);
 	}
 
-	snprintf(message,sizeof(message),"Best chi^2=%g, Best x[] = ",bestchisquared);
+	snprintf(message,CLog::CHARLENGTH,"Best chi^2=%g, Best x[] = ",bestchisquared);
 	CLog::Info(message);
 	for (i=0;i<nfreepars;i++){
-		snprintf(message,sizeof(message),"%g ",par[i]->bestx);
+		snprintf(message,CLog::CHARLENGTH,"%g ",par[i]->bestx);
 		CLog::Info(message);
 	}
-	snprintf(message,sizeof(message),"\n");
+	snprintf(message,CLog::CHARLENGTH,"\n");
 	CLog::Info(message);
 
 	delete []  x;
@@ -686,10 +686,10 @@ bool  CCF2SFit::dfn( double  * x){
 	}
 	for ( int  i=0;i<nfreepars;i++)
 	{
-		snprintf(message,sizeof(message),"dx[%d] = %g, ", i, vec_dx[i]);
+		snprintf(message,CLog::CHARLENGTH,"dx[%d] = %g, ", i, vec_dx[i]);
 		CLog::Info(message);
 	}
-	snprintf(message,sizeof(message),"\n");
+	snprintf(message,CLog::CHARLENGTH,"\n");
 	CLog::Info(message);
 	delete []  x_minus;
 	delete []  x_plus;
@@ -746,7 +746,7 @@ void  CCF2SFit::Metropolis(int  maxcalls){
 			for (i=0;i<nfreepars;i++){
 				par[i]->currentx=x[i];
 			}
-			snprintf(message,sizeof(message),"SUCCESS, Nsuccess=%d\n",Nsuccess);
+			snprintf(message,CLog::CHARLENGTH,"SUCCESS, Nsuccess=%d\n",Nsuccess);
 			CLog::Info(message);
 		}
 
@@ -764,13 +764,13 @@ void  CCF2SFit::Metropolis(int  maxcalls){
 		for (j=0;j<nfreepars;j++) ErrorMatrix[i][j]=(ErrorMatrix[i][j]-par[i]->xbar*par[j]->xbar)
 		* double (Nsuccess)/ double (Nsuccess-1);
 
-	snprintf(message,sizeof(message),"Best chi^2=%g, Best x[] = ",bestchisquared);
+	snprintf(message,CLog::CHARLENGTH,"Best chi^2=%g, Best x[] = ",bestchisquared);
 	CLog::Info(message);
 	for (i=0;i<nfreepars;i++){
-		snprintf(message,sizeof(message),"%g ",par[i]->bestx);
+		snprintf(message,CLog::CHARLENGTH,"%g ",par[i]->bestx);
 		CLog::Info(message);
 	}
-	snprintf(message,sizeof(message),"\n");
+	snprintf(message,CLog::CHARLENGTH,"\n");
 	CLog::Info(message);
 
 	delete  [] x;
@@ -830,15 +830,15 @@ void  CCF2SFit::SteepestDescent( int  maxtries){
 			dchi2dq=(chi2b-chi2a)/dq;
 			d2chi2dq2=4.0*(chi2b+chi2a-2.0*chisquared)/(dq*dq);
 			qstep=-dchi2dq/d2chi2dq2;
-			snprintf(message,sizeof(message),"||||||||| qstep=%g, ",qstep);
+			snprintf(message,CLog::CHARLENGTH,"||||||||| qstep=%g, ",qstep);
 			CLog::Info(message);
 			if(d2chi2dq2<0.0){
-				snprintf(message,sizeof(message),"upside down curvature\n");
+				snprintf(message,CLog::CHARLENGTH,"upside down curvature\n");
 				CLog::Info(message);
 			}
 			if (fabs(qstep)>1.0) qstep=qstep/fabs(qstep);
 			if(qstep*dchi2dq>0) qstep=-0.5*qstep/fabs(qstep);
-			snprintf(message,sizeof(message),"-> %g |||||||||\n",qstep);
+			snprintf(message,CLog::CHARLENGTH,"-> %g |||||||||\n",qstep);
 			CLog::Info(message);
 
 			TRYNEWQSTEP:
@@ -852,12 +852,12 @@ void  CCF2SFit::SteepestDescent( int  maxtries){
 				qstep=0.5*qstep;
 				nfailure+=1;
 				if (nfailure>5){
-					snprintf(message,sizeof(message),"STEEPEST DESCENT FAILURE\n");
+					snprintf(message,CLog::CHARLENGTH,"STEEPEST DESCENT FAILURE\n");
 					CLog::Info(message);
 				}
 				goto TRYNEWQSTEP;
 			}
-			snprintf(message,sizeof(message),"++++++++++++ qstep=%g ++++++++++++++\n",qstep);
+			snprintf(message,CLog::CHARLENGTH,"++++++++++++ qstep=%g ++++++++++++++\n",qstep);
 			CLog::Info(message);
 			chisquared=newchisquared;
 			for(i=0;i<nfreepars;i++) x[i]=xnew[i];
@@ -867,7 +867,7 @@ void  CCF2SFit::SteepestDescent( int  maxtries){
 			}
 
 		}
-		snprintf(message,sizeof(message),"_______________________ finished itry=%d _______________________________\n",itry);
+		snprintf(message,CLog::CHARLENGTH,"_______________________ finished itry=%d _______________________________\n",itry);
 		CLog::Info(message);
 	}
 

@@ -89,6 +89,7 @@ double CWaveFunction_pp_schrod::CalcPsiSquared(int iq,double r,double ctheta){
 	//S=0
 	psi_samespin=psisymm;
 	psi_samespin+=delpsiS0*Xlm00;
+	printf("test: %g\n",real(delpsiS0*Xlm00*conj(delpsiS0*Xlm00)));
 	psisquared+=0.25*real(psi_samespin*conj(psi_samespin));
 	//S=1,m_s=1
 	psi_samespin=psianti;

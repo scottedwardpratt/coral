@@ -87,7 +87,7 @@ void CSourceCalc_Blast::GetMCList(double *p,CMCList *mclist){
 
 			weight=(eprime/p[0])*exp(-(eu-eumin)/T);
 			if(weight>1.0){
-				snprintf(message,sizeof(message),"DISASTER! weight=%g which is > 1.0, eu=%g, eumin=%g\n",weight,eu,eumin);
+				snprintf(message,CLog::CHARLENGTH,"DISASTER! weight=%g which is > 1.0, eu=%g, eumin=%g\n",weight,eu,eumin);
 				CLog::Fatal(message);
 			}
 		} while(weight<randy->ran());

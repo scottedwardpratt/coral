@@ -167,10 +167,10 @@ double CKernel::GetValue(int ell,double q,double r){
 	
 		if(ell==0 && r>1.0 && answer<-1.0){
 			CLog::Info("__________________________________________________\n");
-			snprintf(message,sizeof(message),"answer below -1, =%g, q=%g, r=%g, iq=%d, ir=%d, nrmax=%d\n",
+			snprintf(message,CLog::CHARLENGTH,"answer below -1, =%g, q=%g, r=%g, iq=%d, ir=%d, nrmax=%d\n",
 			answer,q,r,iq,ir,nrmax);
 			CLog::Info(message);
-			snprintf(message,sizeof(message),"wqlow=%g, wqhigh=%g, wrlow=%g, wrhigh=%g\n",wqlow,wqhigh,wrlow,wrhigh);
+			snprintf(message,CLog::CHARLENGTH,"wqlow=%g, wqhigh=%g, wrlow=%g, wrhigh=%g\n",wqlow,wqhigh,wrlow,wrhigh);
 			CLog::Info(message);
 			CLog::Info("__________________________________________________\n");
 		}
@@ -247,9 +247,9 @@ void CKernel::ParsInit(string kparsfilename){
 	Read(parameters);
 
 	CLog::Info("Parameters for kernel: \n");
-	snprintf(message,sizeof(message),"delq=%g,nqmax=%d, delr=%g, nrmax=%d,KLMAX=%d\n",delq,nqmax,delr,nrmax,ellmax);
+	snprintf(message,CLog::CHARLENGTH,"delq=%g,nqmax=%d, delr=%g, nrmax=%d,KLMAX=%d\n",delq,nqmax,delr,nrmax,ellmax);
 	CLog::Info(message);
-	snprintf(message,sizeof(message),"IDENTICAL set to %d\n",int(IDENTICAL));
+	snprintf(message,CLog::CHARLENGTH,"IDENTICAL set to %d\n",int(IDENTICAL));
 	CLog::Info(message);
 	CLog::Info("__________________________________________\n");
 }
@@ -328,7 +328,7 @@ void CKernel::WriteData(string datadir){
 		for(iq=0;iq<nqmax;iq++){
 			q=(0.5+iq)*delq;
 			snprintf(filename,sizeof(filename),"%s/ell%d_q%07.2f.tmp",datadir.c_str(),ell,q);
-			snprintf(message,sizeof(message),"For q=%g, Will write to %s\n",q,filename);
+			snprintf(message,CLog::CHARLENGTH,"For q=%g, Will write to %s\n",q,filename);
 			CLog::Info(message);
 			outfile=fopen(filename,"w");
 			fprintf(outfile,"%d %g\n",nrmax,delr);
@@ -352,18 +352,18 @@ void CKernel::Print(){
 	dell=1;
 	if(IDENTICAL)
 		dell=2;
-	snprintf(message,sizeof(message),"ellmax=%d, nqmax=%d, nrmax=%d\n",ellmax,nqmax,nrmax);
+	snprintf(message,CLog::CHARLENGTH,"ellmax=%d, nqmax=%d, nrmax=%d\n",ellmax,nqmax,nrmax);
 	CLog::Info(message);
 	for(iq=0;iq<nqmax;iq++){
 		q=(0.5+iq)*delq;
-		snprintf(message,sizeof(message),"______________ q=%g MeV/c____________________\n",q);
+		snprintf(message,CLog::CHARLENGTH,"______________ q=%g MeV/c____________________\n",q);
 		CLog::Info(message);
 		for(ir=0;ir<nrmax;ir++){
 			r=(0.5+ir)*delr;
-			snprintf(message,sizeof(message),"%6.2f ",r);
+			snprintf(message,CLog::CHARLENGTH,"%6.2f ",r);
 			CLog::Info(message);
 			for(ell=0;ell<=ellmax;ell+=dell){
-				snprintf(message,sizeof(message),"%10.3e ",kernel[ell][iq][ir]);
+				snprintf(message,CLog::CHARLENGTH,"%10.3e ",kernel[ell][iq][ir]);
 				CLog::Info(message);
 			}
 			CLog::Info("\n");
@@ -406,7 +406,7 @@ void CKernel::Calc_ClassCoul(double ma,double mb,int zazb){
 					for(ell=0;ell<=ellmax;ell++)
 						kernel[ell][iq][ir]+=0.5*delu*SpherHarmonics::legendre(ell,ctheta);
 				}
-				snprintf(message,sizeof(message),"q=%g, r=%g, kernel0=%g =? %g\n",
+				snprintf(message,CLog::CHARLENGTH,"q=%g, r=%g, kernel0=%g =? %g\n",
 				q,r,kernel[0][iq][ir],sqrt(1.0-x));
 				CLog::Info(message);
 			}
@@ -596,21 +596,21 @@ void CKernelWF::ParsInit(string kparsfilename){
 	delr=parameters.getD("DELR",0.5);
 	IDENTICAL=parameters.getB("IDENTICAL",0);
 
-	snprintf(message,sizeof(message),"reading from %s\n",kparsfilename.c_str());
+	snprintf(message,CLog::CHARLENGTH,"reading from %s\n",kparsfilename.c_str());
 	CLog::Info(message);
-	snprintf(message,sizeof(message),"  _________ PARAMETERS FOR KERNELWF ________\n");
+	snprintf(message,CLog::CHARLENGTH,"  _________ PARAMETERS FOR KERNELWF ________\n");
 	CLog::Info(message);
-	snprintf(message,sizeof(message),"delq set to %g\n",delq);
+	snprintf(message,CLog::CHARLENGTH,"delq set to %g\n",delq);
 	CLog::Info(message);
-	snprintf(message,sizeof(message),"nqmax set to %d\n",nqmax);
+	snprintf(message,CLog::CHARLENGTH,"nqmax set to %d\n",nqmax);
 	CLog::Info(message);
-	snprintf(message,sizeof(message),"delr set to %g\n",delr);
+	snprintf(message,CLog::CHARLENGTH,"delr set to %g\n",delr);
 	CLog::Info(message);
-	snprintf(message,sizeof(message),"nrmax set to %d\n",nrmax);
+	snprintf(message,CLog::CHARLENGTH,"nrmax set to %d\n",nrmax);
 	CLog::Info(message);
-	snprintf(message,sizeof(message),"nctheta set to %d\n",nctheta);
+	snprintf(message,CLog::CHARLENGTH,"nctheta set to %d\n",nctheta);
 	CLog::Info(message);
-	snprintf(message,sizeof(message),"IDENTICAL set to %d\n",IDENTICAL);
+	snprintf(message,CLog::CHARLENGTH,"IDENTICAL set to %d\n",IDENTICAL);
 	CLog::Info(message);
 	CLog::Info("__________________________________________\n");
 }
@@ -639,7 +639,7 @@ void CKernelWF::Calc(CWaveFunction *wf){
 				if(ctheta>1.0) ctheta=1.0;
 				ps2=wf->GetPsiSquared(q,r,ctheta);
 				if(ps2<0.0 && r>1.0){
-					snprintf(message,sizeof(message),"screwy, psi^2=%g, r=%g, q=%g, ctheta=%g\n",ps2,r,q,ctheta);
+					snprintf(message,CLog::CHARLENGTH,"screwy, psi^2=%g, r=%g, q=%g, ctheta=%g\n",ps2,r,q,ctheta);
 					CLog::Fatal(message);
 				}
 				wfarray[iq][ir][ictheta]=ps2-1.0;
@@ -760,7 +760,7 @@ void CKernelWF::ReadData(string datadir){
 		fscanf(infile,"%d %d\n",&nrmaxread,&ncthetaread);
 		if(nrmaxread!=nrmax || ncthetaread!=nctheta){
 			CLog::Info("CKernelWF : trying to read file with wrong dimensions\n");
-			snprintf(message,sizeof(message),"nrmaxread=%d, nrmax=%d, ncthetaread=%d, nctheta=%d\n",
+			snprintf(message,CLog::CHARLENGTH,"nrmaxread=%d, nrmax=%d, ncthetaread=%d, nctheta=%d\n",
 			nrmaxread,nrmax,ncthetaread,nctheta);
 			CLog::Fatal(message);
 		}

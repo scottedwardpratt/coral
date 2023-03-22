@@ -88,7 +88,7 @@ bool  CMinimization::AllocVectors()
 	} 
 	else 
 	{ 
-		snprintf(message,sizeof(message),"Error: please input positive integer value of dimension! input n=%d", n); 
+		snprintf(message,CLog::CHARLENGTH,"Error: please input positive integer value of dimension! input n=%d", n); 
 		CLog::Fatal(message); 
 	} 
 
@@ -352,7 +352,7 @@ bool  CMinimization::linear_Min( double  &fmin)
 	double  bx; 
 	double  fa, fb, fx; 
 	bracket(ax, xx, bx, fa, fx, fb); 
-	snprintf(message,sizeof(message),"bracket done as [%g, %g]\n", ax, bx);
+	snprintf(message,CLog::CHARLENGTH,"bracket done as [%g, %g]\n", ax, bx);
 	CLog::Info(message);
 	double  xmin; 
 	fmin = brent(ax, xx, bx, xmin); 
@@ -395,10 +395,10 @@ bool  CMinimization::conjugate_gradient( double  * x,  int  &iteration,  double 
 
 		for ( int  kk=0;kk<n;kk++) 
 		{ 
-			snprintf(message,sizeof(message),"x[%d] : %g  ", kk, vec_x[kk]); 
+			snprintf(message,CLog::CHARLENGTH,"x[%d] : %g  ", kk, vec_x[kk]); 
 			CLog::Info(message);
 		} 
-		snprintf(message,sizeof(message),"f(x)=%g after %d iterations\n", fmin, i); 
+		snprintf(message,CLog::CHARLENGTH,"f(x)=%g after %d iterations\n", fmin, i); 
 		CLog::Info(message);
 
 		if (2.0 * fabs(fmin-fx) <= TOL_CG * (fabs(fmin)+fabs(fx)+1.0e-15))  // Using relative criteria for convergence. 
@@ -442,7 +442,7 @@ bool  CMinimization::conjugate_gradient( double  * x,  int  &iteration,  double 
 	} 
 	delete []  g; 
 	delete []  h; 
-	snprintf(message,sizeof(message),"Cannot converge to minimum after %d iterations with f(x) = %g\n", iteration, fx); 
+	snprintf(message,CLog::CHARLENGTH,"Cannot converge to minimum after %d iterations with f(x) = %g\n", iteration, fx); 
 	CLog::Info(message);
 	return  false ; 
 } 

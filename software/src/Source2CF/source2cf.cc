@@ -8,10 +8,10 @@
 using namespace std;
 
 void S2CF::s2c(int lx,int ly,int lz,CCHArray *S,CKernel *kernel,CCHArray *CF){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	int lmax=kernel->GetLMAX();
 	if(lmax>CF->GetLMAX() || lmax>S->GetLMAX()){
-		snprintf(message,sizeof(message),"FATAL: Kernel LMAX=%d larger than either S LMAX=%d or CF LMAX=%d\n",
+		snprintf(message,CLog::CHARLENGTH,"FATAL: Kernel LMAX=%d larger than either S LMAX=%d or CF LMAX=%d\n",
 			lmax,S->GetLMAX(),CF->GetLMAX());
 			CLog::Fatal(message);
 	}
@@ -21,11 +21,11 @@ void S2CF::s2c(int lx,int ly,int lz,CCHArray *S,CKernel *kernel,CCHArray *CF){
 		CF->PrintPars();
 		CLog::Info("_____ SOURCE FUNCTION PARAMETERS _____\n");
 		S->PrintPars();
-		snprintf(message,sizeof(message),"For kernel, LMAX=%d\n",kernel->GetLMAX());
+		snprintf(message,CLog::CHARLENGTH,"For kernel, LMAX=%d\n",kernel->GetLMAX());
 		CLog::Info(message);
 	}
 	if(kernel->GetIDENTICAL() && (!CF->GetXSYM() || !CF->GetYSYM() || !CF->GetZSYM())){
-		snprintf(message,sizeof(message),"FATAL: kernel has no odd L components, but CF wants them\n");
+		snprintf(message,CLog::CHARLENGTH,"FATAL: kernel has no odd L components, but CF wants them\n");
 		CLog::Info(message);
 		CLog::Fatal("Make sure CF array has XSYM=YSYM=ZSYM='true'\n");
 	}
@@ -54,21 +54,21 @@ void S2CF::s2c(int lx,int ly,int lz,CCHArray *S,CKernel *kernel,CCHArray *CF){
 }
 
 void S2CF::s2c(CCHArray *S,CKernel *kernel,CCHArray *CF){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	int lmax=kernel->GetLMAX();
 	if(lmax>CF->GetLMAX() || lmax>S->GetLMAX()){
-		snprintf(message,sizeof(message),"Kernel LMAX=%d larger than either S LMAX=%d or CF LMAX=%d\n",
+		snprintf(message,CLog::CHARLENGTH,"Kernel LMAX=%d larger than either S LMAX=%d or CF LMAX=%d\n",
 			lmax,S->GetLMAX(),CF->GetLMAX());
 		CLog::Fatal(message);
 	}
 	if( (CF->GetLMAX()!=lmax) ){
-		snprintf(message,sizeof(message),"WARNING: Array parameters for kernel calculations don't match\n");
+		snprintf(message,CLog::CHARLENGTH,"WARNING: Array parameters for kernel calculations don't match\n");
 		CLog::Info(message);
 		CLog::Info("___ CORRELATION FUNCTION PARAMETERS ___\n");
 		CF->PrintPars();
 		CLog::Info("_____ SOURCE FUNCTION PARAMETERS _____\n");
 		S->PrintPars();
-		snprintf(message,sizeof(message),"For kernel, LMAX=%d\n",kernel->GetLMAX());
+		snprintf(message,CLog::CHARLENGTH,"For kernel, LMAX=%d\n",kernel->GetLMAX());
 		CLog::Info(message);
 	}
 	if(kernel->GetIDENTICAL() && (!CF->GetXSYM() || !CF->GetYSYM() || !CF->GetZSYM())){
@@ -112,7 +112,7 @@ void S2CF::s2c(CCHArray *S,CKernel *kernel,CCHArray *CF){
 }
 
 void S2CF::s2c(C3DArray *S,CKernelWF *kernel,C3DArray *CF){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	int ix,iy,iz,isx,isy,isz,jx,jy,jz,jsx,jsy,jsz;
 	int nsx,nsy,nsz;
 	long long int icalc,ncalc;
@@ -135,7 +135,7 @@ void S2CF::s2c(C3DArray *S,CKernelWF *kernel,C3DArray *CF){
 	bool ZSYM=S->GetZSYM();
 	if(IDENTICAL&&!(XSYM&&YSYM&&ZSYM)){
 		CLog::Info("S2CF::s2c, kernel says particles are identical, but symmetries are not all even\n");
-		snprintf(message,sizeof(message),"XSYM=%d, YSYM=%d, ZSYM=%d\n",int(XSYM),int(YSYM),int(ZSYM));
+		snprintf(message,CLog::CHARLENGTH,"XSYM=%d, YSYM=%d, ZSYM=%d\n",int(XSYM),int(YSYM),int(ZSYM));
 		CLog::Fatal(message);
 	}
 
@@ -272,7 +272,7 @@ void S2CF::s2c(C3DArray *S,CKernelWF *kernel,C3DArray *CF){
 							}
 							icalc+=1;
 							if(icalc%ncalc==0){
-								snprintf(message,sizeof(message),"s2c, finished %g percent\n",10*double(icalc)/double(ncalc));
+								snprintf(message,CLog::CHARLENGTH,"s2c, finished %g percent\n",10*double(icalc)/double(ncalc));
 								CLog::Info(message);
 							}
 						}
@@ -284,7 +284,7 @@ void S2CF::s2c(C3DArray *S,CKernelWF *kernel,C3DArray *CF){
 }
 
 void S2CF::s2c(C3DArray *S,CWaveFunction *wf,C3DArray *CF){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	int ix,iy,iz,isx,isy,isz,jx,jy,jz,jsx,jsy,jsz;
 	int nsx,nsy,nsz;
 	int nxmax=S->GetNXMAX();
@@ -306,7 +306,7 @@ void S2CF::s2c(C3DArray *S,CWaveFunction *wf,C3DArray *CF){
 	bool ZSYM=S->GetZSYM();
 	if(IDENTICAL&&!(XSYM&&YSYM&&ZSYM)){
 		CLog::Info("S2CF::s2c, wf says particles are identical, but symmetries are not all even\n");
-		snprintf(message,sizeof(message),"XSYM=%d, YSYM=%d, ZSYM=%d\n",int(XSYM),int(YSYM),int(ZSYM));
+		snprintf(message,CLog::CHARLENGTH,"XSYM=%d, YSYM=%d, ZSYM=%d\n",int(XSYM),int(YSYM),int(ZSYM));
 		CLog::Fatal(message);
 	}
 
@@ -447,7 +447,7 @@ void S2CF::s2c(C3DArray *S,CWaveFunction *wf,C3DArray *CF){
 }
 
 void S2CF::s2c(CMCList *lista,CMCList *listb,CKernelWF *kernel,C3DArray *cf){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	bool samelists;
 	int ia,ib,na,nb,jx,jy,jz,jsx,jsy,jsz;
 	int nsx,nsy,nsz;
@@ -526,7 +526,7 @@ void S2CF::s2c(CMCList *lista,CMCList *listb,CKernelWF *kernel,C3DArray *cf){
 				ipair+=1;
 				if(ipair>=npairs/10){
 					jpair+=1;
-					snprintf(message,sizeof(message),"Finished %d percent\n",jpair*10);
+					snprintf(message,CLog::CHARLENGTH,"Finished %d percent\n",jpair*10);
 					CLog::Info(message);
 					ipair=0;
 				}
@@ -536,7 +536,7 @@ void S2CF::s2c(CMCList *lista,CMCList *listb,CKernelWF *kernel,C3DArray *cf){
 }
 
 void S2CF::s2c(CMCList *lista,CMCList *listb,CKernel *kernel,C3DArray *cf){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	bool samelists;
 	int ia,ib,na,nb,npairs,jx,jy,jz,jsx,jsy,jsz,ipair,jpair;
 	int nsx,nsy,nsz;
@@ -615,7 +615,7 @@ void S2CF::s2c(CMCList *lista,CMCList *listb,CKernel *kernel,C3DArray *cf){
 			ipair+=1;
 			if(ipair==npairs/10){
 				jpair+=1;
-				snprintf(message,sizeof(message),"Finished %d percent\n",jpair*10);
+				snprintf(message,CLog::CHARLENGTH,"Finished %d percent\n",jpair*10);
 				CLog::Info(message);
 				ipair=0;
 			}
@@ -624,7 +624,7 @@ void S2CF::s2c(CMCList *lista,CMCList *listb,CKernel *kernel,C3DArray *cf){
 }
 
 void S2CF::s2c(CMCList *lista,CMCList *listb,CKernelWF *kernel,C3DArray *cf,int NMC){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	Crandy randy(-time(NULL));
 	bool samelists;
 	int ia,ib,na,jx,jy,jz,jsx,jsy,jsz,imc=0,jmc=0;
@@ -701,7 +701,7 @@ void S2CF::s2c(CMCList *lista,CMCList *listb,CKernelWF *kernel,C3DArray *cf,int 
 			}
 		}
 		if(jmc==NMC/10){
-			snprintf(message,sizeof(message),"finished %g percent\n",double(imc+1)*100/double(NMC));
+			snprintf(message,CLog::CHARLENGTH,"finished %g percent\n",double(imc+1)*100/double(NMC));
 			CLog::Info(message);
 			jmc=0;
 		}
@@ -709,7 +709,7 @@ void S2CF::s2c(CMCList *lista,CMCList *listb,CKernelWF *kernel,C3DArray *cf,int 
 }
 
 void S2CF::s2c(CMCList *lista,CMCList *listb,CWaveFunction *wf,C3DArray *cf){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	bool samelists;
 	int ia,ib,na,nb,npairs,ipair,jpair,jx,jy,jz,jsx,jsy,jsz;
 	int nsx,nsy,nsz;
@@ -785,7 +785,7 @@ void S2CF::s2c(CMCList *lista,CMCList *listb,CWaveFunction *wf,C3DArray *cf){
 			ipair+=1;
 			if(ipair>=npairs/10){
 				jpair+=1;
-				snprintf(message,sizeof(message),"Finished %d percent\n",jpair*10);
+				snprintf(message,CLog::CHARLENGTH,"Finished %d percent\n",jpair*10);
 				CLog::Info(message);
 				ipair=0;
 			}
@@ -831,7 +831,7 @@ void S2CF::s2c_bosons(CMCList *list,C3DArray *cf){
 }
 
 void S2CF::s2c_gauss(CSourceCalc *sourcecalc,CKernelWF *kernel,C3DArray *cf){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	int imc;
 	double root2=sqrt(2.0);
 	double Rx=(sourcecalc->spars).getD("Rx",4.0);
@@ -855,7 +855,7 @@ void S2CF::s2c_gauss(CSourceCalc *sourcecalc,CKernelWF *kernel,C3DArray *cf){
 	bool ZSYM=cf->GetZSYM();
 	if(IDENTICAL&&!(XSYM&&YSYM&&ZSYM)){
 		CLog::Info("S2CF::s2c, kernel says particles are identical, but symmetries are not all even\n");
-		snprintf(message,sizeof(message),"XSYM=%d, YSYM=%d, ZSYM=%d\n",int(XSYM),int(YSYM),int(ZSYM));
+		snprintf(message,CLog::CHARLENGTH,"XSYM=%d, YSYM=%d, ZSYM=%d\n",int(XSYM),int(YSYM),int(ZSYM));
 		CLog::Fatal(message);
 	}
 	int jsx,jsy,jsz,jx,jy,jz;
@@ -981,7 +981,7 @@ void S2CF::s2c_gauss(CSourceCalc *sourcecalc,CKernelWF *kernel,C3DArray *cf){
 }
 
 void S2CF::s2c_bowlersinyukov(CSourceCalc *sourcecalc,CKernel *kernel,C3DArray *cf3d){
-	char message[200];
+	char message[CLog::CHARLENGTH];
 	double Rx=(sourcecalc->spars).getD("Rx",4.0);
 	double Ry=(sourcecalc->spars).getD("Ry",4.0);
 	double Rz=(sourcecalc->spars).getD("Rz",4.0);
@@ -1010,7 +1010,7 @@ void S2CF::s2c_bowlersinyukov(CSourceCalc *sourcecalc,CKernel *kernel,C3DArray *
 		sf->SetElement(0,0,0,ir,ss);
 		norm+=ss*4.0*PI*r*r*delr;
 	}
-	snprintf(message,sizeof(message),"norm=%g\n",norm);
+	snprintf(message,CLog::CHARLENGTH,"norm=%g\n",norm);
 	CLog::Info(message);
 	CCHArray *cf=new CCHArray(0,nqmax,delq,true,true,true);
 	S2CF::s2c(sf,kernel,cf);

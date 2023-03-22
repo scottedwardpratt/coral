@@ -63,7 +63,7 @@ void CSourceCalc::CombineMCLists(CMCList *lista,CMCList *listb,CCHArray *A){
 		ncalc=na*nb;
 	}
 	rcm[0]=0.0;
-	snprintf(message,sizeof(message),"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	snprintf(message,CLog::CHARLENGTH,"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
 	CLog::Info(message);
 	A->ZeroArray();
 	for(ia=0;ia<na;ia++){
@@ -85,7 +85,7 @@ void CSourceCalc::CombineMCLists(CMCList *lista,CMCList *listb,CCHArray *A){
 			icalc+=1;
 			icount+=1;
 			if(icount*10>=ncalc){
-				snprintf(message,sizeof(message),"finished %4.1f percent\n",100.0*double(icalc)/double(ncalc));
+				snprintf(message,CLog::CHARLENGTH,"finished %4.1f percent\n",100.0*double(icalc)/double(ncalc));
 				CLog::Info(message);
 				icount=0;
 			}
@@ -124,7 +124,7 @@ void CSourceCalc::CombineMCPRLists(CMCPRList *lista,CMCPRList *listb,CCHArray *A
 		ncalc=na*nb;
 	}
 	rcm[0]=0.0;
-	snprintf(message,sizeof(message),"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	snprintf(message,CLog::CHARLENGTH,"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
 	CLog::Info(message);
 	
 	A->ZeroArray();
@@ -187,7 +187,7 @@ void CSourceCalc::CombineMCPRLists(CMCPRList *lista,CMCPRList *listb,CCHArray *A
 			icalc+=1;
 			icount+=1;
 			if(icount*10>=ncalc){
-				snprintf(message,sizeof(message),"finished %4.1f percent\n",100.0*double(icalc)/double(ncalc));
+				snprintf(message,CLog::CHARLENGTH,"finished %4.1f percent\n",100.0*double(icalc)/double(ncalc));
 				CLog::Info(message);
 				icount=0;
 			}
@@ -216,7 +216,7 @@ void CSourceCalc::CombineMCLists(CMCList *lista,CMCList *listb,CCHArray *A,int N
 		AEQUALB=false;
 	}
 	rcm[0]=0.0;
-	snprintf(message,sizeof(message),"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	snprintf(message,CLog::CHARLENGTH,"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
 	CLog::Info(message);
 	A->ZeroArray();
 	for(imc=0;imc<NMC;imc++){
@@ -224,7 +224,7 @@ void CSourceCalc::CombineMCLists(CMCList *lista,CMCList *listb,CCHArray *A,int N
 		do{
 			ib=lrint(floor(randy->ran()*na));
 		}while(AEQUALB && ia==ib);
-		snprintf(message,sizeof(message),"ia=%d, ib=%d\n",ia,ib);
+		snprintf(message,CLog::CHARLENGTH,"ia=%d, ib=%d\n",ia,ib);
 		CLog::Info(message);
 		ra=lista->GetR(ia);
 		rb=listb->GetR(ib);
@@ -241,7 +241,7 @@ void CSourceCalc::CombineMCLists(CMCList *lista,CMCList *listb,CCHArray *A,int N
 		icalc+=1;
 		icount+=1;
 		if(icount*10>=NMC){
-			snprintf(message,sizeof(message),"finished %4.1f percent\n",100.0*double(icalc)/double(NMC));
+			snprintf(message,CLog::CHARLENGTH,"finished %4.1f percent\n",100.0*double(icalc)/double(NMC));
 			CLog::Info(message);
 			icount=0;
 			
@@ -273,7 +273,7 @@ void CSourceCalc::CombineMCPRLists(CMCPRList *lista,CMCPRList *listb,CCHArray *A
 		AEQUALB=false;
 	}
 	rcm[0]=0.0;
-	snprintf(message,sizeof(message),"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
+	snprintf(message,CLog::CHARLENGTH,"_______ In CombineMCLists: na=%d, nb=%d, AEQUALB=%d ______\n",na,nb,int(AEQUALB));
 	CLog::Info(message);
 	A->ZeroArray();
 	for(imc=0;imc<NMC;imc++){
@@ -281,7 +281,7 @@ void CSourceCalc::CombineMCPRLists(CMCPRList *lista,CMCPRList *listb,CCHArray *A
 		do{
 			ib=lrint(floor(randy->ran()*na));
 		}while(AEQUALB && ia==ib);
-		snprintf(message,sizeof(message),"ia=%d, ib=%d\n",ia,ib);
+		snprintf(message,CLog::CHARLENGTH,"ia=%d, ib=%d\n",ia,ib);
 		CLog::Info(message);
 		ra=lista->GetR(ia);
 		rb=listb->GetR(ib);
@@ -306,7 +306,7 @@ void CSourceCalc::CombineMCPRLists(CMCPRList *lista,CMCPRList *listb,CCHArray *A
 		icalc+=1;
 		icount+=1;
 		if(icount*10>=NMC){
-			snprintf(message,sizeof(message),"finished %4.1f percent\n",100.0*double(icalc)/double(NMC));
+			snprintf(message,CLog::CHARLENGTH,"finished %4.1f percent\n",100.0*double(icalc)/double(NMC));
 			CLog::Info(message);
 			icount=0;
 			
@@ -342,7 +342,7 @@ void CSourceCalc::CombineMCLists(CMCList *lista,CMCList *listb,C3DArray *threed)
 			threed->IncrementElement(rcm[1],rcm[2],rcm[3],1.0);	
 		}
 		if(10*(ia+1)%(10*int(na/10))==0){
-			snprintf(message,sizeof(message),"finished %g percent\n",100*double(ia+1)/(10*int(na/10)));
+			snprintf(message,CLog::CHARLENGTH,"finished %g percent\n",100*double(ia+1)/(10*int(na/10)));
 			CLog::Info(message);
 		}
 	}
@@ -385,7 +385,7 @@ void CSourceCalc::CombineMCPRLists(CMCPRList *lista,CMCPRList *listb,C3DArray *t
 			}
 		}
 		if(10*(ia+1)%(10*int(na/10))==0){
-			snprintf(message,sizeof(message),"finished %g percent\n",100*double(ia+1)/(10*int(na/10)));
+			snprintf(message,CLog::CHARLENGTH,"finished %g percent\n",100*double(ia+1)/(10*int(na/10)));
 			CLog::Info(message);
 		}
 	}
@@ -414,7 +414,7 @@ double CSourceCalc::GetNorm(CCHArray *A){
 
 void CSourceCalc::NormCheck(CCHArray *A){
 	double check=GetNorm(A);
-	snprintf(message,sizeof(message),"normalization check = %g\n",check);
+	snprintf(message,CLog::CHARLENGTH,"normalization check = %g\n",check);
 	CLog::Info(message);
 }
 
@@ -450,6 +450,6 @@ double CSourceCalc::GetNorm(C3DArray *threed){
 
 void CSourceCalc::NormCheck(C3DArray *threed){
 	double norm=GetNorm(threed);
-	snprintf(message,sizeof(message),"Norm Check of 3DArray = %g\n",norm);
+	snprintf(message,CLog::CHARLENGTH,"Norm Check of 3DArray = %g\n",norm);
 	CLog::Info(message);
 }
