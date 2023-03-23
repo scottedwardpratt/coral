@@ -318,7 +318,7 @@ void CKernel::WriteData(string datadir){
 	char filename[100];
 	FILE *outfile;
 	char shellcommand[120];
-	snprintf(shellcommand,sizeof(shellcommand),"mkdir -p %s",datadir.c_str());
+	snprintf(shellcommand,120,"mkdir -p %s",datadir.c_str());
 
 	system(shellcommand);
 
@@ -327,7 +327,7 @@ void CKernel::WriteData(string datadir){
 	for(ell=0;ell<=ellmax;ell+=dell){
 		for(iq=0;iq<nqmax;iq++){
 			q=(0.5+iq)*delq;
-			snprintf(filename,sizeof(filename),"%s/ell%d_q%07.2f.tmp",datadir.c_str(),ell,q);
+			snprintf(filename,100,"%s/ell%d_q%07.2f.tmp",datadir.c_str(),ell,q);
 			snprintf(message,CLog::CHARLENGTH,"For q=%g, Will write to %s\n",q,filename);
 			CLog::Info(message);
 			outfile=fopen(filename,"w");
@@ -722,15 +722,15 @@ void CKernelWF::WriteData(string datadir){
 	double q;//,r;
 	int iq,ir,ictheta;
 	double meanwf2;
-	char filename[80];
+	char filename[100];
 	FILE *outfile;
 	char shellcommand[120];
-	snprintf(shellcommand,sizeof(shellcommand),"mkdir -p %s",datadir.c_str());
+	snprintf(shellcommand,120,"mkdir -p %s",datadir.c_str());
 	system(shellcommand);
 	for(iq=0;iq<nqmax;iq++){
 		meanwf2=0.0;
 		q=(0.5+iq)*delq;
-		snprintf(filename,sizeof(filename),"%s/q%07.2f.tmp",datadir.c_str(),q);
+		snprintf(filename,100,"%s/q%07.2f.tmp",datadir.c_str(),q);
 		outfile=fopen(filename,"w");
 		fprintf(outfile,"%d %d\n",nrmax,nctheta);
 		for(ir=0;ir<nrmax;ir++){
@@ -749,13 +749,13 @@ void CKernelWF::ReadData(string datadir){
 	double q;
 	double meanwf2;
 	int iq,ir,ictheta,nrmaxread,ncthetaread;
-	char filename[80];
+	char filename[100];
 	FILE *infile;
 
 	for(iq=0;iq<nqmax;iq++){
 		meanwf2=0.0;
 		q=(0.5+iq)*delq;
-		snprintf(filename,sizeof(filename),"%s/q%07.2f.tmp",datadir.c_str(),q);
+		snprintf(filename,100,"%s/q%07.2f.tmp",datadir.c_str(),q);
 		infile=fopen(filename,"r");
 		fscanf(infile,"%d %d\n",&nrmaxread,&ncthetaread);
 		if(nrmaxread!=nrmax || ncthetaread!=nctheta){
