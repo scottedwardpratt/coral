@@ -378,6 +378,14 @@ public:
 	~CWaveFunction_pd_sqwell();
 };
 
+class CWaveFunction_pHe3_sqwell : public CWaveFunction{
+public:
+	double CalcPsiSquared(int iq,double r,double ctheta);
+	CWaveFunction_pHe3_sqwell(string parsfilename);
+	~CWaveFunction_pHe3_sqwell();
+	void CountNodes();
+};
+
 class CWaveFunction_Kminusd_sqwell : public CWaveFunction{
 public:
 	double CalcPsiSquared(int iq,double r,double ctheta);

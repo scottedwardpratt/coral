@@ -92,11 +92,11 @@ double CWaveFunction_pkplus_phaseshift::CalcPsiSquared(int iq,double r,double ct
 		}
 	}
 	if(psisquared>500.0){
-		snprintf(message,strlen(message),"_____________________________________________\n");
+		snprintf(message,CLog::CHARLENGTH,"_____________________________________________\n");
 		CLog::Info(message);
-		snprintf(message,strlen(message),"in CalcPsiSquared, q=%g,r=%g, psisquared=huge=%g\n",q,r,psisquared);
+		snprintf(message,CLog::CHARLENGTH,"in CalcPsiSquared, q=%g,r=%g, psisquared=huge=%g\n",q,r,psisquared);
 		CLog::Info(message);
-		snprintf(message,strlen(message),"hstar0=(%g,%g), hstar1=(%g,%g),psi=(%g,%g)\n",real(hstar0),imag(hstar0),
+		snprintf(message,CLog::CHARLENGTH,"hstar0=(%g,%g), hstar1=(%g,%g),psi=(%g,%g)\n",real(hstar0),imag(hstar0),
 		real(hstar1),imag(hstar1),real(psi),imag(psi));
 		CLog::Info(message);
 	}

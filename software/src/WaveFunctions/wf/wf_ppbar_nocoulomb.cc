@@ -43,7 +43,7 @@ CWaveFunction_ppbar_nocoulomb::CWaveFunction_ppbar_nocoulomb(string parsfilename
 		phi=0.5*atan2(2.0*mu*VI,k*k-2.0*mu*VR);
 		qinside[iq]*=exp(ci*phi);
 		if(sin(phi)<0.0){
-			snprintf(message,strlen(message),"what???? sin(phi)=%g, phi=%g\n",sin(phi),phi*180.0/PI);
+			snprintf(message,CLog::CHARLENGTH,"what???? sin(phi)=%g, phi=%g\n",sin(phi),phi*180.0/PI);
 			CLog::Fatal(message);
 		}
 		qa=qmaga*cos(phi)+ci*qmaga*sin(phi);
@@ -55,9 +55,9 @@ CWaveFunction_ppbar_nocoulomb::CWaveFunction_ppbar_nocoulomb(string parsfilename
 			B[iq][ll]=numer/denom;
 			A[iq][ll]=0.5*(B[iq][ll]*hl[ll]+conj(hl[ll]))/jl[ll];
 			if(ll==0){
-				snprintf(message,strlen(message),"K=%g\n",k);
-				snprintf(message,strlen(message),"A[%d][L=%d]=(%g,%g)\n",iq,ll,real(A[iq][ll]),imag(A[iq][ll]));
-				snprintf(message,strlen(message),"B[%d][L=%d]=(%g,%g)\n",iq,ll,real(B[iq][ll]),imag(B[iq][ll]));
+				snprintf(message,CLog::CHARLENGTH,"K=%g\n",k);
+				snprintf(message,CLog::CHARLENGTH,"A[%d][L=%d]=(%g,%g)\n",iq,ll,real(A[iq][ll]),imag(A[iq][ll]));
+				snprintf(message,CLog::CHARLENGTH,"B[%d][L=%d]=(%g,%g)\n",iq,ll,real(B[iq][ll]),imag(B[iq][ll]));
 				CLog::Info(message);
 			}
 		}

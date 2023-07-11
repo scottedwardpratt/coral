@@ -111,7 +111,7 @@ double CWaveFunction_pp_phaseshift::CalcPsiSquared(int iq,double r,double ctheta
   else psisquared=0.25*real(psisymm*conj(psisymm))
 	 +0.75*real(psianti*conj(psianti));
   if(r>epsilon && psisquared<-0.001){
-    snprintf(message,strlen(message),"in CalcPsiSquared psisquared=%g,q=%g,r=%g\n",psisquared,q,r);
+    snprintf(message,CLog::CHARLENGTH,"in CalcPsiSquared psisquared=%g,q=%g,r=%g\n",psisquared,q,r);
     CLog::Fatal(message);
   }
 	psisquared*=RelativisticCorrection(r,iq);

@@ -34,7 +34,7 @@ CWaveFunction_Xipi_phaseshift::CWaveFunction_Xipi_phaseshift(string  parsfilenam
 		if (q1q2!=0)
 			CoulWave::phaseshift_CoulombCorrect(ell[ichannel],q,eta[iq],
 		delta[ichannel][iq],ddeltadq[ichannel][iq]);
-		snprintf(message,strlen(message),"ichannel=%d, q=%g, E=%g, delta=%g, ddelta/dq=%g\n",
+		snprintf(message,CLog::CHARLENGTH,"ichannel=%d, q=%g, E=%g, delta=%g, ddelta/dq=%g\n",
 		ichannel,q,sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2),
 		delta[ichannel][iq]*180.0/PI,ddeltadq[ichannel][iq]*180.0/PI);
 		CLog::Info(message);

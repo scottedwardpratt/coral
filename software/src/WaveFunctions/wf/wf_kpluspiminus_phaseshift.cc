@@ -17,13 +17,13 @@ CWaveFunction_kpluspiminus_phaseshift::CWaveFunction_kpluspiminus_phaseshift(str
 
   ellmax=1;
   InitArrays();
-  snprintf(message,strlen(message),"Arrays Initialized\n");
+  snprintf(message,CLog::CHARLENGTH,"Arrays Initialized\n");
   CLog::Info(message);
 
   ell[0]=1;
 
   InitWaves();
-  snprintf(message,strlen(message),"Partial Waves Initialized\n");
+  snprintf(message,CLog::CHARLENGTH,"Partial Waves Initialized\n");
   CLog::Info(message);
 
   channelweight[0]=3.0;
@@ -90,7 +90,7 @@ void CWaveFunction_kpluspiminus_phaseshift::get_phaseshifts_kpluspiminus(){
   q0=sqrt((pow(mres,4.0)+pow(m1,4.0)+pow(m2,4.0)
 	   -2*m1*m1*m2*m2-2*mres*mres*(m1*m1+m2*m2))/(4.0*mres*mres));
   mtest=sqrt(m1*m1+q0*q0)+sqrt(m2*m2+q0*q0);
-  snprintf(message,strlen(message),"mtest=%g =? 891.66, q0=%g\n",mtest,q0);
+  snprintf(message,CLog::CHARLENGTH,"mtest=%g =? 891.66, q0=%g\n",mtest,q0);
   CLog::Info(message);
   for(iq=0;iq<=nqmax;iq++){
     q=qarray[iq];
@@ -105,7 +105,7 @@ void CWaveFunction_kpluspiminus_phaseshift::get_phaseshifts_kpluspiminus(){
     ddeltadq[0][iq]=dtandeltadq/(1.0+tandelta*tandelta);
     
     if(iq>0) old=delta[0][iq-1];
-    snprintf(message,strlen(message),"q=%g, m=%g, delta=%g, ddeltadq=%g =? %g\n",
+    snprintf(message,CLog::CHARLENGTH,"q=%g, m=%g, delta=%g, ddeltadq=%g =? %g\n",
 	     q,m,delta[0][iq]*180.0/PI,ddeltadq[0][iq]*180.0/PI,
 	   (delta[0][iq]-old)*180.0/(delq*PI));
 		CLog::Info(message);

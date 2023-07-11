@@ -11,7 +11,7 @@ void WaveFunctionRoutines::getphaseshift_pipi(int I,int ell,double q,double *del
   char message[CLog::CHARLENGTH];
 
   if((ell+I)%2 != 0){
-    snprintf(message,strlen(message),"pipi phase shift: bad (ell,I) comb, ell=%d, I=%d\n",ell,I);
+    snprintf(message,CLog::CHARLENGTH,"pipi phase shift: bad (ell,I) comb, ell=%d, I=%d\n",ell,I);
 	 CLog::Fatal(message);
   }
 

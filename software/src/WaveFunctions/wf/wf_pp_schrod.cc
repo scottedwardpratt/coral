@@ -120,21 +120,21 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
 	int nr=lrint(rmax_schrod/delr);
 	int ir,L=ell[ichannel];
 	complex<double> *psiout,*psiout0;
-	snprintf(type,strlen(type),"PP");
+	snprintf(type,10,"PP");
 	if(ichannel==0){
 		L=0;
-		snprintf(pname,strlen(pname),"1S0");
+		snprintf(pname,10,"1S0");
 	}
 	else{
 		L=1; 
 		if(ichannel==1){
-			snprintf(pname,strlen(pname),"3P0");
+			snprintf(pname,10,"3P0");
 		}
 		else if(ichannel==2){
-			snprintf(pname,strlen(pname),"3P1");	
+			snprintf(pname,10,"3P1");	
 		}
 		else{
-			snprintf(pname,strlen(pname),"3C2");
+			snprintf(pname,10,"3C2");
 		}
 	}	
 	E=2.0*sqrt(q*q+m1*m1);
@@ -199,7 +199,7 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
 					+conj(exp(-2.0*ci*phase)*psiout[ir1]
 						-exp(-2.0*ci*phase0)*psiout0[ir1]));
 		else{
-			snprintf(message,strlen(message),"OOPS, out of bounds, shouldn't be here, ir1=%d, nr=%d\n",ir1,nr);
+			snprintf(message,CLog::CHARLENGTH,"OOPS, out of bounds, shouldn't be here, ir1=%d, nr=%d\n",ir1,nr);
 			CLog::Fatal(message);
 		}
 	}

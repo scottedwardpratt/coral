@@ -11,7 +11,7 @@ int main(){
   int imc,NMC;
   Crandy randy(-time(NULL));  // random number generator (in msu_commonutils)
   
-  wf=new CWaveFunction_pp_schrod("parameters/wfparameters.dat"); // This is for pp, solves Schrod. eq. 
+  wf=new CWaveFunction_pHe3_sqwell("parameters/wfparameters.dat"); // This is for pp, solves Schrod. eq. 
   // parameter file includes information for solving and storing wave functions
   
   CparameterMap parmap;  
@@ -53,7 +53,7 @@ int main(){
 	printf("--- finished %d / 3 directions ---\n",iqdir+1);
 }
 char filename[120];
-sprintf(filename,"results/Rx%g_Ry%g_Rz%g_offset%g.dat",Rx,Ry,Rz,offset);
+snprintf(filename,120,"results/Rx%g_Ry%g_Rz%g_offset%g.dat",Rx,Ry,Rz,offset);
 FILE *fptr=fopen(filename,"w");
 printf(" q      Cout      Cside     Clong\n");
 fprintf(fptr," q      Cout      Cside     Clong\n");

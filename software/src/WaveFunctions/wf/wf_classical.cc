@@ -29,22 +29,22 @@ double CWaveFunction_classical::CalcPsiSquared(double q,double r,double ctheta,d
 			
 			Jacobian1=1.0 +sign*pow(eratio/((1.0+sign*root)*(1.0+ctheta)),2)/root;
 			if(Jacobian1!=Jacobian1){
-				snprintf(message,strlen(message),"J1=%g, q0ratio=%g, eratio=%g\n",Jacobian1,q0ratio,eratio);
+				snprintf(message,CLog::CHARLENGTH,"J1=%g, q0ratio=%g, eratio=%g\n",Jacobian1,q0ratio,eratio);
 				CLog::Info(message);
-				snprintf(message,strlen(message),"ctheta=%g, root=%g\n",ctheta,root);
+				snprintf(message,CLog::CHARLENGTH,"ctheta=%g, root=%g\n",ctheta,root);
 				CLog::Info(message);
-				snprintf(message,strlen(message),"q=%g, r=%g, q1q2=%d, ctheta=%g\n",q,r,q1q2,ctheta);
+				snprintf(message,CLog::CHARLENGTH,"q=%g, r=%g, q1q2=%d, ctheta=%g\n",q,r,q1q2,ctheta);
 				CLog::Fatal(message);
 			}
 			//Avoid dividing 0/0, instead use limit for ctheta0=0
 			sign=-1.0;
 			Jacobian2=1.0 +sign*pow(eratio/((1.0+sign*root)*(1.0+ctheta)),2)/root;
 			if(Jacobian2!=Jacobian2){
-				snprintf(message,strlen(message),"J2=%g, q0ratio=%g, eratio=%g\n",Jacobian2,q0ratio,eratio);
+				snprintf(message,CLog::CHARLENGTH,"J2=%g, q0ratio=%g, eratio=%g\n",Jacobian2,q0ratio,eratio);
 				CLog::Info(message);
-				snprintf(message,strlen(message),"ctheta=%g, root=%g\n",ctheta,root);
+				snprintf(message,CLog::CHARLENGTH,"ctheta=%g, root=%g\n",ctheta,root);
 				CLog::Info(message);
-				snprintf(message,strlen(message),"q=%g, r=%g, q1q2=%d, ctheta=%g\n",q,r,q1q2,ctheta);
+				snprintf(message,CLog::CHARLENGTH,"q=%g, r=%g, q1q2=%d, ctheta=%g\n",q,r,q1q2,ctheta);
 				CLog::Fatal(message);
 			}
 			

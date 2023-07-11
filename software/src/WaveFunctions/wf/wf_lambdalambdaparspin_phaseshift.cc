@@ -54,7 +54,7 @@ void CWaveFunction_lambdalambdaparspin_phaseshift::GetPhaseshifts(){
 
   MH0=m1+m2+EH0;
   q0=sqrt(0.25*MH0*MH0-m1*m1);
-  snprintf(message,strlen(message),"Resonance occurs at q=%g, mesh goes q=%g\n",
+  snprintf(message,CLog::CHARLENGTH,"Resonance occurs at q=%g, mesh goes q=%g\n",
   q0,qarray[nqmax-1]);
   CLog::Info(message);
 

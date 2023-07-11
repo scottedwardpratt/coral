@@ -29,7 +29,7 @@ void CWaveFunction_generic::reset(int q1q2set,double m1set,double m2set,
   m2=m2set;
   mu=m1*m2/(m1+m2);
   if(q1q2*q1q2set<0){
-	  snprintf(message,strlen(message),"Illegal: Trying to reset q1q2 to opposite charge\n");
+	  snprintf(message,CLog::CHARLENGTH,"Illegal: Trying to reset q1q2 to opposite charge\n");
 	  CLog::Fatal(message);
   }
   q1q2=q1q2set;
@@ -46,7 +46,7 @@ double CWaveFunction_generic::CalcPsiSquared(int iq,double r,double ctheta){
   const double ROOT2=sqrt(2.0);
 	
   if(iq>=nqmax){
-    snprintf(message,strlen(message),"iq too large =%d, nqmax=%d\n",iq,nqmax);
+    snprintf(message,CLog::CHARLENGTH,"iq too large =%d, nqmax=%d\n",iq,nqmax);
 	 CLog::Info(message);
     psisquared=1.0;
   }
