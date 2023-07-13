@@ -186,24 +186,24 @@ void CWaveFunction::SquareWell_GetDelPhi(int iq,double r,complex<double> *DelPhi
 }
 
 void CWaveFunction::SquareWell_CalcDelPhi(int iq,double r,complex<double> *DelPhi){
-  complex<double> q1;
-  double mu_coulomb,E,qsquared,eta0;
-  complex<double> x1, eta1;
-  double F,G,Fprime,Gprime;
-  double F0[5],G0[5]; // assuming L is never bigger than 4
-  int lexist[5]={0};
-  int ichannel,iwell,l;
-  double q=GetQ(iq);
+	complex<double> q1;
+	double mu_coulomb,E,qsquared,eta0;
+	complex<double> x1, eta1;
+	double F,G,Fprime,Gprime;
+	double F0[5],G0[5]; // assuming L is never bigger than 4
+	int lexist[5]={0};
+	int ichannel,iwell,l;
+	double q=GetQ(iq);
 	
-  E=sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2);
-  mu_coulomb=0.25*(E-(m1*m1-m2*m2)*(m1*m1-m2*m2)/(E*E*E));
+	E=sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2);
+	mu_coulomb=0.25*(E-(m1*m1-m2*m2)*(m1*m1-m2*m2)/(E*E*E));
 	mu=m1*m2/(m1+m2);
-  eta0=q1q2*mu_coulomb*ALPHA/q;
-  for(ichannel=0;ichannel<nchannels;ichannel++){
-    if(lexist[ell[ichannel]]==0){
-      l=ell[ichannel];
-      CoulWave::GetFGprime_ComplexQ(l,0.0*ci+q*r/HBARC,0.0*ci+eta0,&F0[l],&G0[l],&Fprime,&Gprime);
-      lexist[l]=1;
+	eta0=q1q2*mu_coulomb*ALPHA/q;
+	for(ichannel=0;ichannel<nchannels;ichannel++){
+		if(lexist[ell[ichannel]]==0){
+			l=ell[ichannel];
+			CoulWave::GetFGprime_ComplexQ(l,0.0*ci+q*r/HBARC,0.0*ci+eta0,&F0[l],&G0[l],&Fprime,&Gprime);
+			lexist[l]=1;
 		}
 	}
 	
@@ -212,11 +212,11 @@ void CWaveFunction::SquareWell_CalcDelPhi(int iq,double r,complex<double> *DelPh
 			DelPhi[ichannel]=0.5*(A[ichannel][iq][2*nwells[ichannel]-1]-1.0) *(F0[ell[ichannel]]+ci*G0[ell[ichannel]]);
 			/*
 			if(ichannel==1){
-				x1=q*r/HBARC;
-				complex<double> guess=0.5*ci*exp(-ci*x1)*(exp(-2.0*ci*delta[ichannel][iq])-1.0);
-				printf("ichannel=%d: r=%g, (%g,%g) =? (%g,%g), %g=?%g, ratio=(%g,%g)\n",
-				ichannel,r,real(DelPhi[ichannel]),imag(DelPhi[ichannel]),real(guess),imag(guess),real(DelPhi[ichannel]*conj(DelPhi[ichannel])),real(guess*conj(guess)),
-				real(guess/DelPhi[ichannel]),imag(guess/DelPhi[ichannel]));
+			x1=q*r/HBARC;
+			complex<double> guess=0.5*ci*exp(-ci*x1)*(exp(-2.0*ci*delta[ichannel][iq])-1.0);
+			printf("ichannel=%d: r=%g, (%g,%g) =? (%g,%g), %g=?%g, ratio=(%g,%g)\n",
+			ichannel,r,real(DelPhi[ichannel]),imag(DelPhi[ichannel]),real(guess),imag(guess),real(DelPhi[ichannel]*conj(DelPhi[ichannel])),real(guess*conj(guess)),
+			real(guess/DelPhi[ichannel]),imag(guess/DelPhi[ichannel]));
 			}*/
 				
 		}

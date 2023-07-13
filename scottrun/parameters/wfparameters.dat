@@ -1,4 +1,4 @@
-int NQMAX 200
+int NQMAX 150
 double DELQ 2.0
 double EPSILON 0.5
 int KLMAX 6
