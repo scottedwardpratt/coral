@@ -135,7 +135,8 @@ void CWaveFunction::InitArrays(){
 		partwave=new CPartWave **[ellmax+1];
 		for(l=0;l<=ellmax;l++){
 			partwave[l]=new CPartWave *[nqmax];
-			for(iq=0;iq<nqmax;iq++) partwave[l][iq]=NULL;
+			for(iq=0;iq<nqmax;iq++)
+				partwave[l][iq]=NULL;
 		}
 
 		delta=new double *[nchannels];

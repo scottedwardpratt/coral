@@ -1,5 +1,5 @@
-int NQMAX 150
-double DELQ 2.0
+int NQMAX 78
+double DELQ 1.0
 double EPSILON 0.5
 int KLMAX 6
 double DELR 0.1
