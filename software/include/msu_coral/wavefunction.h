@@ -325,6 +325,23 @@ protected:
 	double Vreid(double r,int ichannel);
 };
 
+class	CWaveFunction_nn_schrod : public CWaveFunction{
+public:
+	double CalcPsiSquared(int iq,double r,double ctheta);
+	CWaveFunction_pp_schrod(string parsfilename);
+
+	~CWaveFunction_pp_schrod();
+
+	int nrmax_schrod;
+	double rmax_schrod;
+	complex<double> ***delpsi;
+
+protected:
+
+	void schrodinger(int iq,int ichannel);
+	double Vreid(double r,int ichannel);
+};
+
 class	CWaveFunction_classical{
 public:
 	double delq;
