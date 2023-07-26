@@ -3,7 +3,7 @@
 using namespace std;
 
 int main(){
-	CWaveFunction *wf;
+	CWaveFunction_pHe3_sqwell *wf;
 	double q,r,ctheta=1.0,Rx,Ry,Rz,Rinv,offset;
 	double x,y,z,qx,qy,qz,root2=sqrt(2.0);
 	int iq,Nq;
@@ -30,7 +30,8 @@ int main(){
 	cf.resize(Nq);
 	for(iq=0;iq<Nq;iq++){
 		q=wf->GetQ(iq);
-		qx=qy=qz=q;
+		qx=q;
+		qy=qz=0.0;
 		cf[iq]=0.0;
 		for(imc=0;imc<NMC;imc++){
 			x=Rx*root2*randy.ran_gauss();
