@@ -328,9 +328,9 @@ protected:
 class	CWaveFunction_nn_schrod : public CWaveFunction{
 public:
 	double CalcPsiSquared(int iq,double r,double ctheta);
-	CWaveFunction_pp_schrod(string parsfilename);
+	CWaveFunction_nn_schrod(string parsfilename);
 
-	~CWaveFunction_pp_schrod();
+	~CWaveFunction_nn_schrod();
 
 	int nrmax_schrod;
 	double rmax_schrod;

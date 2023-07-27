@@ -46,3 +46,15 @@ he3test.cc PROPERTIES OBJECT_DEPENDS ${GITHOME_MSU}/commonutils/software/lib/lib
 add_dependencies(he3test extern_msu_coral extern_msu_commonutils)
 target_link_libraries(he3test msu_coral msu_commonutils ${GITHOME_MSU}/commonutils/software/lib/libmsu_commonutils.a ${GITHOME_MSU}/coral/software/lib/libmsu_coral.a ${GSL_LIBRARY} ${GSL_CBLAS_LIBRARY} ${EIGEN3_LIBRARY})
 ###########################
+set(SOURCE_FILES ./nntest.cc)
+add_executable(nntest ${SOURCE_FILES})
+SET_SOURCE_FILES_PROPERTIES(
+nntest.cc PROPERTIES OBJECT_DEPENDS
+${GITHOME_MSU}/coral/software/lib/libmsu_coral.a
+)
+SET_SOURCE_FILES_PROPERTIES(
+nntest.cc PROPERTIES OBJECT_DEPENDS ${GITHOME_MSU}/commonutils/software/lib/libmsu_commonutils.a
+)
+add_dependencies(nntest extern_msu_coral extern_msu_commonutils)
+target_link_libraries(nntest msu_coral msu_commonutils ${GITHOME_MSU}/commonutils/software/lib/libmsu_commonutils.a ${GITHOME_MSU}/coral/software/lib/libmsu_coral.a ${GSL_LIBRARY} ${GSL_CBLAS_LIBRARY} ${EIGEN3_LIBRARY})
+###########################

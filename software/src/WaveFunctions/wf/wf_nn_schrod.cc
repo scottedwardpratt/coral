@@ -4,7 +4,7 @@
 
 using namespace std;
 
-CWaveFunction_pp_schrod::CWaveFunction_pp_schrod(string parsfilename) : CWaveFunction(){
+CWaveFunction_nn_schrod::CWaveFunction_nn_schrod(string parsfilename) : CWaveFunction(){
 	int ichannel,iq;
 	ParsInit(parsfilename);
 	m1=MNEUTRON; 
@@ -33,7 +33,7 @@ CWaveFunction_pp_schrod::CWaveFunction_pp_schrod(string parsfilename) : CWaveFun
 }
 
 
-CWaveFunction_pp_schrod::~CWaveFunction_pp_schrod(){
+CWaveFunction_nn_schrod::~CWaveFunction_nn_schrod(){
 	int ichannel,iq;
 	for(ichannel=0;ichannel<nchannels;ichannel++){
 		for(iq=0;iq<nqmax;iq++){
@@ -44,7 +44,7 @@ CWaveFunction_pp_schrod::~CWaveFunction_pp_schrod(){
 	delete [] delpsi;
 }
 
-double CWaveFunction_pp_schrod::CalcPsiSquared(int iq,double r,double ctheta){
+double CWaveFunction_nn_schrod::CalcPsiSquared(int iq,double r,double ctheta){
 	int ir1,ir2;
 	double w1,w2,psisquared,theta,x,delr,q;
 	const double ROOT2=sqrt(2.0);
@@ -108,19 +108,21 @@ double CWaveFunction_pp_schrod::CalcPsiSquared(int iq,double r,double ctheta){
 	return psisquared;
 }
 
-void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
+void CWaveFunction_nn_schrod::schrodinger(int ichannel,int iq){
 	complex<double> cg;
 	char type[10];
 	char pname[10];
 	
 	double q=(iq+0.5)*delq,q2,r;
+	//if(ichannel==0)
+	//		printf("q=%g\n",q);
 	double delr=0.001;
 	double x1,E,delx2,r1,r2,vr,v12,v22,v11,phase,phase0,sigma;
 	double phaseb,phaseb0;
 	int nr=lrint(rmax_schrod/delr);
 	int ir,L=ell[ichannel];
 	complex<double> *psiout,*psiout0;
-	snprintf(type,10,"nn");
+	snprintf(type,10,"NN");
 	if(ichannel==0){
 		L=0;
 		snprintf(pname,10,"1S0");
@@ -153,6 +155,12 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
 	psiout0[nr]=psiout[nr];
 	psiout0[nr-1]=psiout[nr-1];
 	
+	/*FILE *fptr;
+	if(ichannel==0){
+			string filename="figs/nnwf"+to_string(lrint(q))+".txt";
+				fptr=fopen(filename.c_str(),"w");
+			}*/
+	
 	for(ir=nr-2;ir>=1;ir--){
 		r1=(ir+1)*delr;
 		WaveFunctionRoutines::creid93(&r1,pname,type,&v11,&v12,&v22);
@@ -166,6 +174,7 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
 			+delx2*(-1.0+vr+(2.0*eta[iq]/x1)+double(L)*double(L+1)/(x1*x1))
 				*psiout[ir+1];
 	}
+
 	phase=atan2(imag(psiout[1]),real(psiout[1]))+0.5*PI;
 	phase0=atan2(imag(psiout0[1]),real(psiout0[1]))+0.5*PI;
 	phaseb=atan2(imag(psiout[2]),real(psiout[2]))+0.5*PI;
@@ -173,7 +182,10 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
 	phase=2.0*phase-phaseb;
 	phase0=2.0*phase0-phaseb0;
 	delta[ichannel][iq]=-phase+phase0;
-
+	
+	//if(ichannel==0)
+		//	printf("phase=%g, phase0=%g\n",phase*180.0/PI,phase0*180.0/PI);
+	
 	int ir1,ir2,ir_schrod;
 	double w1,w2;
 	delpsi[ichannel][iq][0]=0.0;
@@ -192,6 +204,21 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
 				+=w1*((psiout[ir1]-psiout0[ir1])
 					+conj(exp(-2.0*ci*phase)*psiout[ir1]
 						-exp(-2.0*ci*phase0)*psiout0[ir1]));
+			
+			
+			/*if(ichannel==0){
+				complex<double> psi0,psi;
+				
+				psi0=exp(-ci*phase0)*(w1*psiout0[ir1]+w2*psiout0[ir2])
+					+exp(ci*phase0)*(w1*conj(psiout0[ir1])+w2*conj(psiout0[ir2]));
+				psi=exp(-ci*phase)*(w1*psiout[ir1]+w2*psiout[ir2])
+					+exp(ci*phase)*(w1*conj(psiout[ir1])+w2*conj(psiout[ir2]));
+				
+				
+				fprintf(fptr,"%6.3f   %7.4f %7.4f %7.4f    %7.4f %7.4f  %7.4f\n",
+				r,real(psi),imag(psi),2*sin(-phase+q*r/HBARC),real(psi0),imag(psi0),2*sin(q*r/HBARC));
+			}*/
+			
 		}
 		else if(ir1==nr)
 			delpsi[ichannel][iq][ir_schrod]
@@ -203,15 +230,17 @@ void CWaveFunction_pp_schrod::schrodinger(int ichannel,int iq){
 			CLog::Fatal(message);
 		}
 	}
+	//if(ichannel==0)
+		//	fclose(fptr);
 
 	delete [] psiout;
 	delete [] psiout0;
 
 }
 
-double CWaveFunction_pp_schrod::Vreid(double r,int ipart){
+double CWaveFunction_nn_schrod::Vreid(double r,int ipart){
 	double pmux,f1,f2,f4,f6,f7,vr=0.0;
-	/* See the appendix of B.D. Day, PRC24, p. 1203 (1981).
+	/* See the annendix of B.D. Day, PRC24, p. 1203 (1981).
 	with Tensor forces neglected */
 	if(ipart==0){
 		/* S=0 */
