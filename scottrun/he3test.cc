@@ -22,7 +22,7 @@ int main(){
   CparameterMap parmap;  
   parmap.ReadParsFromFile("parameters/coralpars.dat");  // Reads
   NMC=parmap.getD("NMC",10000);  // Number of Monte Carlo points to sample CF
-  Rinv=parmap.getD("RINV",4.0);
+  Rinv=parmap.getD("RINV",3.0);
 	Rx=Ry=Rz=Rinv;
   offset=parmap.getD("OFFSET",0.0);  // separation between two particles (along outward direction)
 	

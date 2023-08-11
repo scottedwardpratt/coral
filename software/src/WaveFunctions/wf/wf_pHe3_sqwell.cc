@@ -36,20 +36,20 @@ CWaveFunction_pHe3_sqwell::CWaveFunction_pHe3_sqwell(string parsfilename) : CWav
 	SquareWell_MakeArrays();
 	
 	// L=0, S=0
-	a[0][0]=0.367221; a[0][1]=1.61719;
-	V0[0][0]=9.48779; V0[0][1]=-101.455;
+	a[0][0]=1.80628; a[0][1]=2.05664;
+	V0[0][0]=-2.71804; V0[0][1]=-114.483;
 	
 	// L=0, S=1
-	a[1][0]=0.437762; a[1][1]=1.31427;
-	V0[1][0]=-8.57614; V0[1][1]=-144.509;
+	a[1][0]=0.835825; a[1][1]=1.10527;
+	V0[1][0]=-6.16757; V0[1][1]=-155.224;
 	
 	// L=1, S=0
-	a[2][0]=1.34462; a[2][1]=2.86909;
-	V0[2][0]=12.0853; V0[2][1]=-9.30949;
+	a[2][0]=1.10123; a[2][1]=6.55019;
+	V0[2][0]=11.5845; V0[2][1]=-1.51854;
 	
 	// L=1, S=1
-	a[3][0]=0.206285; a[3][1]=2.35583;
-	V0[3][0]=11.7453; V0[3][1]=-24.002;
+	a[3][0]=0.0956635; a[3][1]=5.23552;
+	V0[3][0]=31.0429; V0[3][1]=-4.76129;
 	
 	SquareWell_Init();
 	
@@ -60,7 +60,7 @@ CWaveFunction_pHe3_sqwell::CWaveFunction_pHe3_sqwell(string parsfilename) : CWav
 		double error,besterror=1.0E99,delta1,delta2,delta3,delta4;
 		double delta1target,delta2target,delta3target,delta4target;
 		vector<vector<double>> abest,Vbest;
-		int ichannel,itry,ntry=10000;
+		int ichannel,itry,ntry=1000;
 	
 		abest.resize(nchannels);
 		Vbest.resize(nchannels);
@@ -76,9 +76,11 @@ CWaveFunction_pHe3_sqwell::CWaveFunction_pHe3_sqwell(string parsfilename) : CWav
 			}
 		}
 		
-		ichannel=1;
-		double dela=0.2;
-		double delV=5.0;
+		ichannel=3;
+		double dela=0.03;
+		double delV=0.5;
+		
+		// These targets assume delq=2
 
 		if(ichannel==0){
 			delta1target=-39.1;
@@ -105,7 +107,8 @@ CWaveFunction_pHe3_sqwell::CWaveFunction_pHe3_sqwell(string parsfilename) : CWav
 			delta4target=46.0;
 		}
 		
-		/* these were actual phase shifts for J=0,1,2, L=1, S=1.
+		/* these were actual phase shifts for J=0,1,2, L=1, S=1 (before averaging)
+	
 		else if(ichannel==4){
 		delta1target=5;
 		delta2target=9.7;
