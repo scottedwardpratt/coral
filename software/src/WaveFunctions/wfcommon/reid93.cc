@@ -1,4 +1,5 @@
 #include "msu_coral/wavefunction.h"
+using namespace NMSUPratt;
 
 /*******************************************************************************
 ** Reid93 soft core phenomenological potential, updated version,

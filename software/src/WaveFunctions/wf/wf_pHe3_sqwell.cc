@@ -3,6 +3,7 @@
 #include "msu_commonutils/sf.h"
 #include "msu_commonutils/randy.h"
 using namespace std;
+using namespace NMSUPratt;
 
 CWaveFunction_pHe3_sqwell::CWaveFunction_pHe3_sqwell(string parsfilename) : CWaveFunction(){
 	bool TUNINGPHE3=false;

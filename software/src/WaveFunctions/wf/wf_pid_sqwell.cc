@@ -2,6 +2,7 @@
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/sf.h"
 using namespace std;
+using namespace NMSUPratt;
 
 CWaveFunction_pid_sqwell::CWaveFunction_pid_sqwell(string parsfilename) : CWaveFunction(){
 	CLog::Info("Beware! The pi-d wavefunction was tuned to match only the scattering length.\n The pi-d system becomes inelastic (deuteron breaks up) above q=24 MeV/c\nAlso, for larger q, the p-wave should matter. So this treatment is very questionable!\n");

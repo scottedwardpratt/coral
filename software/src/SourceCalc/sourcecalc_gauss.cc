@@ -4,6 +4,7 @@
 #include "msu_commonutils/randy.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CSourceCalc_Gaussian::CSourceCalc_Gaussian(){
   InitSPars();

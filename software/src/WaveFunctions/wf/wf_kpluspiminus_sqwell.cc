@@ -2,6 +2,7 @@
 #include "msu_commonutils/constants.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CWaveFunction_kpluspiminus_sqwell::CWaveFunction_kpluspiminus_sqwell(string parsfilename) : CWaveFunction(){
   ParsInit(parsfilename);
@@ -62,7 +63,7 @@ double CWaveFunction_kpluspiminus_sqwell::CalcPsiSquared(int iq,double r,double 
 
   // For I=1/2 (s & p wave)
   psi=psia;
-  psi+=DelPhi[0]/x;
+	psi+=DelPhi[0]/x;
   psi+=3.0*ci*DelPhi[2]/x;
   psisquared=(2.0/3.0)*real(psi*conj(psi));
 

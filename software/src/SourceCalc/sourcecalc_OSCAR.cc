@@ -3,6 +3,7 @@
 #include "msu_commonutils/constants.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CSourceCalc_OSCAR::CSourceCalc_OSCAR(){
 	InitSPars();	

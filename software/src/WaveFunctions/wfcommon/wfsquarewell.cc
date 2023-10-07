@@ -3,6 +3,7 @@
 #include "msu_commonutils/sf.h"
 #include "msu_commonutils/gslmatrix.h"
 using namespace std;
+using namespace NMSUPratt;
 
 void CWaveFunction::SquareWell_Init(){
   // To set up the wave functions and phase shifts

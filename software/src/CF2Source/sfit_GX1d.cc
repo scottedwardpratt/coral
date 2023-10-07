@@ -1,6 +1,7 @@
 #include "msu_coral/sfit.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CCF2SFit_GX1D::CCF2SFit_GX1D(CSourceCalc *scset,
 			     CCHArray *cexpset,

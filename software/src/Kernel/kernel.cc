@@ -8,6 +8,7 @@
 #include "msu_coral/wavefunction.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 string CKernel::getKernelFilename( string datadir, int ell, double q )
 {

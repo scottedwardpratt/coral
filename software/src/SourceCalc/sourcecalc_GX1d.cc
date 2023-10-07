@@ -2,6 +2,7 @@
 #include "msu_commonutils/sf.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CSourceCalc_GX1D::CSourceCalc_GX1D(){
   InitSPars();

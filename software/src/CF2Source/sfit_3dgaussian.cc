@@ -2,6 +2,7 @@
 #include "msu_coral/sourcecalc.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CCF2SFit_3DGaussian::CCF2SFit_3DGaussian(CSourceCalc *scset,C3DArray *cexpset,C3DArray *cerrorset,C3DArray *ctheory3Dset,CCHArray *ctheoryset,CCHArray *sourceset,CKernel *kernelset){
 	// npars is different for different subclasses

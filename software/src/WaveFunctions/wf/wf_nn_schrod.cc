@@ -3,6 +3,7 @@
 #include "msu_commonutils/sf.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CWaveFunction_nn_schrod::CWaveFunction_nn_schrod(string parsfilename) : CWaveFunction(){
 	int ichannel,iq;

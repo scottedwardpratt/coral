@@ -2,6 +2,7 @@
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/sf.h"
 using namespace std;
+using namespace NMSUPratt;
 
 CWaveFunction_pkplus_sqwell::CWaveFunction_pkplus_sqwell(string parsfilename) : CWaveFunction(){
   ParsInit(parsfilename);

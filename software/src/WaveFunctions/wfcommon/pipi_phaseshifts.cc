@@ -1,6 +1,7 @@
 #include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/log.h"
+using namespace NMSUPratt;
 
 void WaveFunctionRoutines::getphaseshift_pipi(int I,int ell,double q,double *delta,double *ddeltadq){
   double a,a2,a3,reff,x,R,tandelta;

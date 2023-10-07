@@ -1,4 +1,5 @@
 #include "msu_coral/wavefunction.h"
+using namespace NMSUPratt;
 
 // for non-identical particles: square will with complex optical potential
 

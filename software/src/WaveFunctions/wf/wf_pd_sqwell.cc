@@ -2,6 +2,7 @@
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/sf.h"
 using namespace std;
+using namespace NMSUPratt;
 
 CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFunction(){
 	CLog::Info("Beware! The p-d wavefunction was tuned to match phase shifts which were only measured for q<100.\n Also, the pi-d system becomes inelastic (deuteron breaks up) above q=52 MeV/c\n So this treatment is pretty questionable for q>50!\n");

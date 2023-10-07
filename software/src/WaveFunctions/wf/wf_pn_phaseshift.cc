@@ -2,6 +2,7 @@
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/sf.h"
 #include "msu_commonutils/misc.h"
+using namespace NMSUPratt;
 
 CWaveFunction_pn_phaseshift::CWaveFunction_pn_phaseshift(string  parsfilename) : CWaveFunction() {
 	int iq,ichannel;

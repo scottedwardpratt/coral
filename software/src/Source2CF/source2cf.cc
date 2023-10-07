@@ -6,6 +6,7 @@
 #include "msu_commonutils/log.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 void S2CF::s2c(int lx,int ly,int lz,CCHArray *S,CKernel *kernel,CCHArray *CF){
 	char message[CLog::CHARLENGTH];

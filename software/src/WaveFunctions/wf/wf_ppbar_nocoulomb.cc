@@ -1,4 +1,5 @@
 #include "msu_coral/wavefunction.h"
+using namespace NMSUPratt;
 
 CWaveFunction_ppbar_nocoulomb::CWaveFunction_ppbar_nocoulomb(string parsfilename) : CWaveFunction(){
 	ParsInit(parsfilename);

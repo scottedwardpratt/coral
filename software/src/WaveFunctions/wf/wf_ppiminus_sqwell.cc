@@ -3,6 +3,7 @@
 #include "msu_commonutils/sf.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CWaveFunction_ppiminus_sqwell::CWaveFunction_ppiminus_sqwell(string parsfilename) : CWaveFunction(){
   ParsInit(parsfilename);

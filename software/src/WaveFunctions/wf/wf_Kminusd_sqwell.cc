@@ -2,6 +2,7 @@
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/sf.h"
 using namespace std;
+using namespace NMSUPratt;
 
 CWaveFunction_Kminusd_sqwell::CWaveFunction_Kminusd_sqwell(string parsfilename) : CWaveFunction(){
 	CLog::Info("Beware! The K^-d wavefunction was tuned to match only the scattering length and ignores the inelastic process.\n The K-d system is inelastic at threshold due to the chance of producing a Lambda.\n The deuteron breakup channel also comes into play for q>41 MeV. So this treatment is very questionable!\n");

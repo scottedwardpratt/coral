@@ -4,6 +4,7 @@
 #include "msu_commonutils/constants.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CSourceCalc_OSCAR_MultiBin::CSourceCalc_OSCAR_MultiBin(){
 	InitSPars();

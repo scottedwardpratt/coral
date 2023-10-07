@@ -1,4 +1,5 @@
 #include "msu_coral/wavefunction.h"
+using namespace NMSUPratt;
 
 CWaveFunction_generic::CWaveFunction_generic(string  parsfilename,int q1q2set,double m1set,
 double m2set,double symmweightset): CWaveFunction(){

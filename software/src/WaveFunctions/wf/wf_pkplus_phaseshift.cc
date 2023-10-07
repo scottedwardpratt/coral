@@ -1,6 +1,7 @@
 #include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/misc.h"
+using namespace NMSUPratt;
 
 CWaveFunction_pkplus_phaseshift::CWaveFunction_pkplus_phaseshift(string  parsfilename) : CWaveFunction(){
 	int iq,ichannel;

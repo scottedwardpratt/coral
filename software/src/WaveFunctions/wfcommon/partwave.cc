@@ -2,6 +2,7 @@
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/misc.h"
 #include "msu_commonutils/sf.h"
+using namespace NMSUPratt;
 
 CPartWave::CPartWave(double etaset,int q1q2set,double qset,int ellset,
 double epsilonset){

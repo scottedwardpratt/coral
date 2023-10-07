@@ -4,6 +4,7 @@
 #include  "msu_coral/minimization.h" 
 
 using   namespace  std; 
+using namespace NMSUPratt;
 
 // As an abstract class, this will not be used. Only for demonstration purpose and test. 
 CMinimization::CMinimization( int  dimension) 

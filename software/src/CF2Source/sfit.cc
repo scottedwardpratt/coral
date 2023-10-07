@@ -11,6 +11,7 @@
 #include "msu_commonutils/gslmatrix.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 int  CCF2SFit::nmaxpars=10;
 bool  CCF2SFit::MCsourceflag=0;

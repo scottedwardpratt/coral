@@ -2,6 +2,7 @@
 #include "msu_commonutils/constants.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 void CSourceCalc::CalcEffGaussPars(CMCPRList *list,double &Rx,double &Ry,double &Rz,double &Xoff,double &Yoff,double &Zoff){
 	int i,norm=0,n=list->GetNMC();

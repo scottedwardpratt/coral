@@ -1,4 +1,5 @@
 #include "msu_coral/wavefunction.h"
+using namespace NMSUPratt;
 
 CWaveFunction_pipluspiplus_nostrong::CWaveFunction_pipluspiplus_nostrong(string  parsfilename){
   ParsInit(parsfilename);

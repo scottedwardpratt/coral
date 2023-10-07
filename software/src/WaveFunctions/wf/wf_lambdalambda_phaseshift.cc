@@ -1,6 +1,7 @@
 #include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/misc.h"
+using namespace NMSUPratt;
 
 CWaveFunction_lambdalambda_phaseshift::CWaveFunction_lambdalambda_phaseshift(string  parsfilename){
 	int iq,ichannel;

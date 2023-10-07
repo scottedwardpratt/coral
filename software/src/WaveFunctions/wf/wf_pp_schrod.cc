@@ -1,6 +1,7 @@
 #include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/sf.h"
+using namespace NMSUPratt;
 
 using namespace std;
 

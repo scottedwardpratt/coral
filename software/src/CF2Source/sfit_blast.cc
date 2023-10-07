@@ -1,6 +1,7 @@
 #include "msu_coral/sfit.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CCF2SFit_Blast::CCF2SFit_Blast(CSourceCalc *scset,C3DArray *cexp3Dset,C3DArray *cerror3Dset, C3DArray *ctheory3Dset,CCHArray *ctheoryset,CCHArray *sourceset,CKernel *kernelset){
 	int i,j;

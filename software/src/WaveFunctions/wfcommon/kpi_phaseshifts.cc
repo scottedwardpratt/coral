@@ -1,5 +1,6 @@
 #include "msu_coral/wavefunction.h"
 #include "msu_commonutils/misc.h"
+using namespace NMSUPratt;
 
 void WaveFunctionRoutines::getphaseshift_kpi(int twoI,int ell,double q,double *delta,double *ddeltadq){
   double a,reff;

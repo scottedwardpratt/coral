@@ -5,6 +5,7 @@
 #include "msu_commonutils/constants.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CSourceCalc::CSourceCalc(){
 	randy=new Crandy(-1234);

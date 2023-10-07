@@ -5,6 +5,7 @@
 #include "msu_commonutils/log.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 double CFCalc::GetChiSquared(C3DArray *CFexp,C3DArray *Error, C3DArray *CFtheory){
 	char message[CLog::CHARLENGTH];

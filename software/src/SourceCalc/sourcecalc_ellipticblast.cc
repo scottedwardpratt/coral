@@ -2,6 +2,7 @@
 #include "msu_commonutils/randy.h"
 
 using namespace std;
+using namespace NMSUPratt;
 
 CSourceCalc_EllipticBlast::CSourceCalc_EllipticBlast(){
   InitSPars();
