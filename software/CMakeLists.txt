@@ -1,10 +1,9 @@
-cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 set(GITHOME_MSU $ENV{GITHOME_MSU})
 set(GSL_INCLUDE_DIR $ENV{GSL_INCLUDE_DIR})
 project(coral CXX C)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -W -Wall -Wextra -std=c++17")
+set(CMAKE_CXX_FLAGS "-W -Wall -march=native -std=c++17 -O2")
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 find_package(GSL REQUIRED)
