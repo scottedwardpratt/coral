@@ -99,13 +99,15 @@ void CWaveFunction::ParsInit(string parsfilename){
   strcpy(qarrayfilename,stemp.c_str());
   delq=parameters.getD("DELQ",-999);
   nqmax=parameters.getI("NQMAX",-999);
+	parameters.PrintPars();
   epsilon=parameters.getD("EPSILON",-999);
   COULOMB=parameters.getB("COULOMB",-999);
   STRONG=parameters.getB("STRONG",-999);
   IDENTICAL=parameters.getB("IDENTICAL",0);
 	
   // If delq<0, read qarray from file (don't use this if for wf in kernels)
-  if(delq<0) filetest=1;
+  if(delq<0)
+		filetest=1;
   if(filetest==1){
     parameters.set("delq",-1.0);
     snprintf(message,CLog::CHARLENGTH,"will read qarray from %s\n",qarrayfilename);

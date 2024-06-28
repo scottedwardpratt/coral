@@ -23,7 +23,6 @@ namespace NMSUPratt{
 		double r93_z(const double *n, const double *m, const double *x);
 	};
 
-
 	class CPlaneWave;
 	class CPartWave;
 
@@ -394,6 +393,13 @@ namespace NMSUPratt{
 		double CalcPsiSquared(int iq,double r,double ctheta);
 		CWaveFunction_pd_sqwell(string parsfilename);
 		~CWaveFunction_pd_sqwell();
+	};
+	
+	class CWaveFunction_pd_tune : public CWaveFunction{
+	public:
+		double CalcPsiSquared(int iq,double r,double ctheta);
+		CWaveFunction_pd_tune(string parsfilename);
+		~CWaveFunction_pd_tune();
 	};
 
 	class CWaveFunction_pHe3_sqwell : public CWaveFunction{
