@@ -99,7 +99,7 @@ void CWaveFunction::ParsInit(string parsfilename){
   strcpy(qarrayfilename,stemp.c_str());
   delq=parameters.getD("DELQ",-999);
   nqmax=parameters.getI("NQMAX",-999);
-	parameters.PrintPars();
+	//parameters.PrintPars();
   epsilon=parameters.getD("EPSILON",-999);
   COULOMB=parameters.getB("COULOMB",-999);
   STRONG=parameters.getB("STRONG",-999);

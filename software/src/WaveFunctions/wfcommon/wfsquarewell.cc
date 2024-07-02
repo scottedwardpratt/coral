@@ -26,7 +26,7 @@ void CWaveFunction::SquareWell_Init(){
   int i,j,iq,ir,ichannel;
   mu=m1*m2/(m1+m2);
 	
-	for(ichannel=0;ichannel<nchannels;ichannel++){
+	for(ichannel=1;ichannel<nchannels;ichannel++){
 		if(nwells[ichannel]==1){
 			for(iq=0;iq<nqmax;iq++){
 				q=GetQ(iq);
@@ -60,7 +60,6 @@ void CWaveFunction::SquareWell_Init(){
 			for(iq=0;iq<nqmax;iq++){
 				q=GetQ(iq);
 				E=sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2);
-				printf("E=%g\n",E);
 				mu_coulomb=0.25*(E-pow(m1*m1-m2*m2,2)/pow(E,3));
 				
 				q1=sqrt(abs(q*q-2.0*mu*V0[ichannel][0]));
@@ -149,7 +148,6 @@ void CWaveFunction::SquareWell_Init(){
 				delta[ichannel][iq]=-0.5*atan2(imag(A[ichannel][iq][5]),real(A[ichannel][iq][5]));
 				if(delta[ichannel][iq]<0.0)
 					delta[ichannel][iq]=delta[ichannel][iq]+PI;
-				printf("delta(q=%g)=%g\n",q,delta[ichannel][iq]*180.0/PI);
 			}
 			delete(cmatrix);
 			delete [] Y;
