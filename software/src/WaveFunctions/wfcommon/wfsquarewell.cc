@@ -26,7 +26,8 @@ void CWaveFunction::SquareWell_Init(){
   int i,j,iq,ir,ichannel;
   mu=m1*m2/(m1+m2);
 	
-	for(ichannel=1;ichannel<nchannels;ichannel++){
+	//for(ichannel=0;ichannel<nchannels;ichannel++){
+	for(ichannel=5;ichannel<6;ichannel++){
 		if(nwells[ichannel]==1){
 			for(iq=0;iq<nqmax;iq++){
 				q=GetQ(iq);
@@ -77,6 +78,7 @@ void CWaveFunction::SquareWell_Init(){
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x2a,eta2,&F2a,&G2a,&F2aprime,&G2aprime);
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x2b,eta2,&F2b,&G2b,&F2bprime,&G2bprime);
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x,eta0,&F,&G,&Fprime,&Gprime);
+				
 				
 				for(i=0;i<4;i++){
 					Y[i]=0.0;
