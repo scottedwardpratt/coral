@@ -7,12 +7,7 @@ using namespace NMSUPratt;
 
 CWaveFunction_pd_tune::CWaveFunction_pd_tune(string parsfilename) : CWaveFunction(){
 	CLog::Info("Beware! The p-d wavefunction was tuned to match phase shifts which were only measured for q<100.\n Also, the p-d system becomes inelastic (deuteron breaks up) above q=52 MeV/c\n So this treatment is pretty questionable for q>50!\n");
-	int iq,ichannel,iwell;
-	double phaseshift,chisquare,bestchisquare;
-	vector<double> deltaexp,qexp;
-	char dumbo[120];
-	Crandy randy(123);
-	int itry,ntries;
+
 	// Interaction fit to phaseshifts from T.C. Black et al., PLB 471, p. 103-107 (1999).
   ParsInit(parsfilename);
 	
@@ -46,6 +41,38 @@ CWaveFunction_pd_tune::CWaveFunction_pd_tune(string parsfilename) : CWaveFunctio
 	nwells[4]=2;
 	nwells[5]=2;
 
+  SquareWell_MakeArrays();
+	
+	a[0][0]=4.33842; a[0][1]=4.7281; a[0][2]=9.99999; 
+	V0[0][0]=-32.7951; V0[0][1]=38.9506; V0[0][2]=-0.591542;
+	
+	a[1][0]=2.1591; a[1][1]=2.4132; a[1][2]=7.89978; 
+	V0[1][0]=-30.4977; V0[1][1]=38.9727; V0[1][2]=1.10959;
+	
+	a[2][0]=1.74688; a[2][1]=11.8412; 
+	V0[2][0]=-9.99994; V0[2][1]=0.131973; 
+	
+	a[3][0]=3.52139; a[3][1]=10.1152; 
+	V0[3][0]=-9.63551; V0[3][1]=-0.588381;
+	
+	a[4][0]=3.97389; a[4][1]=13.0859; 
+	V0[4][0]=-9.8424; V0[4][1]=-0.0903357;
+	
+	a[5][0]=1.25107; a[5][1]=11.5236; 
+	V0[5][0]=-9.11892; V0[5][1]=0.323206; 
+	
+	/*
+	
+	int iq,ichannel,iwell;
+	double phaseshift,chisquare,bestchisquare;
+	char dumbo[120];
+	vector<double> deltaexp,qexp;
+	int itry,ntries;
+	Crandy randy(123);
+	
+	double dela=0.001;
+	double delV0=0.001; 
+	
 	ichannel=5;
 	
 	if(ichannel==0){
@@ -104,30 +131,6 @@ CWaveFunction_pd_tune::CWaveFunction_pd_tune(string parsfilename) : CWaveFunctio
 			fscanf(fptr,"%lf %lf %lf",&qexp[iq],&dumbphase,&deltaexp[iq]);
 		}
 	}
-	
-  SquareWell_MakeArrays();
-	
-	//a[0][0]=4.33842; a[0][1]=4.7281; a[0][2]=9.99999; 
-	//V0[0][0]=-32.7951; V0[0][1]=38.9506; V0[0][2]=-0.591542;
-	
-	//a[1][0]=2.1591; a[1][1]=2.4132; a[1][2]=7.89978; 
-	//V0[1][0]=-30.4977; V0[1][1]=38.9727; V0[1][2]=1.10959;
-	
-	//a[2][0]=1.74688; a[2][1]=11.8412; 
-	//V0[2][0]=-9.99994; V0[2][1]=0.131973; 
-	
-	//a[3][0]=3.52139; a[3][1]=10.1152; 
-	//V0[3][0]=-9.63551; V0[3][1]=-0.588381;
-	
-	//a[4][0]=3.97389; a[4][1]=13.0859; 
-	//V0[4][0]=-9.8424; V0[4][1]=-0.0903357;
-	
-	a[5][0]=1.25107; a[5][1]=11.5236; 
-	V0[5][0]=-9.11892; V0[5][1]=0.323206; 
-	
-	  
-	double dela=0.001;
-	double delV0=0.001; 
   
 	bestchisquare=1.0E99;
 	vector<vector<double>> abest,V0best;
@@ -184,13 +187,15 @@ CWaveFunction_pd_tune::CWaveFunction_pd_tune(string parsfilename) : CWaveFunctio
 		
 	}
 	
-	
 	for(iwell=0;iwell<nwells[ichannel];iwell++){
 		a[ichannel][iwell]=abest[ichannel][iwell];
 		V0[ichannel][iwell]=V0best[ichannel][iwell];
 	}
+	*/
+	
 	SquareWell_Init();
 	
+	/*
 	for(iq=0;iq<nqmax;iq++){
 		phaseshift=(180.0/PI)*GetDELTA(ichannel,iq);
 		if(phaseshift<0.0)
@@ -207,6 +212,7 @@ CWaveFunction_pd_tune::CWaveFunction_pd_tune(string parsfilename) : CWaveFunctio
 	}
 	printf("\n");
 	printf("---- nsuccess=%d -----\n",nsuccess);
+	*/
 	
 }
 
@@ -218,18 +224,24 @@ CWaveFunction_pd_tune::~CWaveFunction_pd_tune(){
 double CWaveFunction_pd_tune::CalcPsiSquared(int iq,double r,double ctheta){
   double psisquared,theta=acos(ctheta),x;
   double q=GetQ(iq);
-  complex<double> psi,psia,Xlm00;
-  psia=planewave[iq]->planewave(r,ctheta);
-  complex<double> DelPhi[2];
+  complex<double> psi,psiplane,Xlm00,Xlm10,Xlm20;
+  psiplane=planewave[iq]->planewave(r,ctheta);
+  complex<double> DelPhi[6];
 
   SquareWell_GetDelPhi(iq,r,DelPhi);
+	
 	x=q*r/HBARC;
   Xlm00=sqrt(4.0*PI)*SpherHarmonics::Ylm(0,0,theta,0.0)/x;
+	Xlm10=ci*sqrt(12.0*PI)*SpherHarmonics::Ylm(1,0,theta,0.0)/x;
+	Xlm20=-sqrt(20.0*PI)*SpherHarmonics::Ylm(2,0,theta,0.0)/x;
+	
 	// for S=1/2
-  psi=psia+Xlm00*DelPhi[0];
-  psisquared=real(psi*conj(psi));
-
-	//psisquared*=RelativisticCorrection(r,iq);
+  psi=psiplane+Xlm00*DelPhi[0]+Xlm10*DelPhi[2]+Xlm20*DelPhi[4];
+  psisquared=(1.0/3.0)*real(psi*conj(psi));
+	// for S=3/2
+  psi=psiplane+Xlm00*DelPhi[1]+Xlm10*DelPhi[3]+Xlm20*DelPhi[5];
+  psisquared+=(2.0/3.0)*real(psi*conj(psi));
+	
   return psisquared;
 
 }
