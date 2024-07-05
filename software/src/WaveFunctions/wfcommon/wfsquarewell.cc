@@ -17,6 +17,9 @@ void CWaveFunction::SquareWell_Init(){
   double F3b,G3b,F3bprime,G3bprime;
   double F,G,Fprime,Gprime;
   double F1,G1,F1prime,G1prime;
+	int ichannel0=0;
+	int ichannelf=6;
+	//ichannel0=0; ichannelf=nchannels;
 	
   complex<double> eta0,eta1,eta2,eta3;
   complex<double> x1b,x2a,x2b,x3a,x3b,x,q1,q2,q3;
@@ -27,7 +30,7 @@ void CWaveFunction::SquareWell_Init(){
   mu=m1*m2/(m1+m2);
 	
 	//for(ichannel=0;ichannel<nchannels;ichannel++){
-	for(ichannel=5;ichannel<6;ichannel++){
+	for(ichannel=ichannel0;ichannel<ichannelf;ichannel++){
 		if(nwells[ichannel]==1){
 			for(iq=0;iq<nqmax;iq++){
 				q=GetQ(iq);
@@ -50,6 +53,18 @@ void CWaveFunction::SquareWell_Init(){
 				A[ichannel][iq][1]=exp(-2.0*ci*delta[ichannel][iq]);
 				
 			}
+			/*
+			complex<double> ytest[6];
+			printf("q1q2=%d, q=%g:\n",q1q2,q);
+			for(i=0;i<2;i++){
+				ytest[i]=0.0;
+				for(j=0;j<2;j++){
+					ytest[i]+=M[i][j]*A[ichannel][iq][j];
+				}
+				printf("(%g,%g) =? (%g,%g)\n",real(Y[i]),imag(Y[i]),real(ytest[i]),imag(ytest[i]));
+			}
+			*/
+			
 		}
 		else if(nwells[ichannel]==2){
 			cmatrix=new CGSLMatrix_Complex(4);
@@ -59,6 +74,9 @@ void CWaveFunction::SquareWell_Init(){
 				M[i]=new complex<double>[4];
 			
 			for(iq=0;iq<nqmax;iq++){
+				
+				
+				
 				q=GetQ(iq);
 				E=sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2);
 				mu_coulomb=0.25*(E-pow(m1*m1-m2*m2,2)/pow(E,3));
@@ -82,7 +100,8 @@ void CWaveFunction::SquareWell_Init(){
 				
 				for(i=0;i<4;i++){
 					Y[i]=0.0;
-					for(j=0;j<4;j++) M[i][j]=0.0;
+					for(j=0;j<4;j++) 
+						M[i][j]=0.0;
 				}
 				M[0][0]=F1b;              M[0][1]=-F2a;              M[0][2]=-G2a;
 				M[1][0]=abs(q1)*F1bprime; M[1][1]=-abs(q2)*F2aprime; M[1][2]=-abs(q2)*G2aprime;
@@ -93,13 +112,33 @@ void CWaveFunction::SquareWell_Init(){
 				cmatrix->SolveLinearEqs(Y,M,A[ichannel][iq]);
 				
 				delta[ichannel][iq]=-0.5*atan2(imag(A[ichannel][iq][3]),real(A[ichannel][iq][3]));
-				if(delta[ichannel][iq]<0.0) delta[ichannel][iq]=delta[ichannel][iq]+PI;
+				if(delta[ichannel][iq]<0.0)
+					delta[ichannel][iq]=delta[ichannel][iq]+PI;
 				
+				/*
+				complex<double> ytest[4];
+				printf("q1q2=%d, q=%g:\n",q1q2,q);
+				for(i=0;i<4;i++){
+					ytest[i]=0.0;
+					for(j=0;j<4;j++){
+						ytest[i]+=M[i][j]*A[ichannel][iq][j];
+					}
+					printf("(%g,%g) =? (%g,%g)\n",real(Y[i]),imag(Y[i]),real(ytest[i]),imag(ytest[i]));
+				}
+				*/
+			
+			
 			}
+			
+			
+			
 			delete(cmatrix);
 			delete [] Y;
 			for(i=0;i<4;i++) delete [] M[i];
 			delete [] M;
+			
+			
+			
 		}
 		else if(nwells[ichannel]==3){
 			cmatrix=new CGSLMatrix_Complex(6);
@@ -150,6 +189,19 @@ void CWaveFunction::SquareWell_Init(){
 				delta[ichannel][iq]=-0.5*atan2(imag(A[ichannel][iq][5]),real(A[ichannel][iq][5]));
 				if(delta[ichannel][iq]<0.0)
 					delta[ichannel][iq]=delta[ichannel][iq]+PI;
+				
+				/*
+				complex<double> ytest[6];
+				printf("q1q2=%d, q=%g:\n",q1q2,q);
+				for(i=0;i<6;i++){
+					ytest[i]=0.0;
+					for(j=0;j<6;j++){
+						ytest[i]+=M[i][j]*A[ichannel][iq][j];
+					}
+					printf("(%g,%g) =? (%g,%g)\n",real(Y[i]),imag(Y[i]),real(ytest[i]),imag(ytest[i]));
+				}
+				*/
+				
 			}
 			delete(cmatrix);
 			delete [] Y;
@@ -163,13 +215,24 @@ void CWaveFunction::SquareWell_Init(){
 	}
 	
 	for(iq=0;iq<nqmax;iq++){
-		for(ichannel=0;ichannel<nchannels;ichannel++)
+		for(ichannel=ichannel0;ichannel<ichannelf;ichannel++)
 			DelPhiArray[iq][0][ichannel]=0.0;
 		for(ir=1;ir<=DelPhiArray_NRMAX;ir++){
 			r=ir*DelPhiArray_DELR;
 			SquareWell_CalcDelPhi(iq,r,DelPhiArray[iq][ir]);
+			/*
+			if(iq==5 && r<13.0){
+					printf(" %6.3f: ",r);
+					for(ichannel=0;ichannel<1;ichannel++){
+						printf("(%6.3f,%6.3f)",
+						real(DelPhiArray[iq][ir][ichannel]),imag(DelPhiArray[iq][ir][ichannel]));
+				}
+				printf("\n");
+			}
+			*/
 		}
 	}
+	
 	//CLog::Info("FINISHED INITIALIZATION OF WAVEFUNCTIONS FOR PARTIAL WAVES\n");
 	
 }

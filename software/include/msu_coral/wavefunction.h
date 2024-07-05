@@ -50,7 +50,7 @@ namespace NMSUPratt{
 		void getqrctheta(double *pa,double *xa,double *pb,double *xb,double *q,double *r,double *ctheta);
 		void getqrctheta(FourVector &pa,FourVector &xa,FourVector &pb,FourVector &xb,double &q,double &r,double &ctheta);
 		char message[300];
-	protected:
+	public:
 		void ParsInit(string parsfilename);
 		complex<double> ci;
 		double MPI,MKAON,MPROTON,MLAMBDA,MNEUTRON;
@@ -99,7 +99,7 @@ namespace NMSUPratt{
 		CPlaneWave(double etaset,int Q1Q2,double qset);
 		complex<double> planewave(double r,double ctheta);
 		complex<double> hyper(complex<double> a,complex<double> b,complex<double> cz); // This is Kummer's function M(a,b,z)
-	private:
+	public:
 		complex<double>ci;
 		double delx;
 		int q1q2,nxmax;
@@ -123,7 +123,7 @@ namespace NMSUPratt{
 		complex<double> GetPhiIncoming(double r);
 		complex<double> GetPhiOutgoing(double r);
 		double sigma;
-	private:
+	public:
 		complex<double> ci;
 		double epsilon;
 		int ell,q1q2;
@@ -319,7 +319,7 @@ namespace NMSUPratt{
 		double rmax_schrod;
 		complex<double> ***delpsi;
 
-	protected:
+	public:
 
 		void schrodinger(int iq,int ichannel);
 		double Vreid(double r,int ichannel);
@@ -336,7 +336,7 @@ namespace NMSUPratt{
 		double rmax_schrod;
 		complex<double> ***delpsi;
 
-	protected:
+	public:
 
 		void schrodinger(int iq,int ichannel);
 		double Vreid(double r,int ichannel);
@@ -357,7 +357,7 @@ namespace NMSUPratt{
 		double CalcPsiSquared(int iq,double r,double ctheta);
 		CWaveFunction_ppbar_nocoulomb(string parsfilename);
 		~CWaveFunction_ppbar_nocoulomb();
-	protected:
+	public:
 		vector<int> llmax;
 		double VR,VI,a;
 		vector<vector<complex<double>>> A,B;
