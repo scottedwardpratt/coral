@@ -21,14 +21,14 @@ find_library(${GITHOME_MSU}/coral/software/lib msu_coral)
 find_library(${GITHOME_MSU}/commonutils/software/lib msu_commonutils)
 
 ###########################
-set(SOURCE_FILES ./pdtune.cc)
-add_executable(pdtune ${SOURCE_FILES})
-SET_SOURCE_FILES_PROPERTIES(pdtune.cc PROPERTIES OBJECT_DEPENDS
+set(SOURCE_FILES ./pdmain.cc)
+add_executable(pd ${SOURCE_FILES})
+SET_SOURCE_FILES_PROPERTIES(pdmain.cc PROPERTIES OBJECT_DEPENDS
 ${GITHOME_MSU}/coral/software/lib/libmsu_coral.a
 )
 SET_SOURCE_FILES_PROPERTIES(
-pdtune.cc PROPERTIES OBJECT_DEPENDS ${GITHOME_MSU}/commonutils/software/lib/libmsu_commonutils.a
+pdmain.cc PROPERTIES OBJECT_DEPENDS ${GITHOME_MSU}/commonutils/software/lib/libmsu_commonutils.a
 )
-add_dependencies(pdtune extern_msu_coral extern_msu_commonutils)
-target_link_libraries(pdtune msu_coral msu_commonutils ${GITHOME_MSU}/commonutils/software/lib/libmsu_commonutils.a ${GITHOME_MSU}/coral/software/lib/libmsu_coral.a ${GSL_LIBRARY} ${GSL_CBLAS_LIBRARY} ${EIGEN3_LIBRARY})
+add_dependencies(pd extern_msu_coral extern_msu_commonutils)
+target_link_libraries(pd msu_coral msu_commonutils ${GITHOME_MSU}/commonutils/software/lib/libmsu_commonutils.a ${GITHOME_MSU}/coral/software/lib/libmsu_coral.a ${GSL_LIBRARY} ${GSL_CBLAS_LIBRARY} ${EIGEN3_LIBRARY})
 ###########################

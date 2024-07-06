@@ -4,7 +4,7 @@ using namespace std;
 using namespace NMSUPratt;
 
 int main(){
-	CWaveFunction_pd_tune *wf;
+	CWaveFunction_pd_sqwell *wf;
 	double q,r,ctheta=1.0,Rx,Ry,Rz,Rinv=3.0,offset=0.0,phi,stheta;
 	double x,y,z,qx,qy,qz,root2=sqrt(2.0);
 	int iq,Nq;
@@ -12,7 +12,7 @@ int main(){
 	int imc,NMC=1000000;
 	Crandy randy(-time(NULL));  // random number generator (in msu_commonutils)
   
-	wf=new CWaveFunction_pd_tune("parameters/wfparameters.dat"); // This is for pp, solves Schrod. eq. 
+	wf=new CWaveFunction_pd_sqwell("parameters/wfparameters.dat"); // This is for pp, solves Schrod. eq. 
 	// parameter file includes information for solving and storing wave functions
 	
 	//wf->PrintPhaseShifts();
