@@ -16,9 +16,9 @@ font = {'family' : 'serif',
         'size'   : 14}
 plt.rc('font', **font)
 plt.rc('text', usetex=False)
-plt.figure(figsize=(6,5))
+plt.figure(figsize=(9,5))
 fig = plt.figure(1)
-ax = fig.add_axes([0.15,0.13,0.8,0.8])
+ax = fig.add_axes([0.11,0.13,0.65,0.8])
 #y00=-100
 #y01=40
 #y02=-5
@@ -26,73 +26,83 @@ ax = fig.add_axes([0.15,0.13,0.8,0.8])
 #a01=1.5
 #a02=4.5
 
-colors=['red','green','blue','cyan','violet']
+colors=['red','green','blue','cyan','violet','orange']
    
-mydata = np.loadtxt('../results/Rinv3_noint.txt',skiprows=1,unpack=True)
+mydata = np.loadtxt('phaseshifts.txt',skiprows=1,unpack=True)
 q=mydata[0]
-cf=mydata[1]
-iplot=0
-plt.plot(q,cf,linestyle='-',linewidth=2,color='k',marker=None,label='no int.')
-
-mydata = np.loadtxt('../results/Rinv3_swaves.txt',skiprows=1,unpack=True)
-q=mydata[0]
-cf=mydata[1]
-iplot=0
-plt.plot(q,cf,linestyle='-',linewidth=2,color=colors[iplot],marker=None,label='s waves')
-
-mydata = np.loadtxt('../results/Rinv3_spwaves.txt',skiprows=1,unpack=True)
-q=mydata[0]
-cf=mydata[1]
-iplot=1
-plt.plot(q,cf,linestyle='-',linewidth=2,color=colors[iplot],marker=None,label='s,p waves')
-
-
-mydata = np.loadtxt('../results/Rinv3_spdwaves.txt',skiprows=1,unpack=True)
-q=mydata[0]
-cf=mydata[1]
-iplot=2
-plt.plot(q,cf,linestyle='-',linewidth=2,color=colors[iplot],marker=None,label='s,p,d waves')
-   
-#data_x=[1.0,2.0,3.0]
-#data_y=[-4.5,-20.0,-27.5]
-#plt.scatter(data_x,data_y,color='k',marker='*',s=140,zorder=10)
+ke=mydata[1]
+delta_s12=mydata[2]
+for i in range(0,4):
+  delta_s12[i]=delta_s12[i]+180.0
+delta_s32=mydata[3]
+delta_p12=mydata[4]
+for i in range(0,0):
+  delta_p12[i]=delta_p12[i]+180.0
+for i in range(28,40):
+  delta_p12[i]=delta_p12[i]+180.0
+delta_p32=mydata[5]
+delta_p32=delta_p32+180.0
+delta_d12=mydata[6]
+delta_d12=delta_d12+180.0
+delta_d32=mydata[7]
 
 
-#data_x=[1.0,2.0,3.0]
-#data_y=[-37.5,-52.5,-64.0]
-#plt.scatter(data_x,data_y,color='k',marker='*',s=140,zorder=10)
+plt.plot(ke,delta_s12,linestyle='-',linewidth=2,color=colors[0],marker=None)
+plt.plot(ke,delta_s32,linestyle='-',linewidth=2,color=colors[1],marker=None)
+plt.plot(ke,delta_p12,linestyle='-',linewidth=2,color=colors[2],marker=None)
+plt.plot(ke,delta_p32,linestyle='-',linewidth=2,color=colors[3],marker=None)
+plt.plot(ke,delta_d12,linestyle='-',linewidth=2,color=colors[4],marker=None)
+plt.plot(ke,delta_d32,linestyle='-',linewidth=2,color=colors[5],marker=None)
 
-#plt.plot(x,z,linestyle=linestyles[1],linewidth=2,color='k',markersize=8, marker=markerstyles[3], markerfacecolor='r', markeredgecolor=colors[3])
+sdata=np.loadtxt('../phaseshifts/data/S/deltabar.txt',skiprows=1,unpack=True)
+ke_s=sdata[0]
+del_s12=sdata[1]
+del_s32=sdata[2]
+plt.scatter(ke_s,del_s12,color=colors[0],marker='o',label='$L=0,S=1/2$')
+plt.scatter(ke_s,del_s32,color=colors[1],marker='o',label='$L=0,S=3/2$')
 
-#plt.semilogy(x,y)
+pdata=np.loadtxt('../phaseshifts/data/P/deltabar.txt',skiprows=1,unpack=True)
+ke_p=pdata[0]
+del_p12=pdata[1]
+del_p32=pdata[2]
+plt.scatter(ke_p,del_p12,color=colors[2],marker='o',label='$L=1,S=1/2$')
+plt.scatter(ke_p,del_p32,color=colors[3],marker='o',label='$L=1,S=3/2$')
+
+ddata=np.loadtxt('../phaseshifts/data/D/deltabar.txt',skiprows=1,unpack=True)
+ke_d=ddata[0]
+del_d12=ddata[1]
+del_d32=ddata[2]
+plt.scatter(ke_d,del_d12,color=colors[4],marker='o',label='$L=2,S=1/2$')
+plt.scatter(ke_d,del_d32,color=colors[5],marker='o',label='$L=2,S=3/2$')
+
 
 ax.tick_params(axis='both', which='major', labelsize=14)
 
-ax.set_xticks(np.arange(0,220,40), minor=False)
-ax.set_xticklabels(np.arange(0,220,40), minor=False, family='serif')
-ax.set_xticks(np.arange(0,220,10), minor=True)
+ax.set_xticks(np.arange(0,80,5), minor=False)
+ax.set_xticklabels(np.arange(0,80,5), minor=False, family='serif')
+ax.set_xticks(np.arange(0,80,1), minor=True)
 #ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
-plt.xlim(0.0,200)
+plt.xlim(0.0,12)
 
-ax.set_yticks(np.arange(0,2,0.5), minor=False)
-ax.set_yticklabels(np.arange(0,2,0.5), minor=False, family='serif')
-ax.set_yticks(np.arange(0,2,0.1), minor=True)
-plt.ylim(0,1.05)
+ax.set_yticks(np.arange(-225,225,45), minor=False)
+ax.set_yticklabels(np.arange(-225,225,45), minor=False, family='serif')
+ax.set_yticks(np.arange(-225,225,15), minor=True)
+plt.ylim(-150,50)
 #ax.set_yticks(0.1:1.0:10.0:100.0, minor=True)
 #ax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.1e'))
 ax.yaxis.set_major_formatter(sformatter)
 
-plt.xlabel('$q$ [MeV/$c$]', fontsize=18, weight='normal')
-plt.ylabel('$C(q)$ ',fontsize=18,labelpad=0)
+plt.xlabel('$E_k$ [MeV]', fontsize=18, weight='normal')
+plt.ylabel('$\delta$ [degrees]',fontsize=18,labelpad=0)
 
-legend(loc="lower right")
+legend(loc=[1.02,0.3])
 
-text(120,0.37,"$R_{\\rm inv}=3~{\\rm fm}$",fontsize=24)
+#text(120,0.37,"$R_{\\rm inv}=3~{\\rm fm}$",fontsize=24)
 
 #plt.title('MathText Number $\sum_{n=1}^\infty({-e^{i\pi}}/{2^n})$!',
 #fontsize=12, color='gray')
 #plt.subplots_adjust(top=0.85)
-plt.savefig('cf_pd.pdf',format='pdf')
-os.system('open -a Preview cf_pd.pdf')
+plt.savefig('delta_pd.pdf',format='pdf')
+os.system('open -a Preview delta_pd.pdf')
 #plt.show()
 quit()

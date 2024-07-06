@@ -1,6 +1,7 @@
 #include "msu_coral/wavefunction.h"
 #include "msu_commonutils/constants.h"
 #include "msu_commonutils/sf.h"
+#include "msu_commonutils/misc.h"
 #include "msu_commonutils/randy.h"
 using namespace std;
 using namespace NMSUPratt;
@@ -9,6 +10,7 @@ CWaveFunction_pd_tune::CWaveFunction_pd_tune(string parsfilename) : CWaveFunctio
 	CLog::Info("Beware! The p-d wavefunction was tuned to match phase shifts which were only measured for q<100.\n Also, the p-d system becomes inelastic (deuteron breaks up) above q=52 MeV/c\n So this treatment is pretty questionable for q>50!\n");
 
 	// Interaction fit to phaseshifts from T.C. Black et al., PLB 471, p. 103-107 (1999).
+	
   ParsInit(parsfilename);
 
   m1=ProtonMass; 
@@ -28,8 +30,9 @@ CWaveFunction_pd_tune::CWaveFunction_pd_tune(string parsfilename) : CWaveFunctio
 	ell[3]=1;
 	ell[4]=2;
 	ell[5]=2;
+	
   InitWaves();
-
+	
   nwells=new int[nchannels];
   nwells[0]=3;
 	nwells[1]=3;
@@ -47,8 +50,8 @@ CWaveFunction_pd_tune::CWaveFunction_pd_tune(string parsfilename) : CWaveFunctio
 	a[1][0]=2.1591; a[1][1]=2.4132; a[1][2]=7.89978; 
 	V0[1][0]=-30.4977; V0[1][1]=38.9727; V0[1][2]=1.10959;
 	
-	a[2][0]=1.74663; a[2][1]=11.8407; 
-	V0[2][0]=-10.0036; V0[2][1]=0.131983; 
+	a[2][0]=2.1367; a[2][1]=12.0184; 
+	V0[2][0]=-9.6705; V0[2][1]=0.195326; 
 	
 	a[3][0]=3.52139; a[3][1]=10.1152; 
 	V0[3][0]=-9.63551; V0[3][1]=-0.588381;
@@ -59,7 +62,8 @@ CWaveFunction_pd_tune::CWaveFunction_pd_tune(string parsfilename) : CWaveFunctio
 	a[5][0]=1.25107; a[5][1]=11.5236; 
 	V0[5][0]=-9.11892; V0[5][1]=0.323206; 
 	
-	/*
+			/*
+	
 	int iq,ichannel,iwell;
 	double phaseshift,chisquare,bestchisquare;
 	char dumbo[120];
@@ -207,6 +211,7 @@ CWaveFunction_pd_tune::CWaveFunction_pd_tune(string parsfilename) : CWaveFunctio
 		V0[ichannel][iwell]=V0best[ichannel][iwell];
 	}
 	*/
+	
 	
 	SquareWell_Init();
 	

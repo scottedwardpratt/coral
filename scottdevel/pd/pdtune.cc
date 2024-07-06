@@ -15,8 +15,7 @@ int main(){
 	wf=new CWaveFunction_pd_tune("parameters/wfparameters.dat"); // This is for pp, solves Schrod. eq. 
 	// parameter file includes information for solving and storing wave functions
 	
-	wf->PrintPhaseShifts();
-  
+	//wf->PrintPhaseShifts();
 	
 	// Data PRC 82, 034002 (2010) singlet/triplet
 	//delta(KE_proton=2.25 MeV) = -39.1, -34.5.    q= 58.11 MeV/c
