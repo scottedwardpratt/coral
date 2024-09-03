@@ -18,9 +18,8 @@ void CWaveFunction::SquareWell_Init(){
   double F3b,G3b,F3bprime,G3bprime;
   double F,G,Fprime,Gprime;
   double F1,G1,F1prime,G1prime;
-	int ichannel0=0;
-	int ichannelf=6;
-	//ichannel0=0; ichannelf=nchannels;
+	int ichannel0,ichannelf;
+	ichannel0=0; ichannelf=nchannels;
 	
   complex<double> eta0,eta1,eta2,eta3;
   complex<double> x1b,x2a,x2b,x3a,x3b,x,q1,q2,q3;

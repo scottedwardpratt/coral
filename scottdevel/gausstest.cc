@@ -11,11 +11,13 @@ int main(){
 	vector<vector<double>> cf;
 	int imc,NMC;
 	Crandy randy(-time(NULL));  // random number generator (in msu_commonutils)
+	string qdirection[5]={"qinv","qout","qside","qlong","ell=1_m=0(using x axis)"};
   
 	wf=new CWaveFunction_pp_schrod("parameters/wfparameters.dat"); // This is for pp, solves Schrod. eq.
 	//wf=new CWaveFunction_ppbar_nocoul("parameters/wfparameters.dat"); // This is for pp, solves Schrod. eq. 
 	//wf=new CWaveFunction_ppiminus_sqwell("parameters/wfparameters.dat"); // This is for pp, solves Schrod. eq. 
 	// parameter file includes information for solving and storing wave functions
+	//wf=new CWaveFunction_pd_sqwell("parameters/wfparameters.dat");
   
 	CparameterMap parmap;  
 	parmap.ReadParsFromFile("parameters/coralpars.dat");  // Reads
@@ -39,7 +41,7 @@ int main(){
 		
 	}
 	for(idir=0;idir<Ndir;idir++){
-		printf("------- starting for idir=%d\n",idir);
+		printf("-------  %s --------\n",qdirection[idir].c_str());
 		for(iq=0;iq<Nq;iq++){
 			q=wf->GetQ(iq);
 			for(imc=0;imc<NMC;imc++){
@@ -85,8 +87,8 @@ int main(){
 	char filename[120];
 	snprintf(filename,120,"results/Rx%g_Ry%g_Rz%g_offset%g.txt",Rx,Ry,Rz,offset);
 	FILE *fptr=fopen(filename,"w");
-	printf(" q      C\n");
-	fprintf(fptr,"  q      C     out    long   side\n");
+	fprintf(fptr,"#  q      inv      out      long     side    ell=1,m=0(along x axis)\n");
+	printf("  q      inv      out      long     side    ell=1,m=0(along x axis)\n");
 	for(iq=0;iq<Nq;iq++){
 		q=wf->GetQ(iq);
 		printf("%5.1f ",q);		
