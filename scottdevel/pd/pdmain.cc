@@ -5,7 +5,7 @@ using namespace NMSUPratt;
 
 int main(){
 	CWaveFunction_pd_sqwell *wf;
-	double q,r,ctheta=1.0,Rx,Ry,Rz,Rinv=3.0,offset=0.0,phi,stheta;
+	double q,r,ctheta=1.0,Rx,Ry,Rz,Rinv=2.0,offset=0.0,phi,stheta;
 	double x,y,z,qx,qy,qz,root2=sqrt(2.0);
 	int iq,Nq;
 	vector<double> cf;
@@ -15,15 +15,37 @@ int main(){
 	wf=new CWaveFunction_pd_sqwell("parameters/wfparameters.dat"); // This is for pp, solves Schrod. eq. 
 	// parameter file includes information for solving and storing wave functions
 	
-	//wf->PrintPhaseShifts();
-	
 	// Data PRC 82, 034002 (2010) singlet/triplet
 	//delta(KE_proton=2.25 MeV) = -39.1, -34.5.    q= 58.11 MeV/c
 	//delta(KE_proton=3.15 MeV) = -48.7, -42.9     q= 68.76 MeV/c
 
 	//CparameterMap parmap;
 	//parmap.ReadParsFromFile("parameters/coralpars.dat");  // Reads
-  
+	
+	
+	wf->PrintPhaseShifts();
+	
+	int ichannel=0;
+	for(iq=0;iq<20;iq++){
+		printf("iq=%2d: ",iq);
+		for(int iwell=0;iwell<3;iwell++){
+			printf("(%9.4f,%9.4f)    ",real(wf->A[ichannel][iq][iwell]),imag(wf->A[ichannel][iq][iwell]));
+		}
+		printf("\n");
+	}
+
+	
+	
+	ctheta=1.0;
+	iq=7;
+	printf("q=%g\n",wf->GetQ(iq));
+	complex<double> delphi[6];
+	double delphi2[6];
+	double delr=0.2;
+	for(r=0.5*delr;r<15.001;r+=delr){
+		wf->SquareWell_CalcDelPhi2(iq,r,delphi,delphi2);
+		printf("%6.3f %10.5f   (%10.5f,%10.5f)\n",r,delphi2[ichannel],real(delphi[ichannel]),imag(delphi[ichannel]));
+	}
 	
 	//printf("Enter NMC: ");
 	//scanf("%d",&NMC);

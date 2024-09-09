@@ -9,8 +9,7 @@ using namespace NMSUPratt;
 void CWaveFunction::SquareWell_Init(){
   // To set up the wave functions and phase shifts
   CGSLMatrix_Complex *cmatrix;
-  double q,mu_coulomb,E;
-  double beta;
+  double q,beta;
   double F1b,G1b,F1bprime,G1bprime;
   double F2a,G2a,F2aprime,G2aprime;
   double F2b,G2b,F2bprime,G2bprime;
@@ -27,22 +26,20 @@ void CWaveFunction::SquareWell_Init(){
   complex<double> x1,x2;
   double F2,G2,F2prime,G2prime,qsquared,r;
   int i,j,iq,ir,ichannel;
-  mu=m1*m2/(m1+m2);
+	mu=m1*m2/(m1+m2);
 	
 	//for(ichannel=0;ichannel<nchannels;ichannel++){
 	for(ichannel=ichannel0;ichannel<ichannelf;ichannel++){
 		if(nwells[ichannel]==1){
 			for(iq=0;iq<nqmax;iq++){
 				q=GetQ(iq);
-				E=sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2);
-				mu_coulomb=0.25*(E-pow(m1*m1-m2*m2,2)/pow(E,3));
-				eta0=q1q2*mu_coulomb*ALPHA/q;
+				eta0=q1q2*mu*ALPHA/q;
 				
 				qsquared=q*q-2.0*mu*V0[ichannel][0];
 				if(qsquared>0) q1=sqrt(qsquared);
 				else q1=ci*sqrt(abs(qsquared));
 				x1=q1*a[ichannel][0]/HBARC;
-				eta1=q1q2*mu_coulomb*ALPHA/q1;
+				eta1=q1q2*mu*ALPHA/q1;
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x1,eta1,&F1,&G1,&F1prime,&G1prime);
 				x2=q*a[ichannel][0]/HBARC;
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x2,eta0,&F2,&G2,&F2prime,&G2prime);     
@@ -78,25 +75,24 @@ void CWaveFunction::SquareWell_Init(){
 				
 				
 				q=GetQ(iq);
-				E=sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2);
-				mu_coulomb=0.25*(E-pow(m1*m1-m2*m2,2)/pow(E,3));
-				
 				q1=sqrt(abs(q*q-2.0*mu*V0[ichannel][0]));
-				if(q*q-2.0*mu*V0[ichannel][0]<0.0) q1=ci*q1;
+				if(q*q-2.0*mu*V0[ichannel][0]<0.0)
+					q1=ci*q1;
 				q2=sqrt(abs(q*q-2.0*mu*V0[ichannel][1]));
-				if(q*q-2.0*mu*V0[ichannel][1]<0.0) q2=ci*q2;
+				if(q*q-2.0*mu*V0[ichannel][1]<0.0)
+					q2=ci*q2;
 				x1b=a[ichannel][0]*q1/HBARC;
 				x2a=a[ichannel][0]*q2/HBARC;
 				x2b=a[ichannel][1]*q2/HBARC;
 				x=a[ichannel][1]*q/HBARC;
-				eta1=q1q2*mu_coulomb*ALPHA/q1;
-				eta2=q1q2*mu_coulomb*ALPHA/q2;
-				eta0=q1q2*mu_coulomb*ALPHA/q;
+				eta1=q1q2*mu*ALPHA/q1;
+				eta2=q1q2*mu*ALPHA/q2;
+				eta0=q1q2*mu*ALPHA/q;
+				
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x1b,eta1,&F1b,&G1b,&F1bprime,&G1bprime);
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x2a,eta2,&F2a,&G2a,&F2aprime,&G2aprime);
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x2b,eta2,&F2b,&G2b,&F2bprime,&G2bprime);
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x,eta0,&F,&G,&Fprime,&Gprime);
-				
 				
 				for(i=0;i<4;i++){
 					Y[i]=0.0;
@@ -111,10 +107,14 @@ void CWaveFunction::SquareWell_Init(){
 				Y[2]=0.5*(F-ci*G); Y[3]=0.5*q*(Fprime-ci*Gprime);
 				cmatrix->SolveLinearEqs(Y,M,A[ichannel][iq]);
 				
+				
+				
+				
 				delta[ichannel][iq]=-0.5*atan2(imag(A[ichannel][iq][3]),real(A[ichannel][iq][3]));
 				if(delta[ichannel][iq]<0.0)
 					delta[ichannel][iq]=delta[ichannel][iq]+PI;
 				
+								
 				/*
 				complex<double> ytest[4];
 				printf("q1q2=%d, q=%g:\n",q1q2,q);
@@ -148,24 +148,25 @@ void CWaveFunction::SquareWell_Init(){
 				M[i]=new complex<double>[6];
 			for(iq=0;iq<nqmax;iq++){
 				q=GetQ(iq);
-				E=sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2);
-				mu_coulomb=0.25*(E-pow(m1*m1-m2*m2,2)/pow(E,3));
 				q1=sqrt(abs(q*q-2.0*mu*V0[ichannel][0]));
-				if(q*q-2.0*mu*V0[ichannel][0]<0.0) q1=ci*q1;
+				if(q*q-2.0*mu*V0[ichannel][0]<0.0)
+					q1=ci*q1;
 				q2=sqrt(abs(q*q-2.0*mu*V0[ichannel][1]));
-				if(q*q-2.0*mu*V0[ichannel][1]<0.0) q2=ci*q2;
+				if(q*q-2.0*mu*V0[ichannel][1]<0.0)
+					q2=ci*q2;
 				q3=sqrt(abs(q*q-2.0*mu*V0[ichannel][2]));
-				if(q*q-2.0*mu*V0[ichannel][2]<0.0) q3=ci*q3;
+				if(q*q-2.0*mu*V0[ichannel][2]<0.0)
+					q3=ci*q3;
 				x1b=a[ichannel][0]*q1/HBARC;
 				x2a=a[ichannel][0]*q2/HBARC;
 				x2b=a[ichannel][1]*q2/HBARC;
 				x3a=a[ichannel][1]*q3/HBARC;
 				x3b=a[ichannel][2]*q3/HBARC;
 				x=a[ichannel][2]*q/HBARC;
-				eta1=q1q2*mu_coulomb*ALPHA/q1;
-				eta2=q1q2*mu_coulomb*ALPHA/q2;
-				eta3=q1q2*mu_coulomb*ALPHA/q3;
-				eta0=q1q2*mu_coulomb*ALPHA/q;
+				eta1=q1q2*mu*ALPHA/q1;
+				eta2=q1q2*mu*ALPHA/q2;
+				eta3=q1q2*mu*ALPHA/q3;
+				eta0=q1q2*mu*ALPHA/q;
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x1b,eta1,&F1b,&G1b,&F1bprime,&G1bprime);
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x2a,eta2,&F2a,&G2a,&F2aprime,&G2aprime);
 				CoulWave::GetFGprime_ComplexQ(ell[ichannel],x2b,eta2,&F2b,&G2b,&F2bprime,&G2bprime);
@@ -253,7 +254,71 @@ void CWaveFunction::SquareWell_GetDelPhi(int iq,double r,complex<double> *DelPhi
 
 void CWaveFunction::SquareWell_CalcDelPhi(int iq,double r,complex<double> *DelPhi){
 	complex<double> q1;
-	double mu_coulomb,E,qsquared,eta0;
+	double qsquared,eta0;
+	complex<double> x1, eta1;
+	double F,G,Fprime,Gprime;
+	double F0[5],G0[5]; // assuming L is never bigger than 4
+	int lexist[5]={0};
+	int ichannel,iwell,l;
+	double q=GetQ(iq);
+	mu=m1*m2/(m1+m2);
+	
+	eta0=q1q2*mu*ALPHA/q;
+	for(ichannel=0;ichannel<nchannels;ichannel++){
+		if(lexist[ell[ichannel]]==0){
+			l=ell[ichannel];
+			CoulWave::GetFGprime_ComplexQ(l,0.0*ci+q*r/HBARC,0.0*ci+eta0,&F0[l],&G0[l],&Fprime,&Gprime);
+			lexist[l]=1;
+		}
+	}
+	
+	
+	complex<double> phi,phi0,AA;
+	complex<double>cgs;
+
+	
+	for(ichannel=0;ichannel<nchannels;ichannel++){
+		cgs=cgsqwell[iq][ell[ichannel]];
+		if(r>a[ichannel][nwells[ichannel]-1]){
+			AA=A[ichannel][iq][2*nwells[ichannel]-1];
+			phi0=0.5*(F0[ell[ichannel]]+ci*G0[ell[ichannel]]);
+			phi=0.5*AA*(F0[ell[ichannel]]+ci*G0[ell[ichannel]]);
+			DelPhi[ichannel]=phi-phi0;
+		}
+		else{
+      iwell=0;
+      while(r>a[ichannel][iwell])
+				iwell+=1;
+      qsquared=q*q-2.0*mu*V0[ichannel][iwell];
+      if(qsquared > 0.0)
+				q1=sqrt(qsquared);
+      else
+				q1=ci*sqrt(fabs(qsquared));
+      eta1=q1q2*mu*ALPHA/q1;
+      x1=q1*r/HBARC;
+      CoulWave::GetFGprime_ComplexQ(ell[ichannel],x1,eta1,&F,&G,&Fprime, &Gprime);
+			phi0=F0[ell[ichannel]];
+      if(iwell==0){
+				phi=A[ichannel][iq][0]*F;
+			}
+			else{
+				phi=A[ichannel][iq][2*iwell-1]*F+A[ichannel][iq][2*iwell]*G;
+			}
+			DelPhi[ichannel]=phi-phi0;
+			if(iq==7 && ichannel==1){
+				printf("%6.3f: eta1=(%8.5f,%8.5f), phi=(%8.5f,%8.5f), F,G=(%8.5f,%8.5f)\n",r,real(eta1),imag(eta1),real(phi),imag(phi),real(F),imag(F));
+			}
+			
+    }
+		DelPhi[ichannel]*=cgs;
+  }
+}
+
+
+/*  old WRONG routine
+void CWaveFunction::SquareWell_CalcDelPhi(int iq,double r,complex<double> *DelPhi){
+	complex<double> q1,E;
+	double qsquared,eta0;
 	complex<double> x1, eta1;
 	double F,G,Fprime,Gprime;
 	double F0[5],G0[5]; // assuming L is never bigger than 4
@@ -262,9 +327,8 @@ void CWaveFunction::SquareWell_CalcDelPhi(int iq,double r,complex<double> *DelPh
 	double q=GetQ(iq);
 	
 	E=sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2);
-	mu_coulomb=0.25*(E-(m1*m1-m2*m2)*(m1*m1-m2*m2)/(E*E*E));
-	mu=m1*m2/(m1+m2);
-	eta0=q1q2*mu_coulomb*ALPHA/q;
+mu=0.25*(E-pow(m1*m1-m2*m2,2)/pow(E,3));
+	eta0=q1q2*mu*ALPHA/q;
 	for(ichannel=0;ichannel<nchannels;ichannel++){
 		if(lexist[ell[ichannel]]==0){
 			l=ell[ichannel];
@@ -276,48 +340,110 @@ void CWaveFunction::SquareWell_CalcDelPhi(int iq,double r,complex<double> *DelPh
 	for(ichannel=0;ichannel<nchannels;ichannel++){
 		if(r>a[ichannel][nwells[ichannel]-1]){
 			DelPhi[ichannel]=0.5*(A[ichannel][iq][2*nwells[ichannel]-1]-1.0) *(F0[ell[ichannel]]+ci*G0[ell[ichannel]]);
-			/*
-			if(ichannel==1){
-			x1=q*r/HBARC;
-			complex<double> guess=0.5*ci*exp(-ci*x1)*(exp(-2.0*ci*delta[ichannel][iq])-1.0);
-			printf("ichannel=%d: r=%g, (%g,%g) =? (%g,%g), %g=?%g, ratio=(%g,%g)\n",
-			ichannel,r,real(DelPhi[ichannel]),imag(DelPhi[ichannel]),real(guess),imag(guess),real(DelPhi[ichannel]*conj(DelPhi[ichannel])),real(guess*conj(guess)),
-			real(guess/DelPhi[ichannel]),imag(guess/DelPhi[ichannel]));
-			}*/
 				
 		}
 		else{
       iwell=0;
-      while(r>a[ichannel][iwell]) iwell+=1;
+      while(r>a[ichannel][iwell])
+				iwell+=1;
       qsquared=q*q-2.0*mu*V0[ichannel][iwell];
       if(qsquared > 0.0)
 				q1=sqrt(qsquared);
       else
-				q1=ci*sqrt(abs(qsquared));
-      eta1=q1q2*mu_coulomb*ALPHA/q1;
+				q1=ci*sqrt(fabs(qsquared));
+      eta1=q1q2*mu*ALPHA/q1;
       x1=q1*r/HBARC;
       CoulWave::GetFGprime_ComplexQ(ell[ichannel],x1,eta1,&F,&G,&Fprime, &Gprime);
       if(iwell==0){
 				DelPhi[ichannel]=(A[ichannel][iq][0]*F-F0[ell[ichannel]])*cgsqwell[iq][ell[ichannel]];
       }
       else{
-				DelPhi[ichannel]=(A[ichannel][iq][2*iwell-1]*F+A[ichannel][iq][2*iwell]*G
-					-F0[ell[ichannel]]);
+				DelPhi[ichannel]=A[ichannel][iq][2*iwell-1]*F+A[ichannel][iq][2*iwell]*G
+					-F0[ell[ichannel]];
       }
     }
 		DelPhi[ichannel]*=cgsqwell[iq][ell[ichannel]];
   }
 }
+*/
+
+void CWaveFunction::SquareWell_CalcDelPhi2(int iq,double r,complex<double> *DelPhi,double *DelPhi2){
+	complex<double> q1;
+	double qsquared,eta0;
+	complex<double> x1, eta1;
+	double F,G,Fprime,Gprime;
+	double F0[5],G0[5]; // assuming L is never bigger than 4
+	int lexist[5]={0};
+	int ichannel,iwell,l;
+	double q=GetQ(iq);
+	
+	mu=m1*m2/(m1+m2);
+	eta0=q1q2*mu*ALPHA/q;
+	for(ichannel=0;ichannel<nchannels;ichannel++){
+		if(lexist[ell[ichannel]]==0){
+			l=ell[ichannel];
+			CoulWave::GetFGprime_ComplexQ(l,0.0*ci+q*r/HBARC,0.0*ci+eta0,&F0[l],&G0[l],&Fprime,&Gprime);
+			lexist[l]=1;
+		}
+	}
+	
+	
+	complex<double> phi,phi0,AA;
+	complex<double>cgs;
+	
+	
+	cgs=cgsqwell[iq][ell[ichannel]];
+	iwell=0;
+
+	
+	for(ichannel=0;ichannel<nchannels;ichannel++){
+		cgs=cgsqwell[iq][ell[ichannel]];
+		if(r>a[ichannel][nwells[ichannel]-1]){
+			AA=A[ichannel][iq][2*nwells[ichannel]-1];
+			phi0=0.5*(F0[ell[ichannel]]+ci*G0[ell[ichannel]]);
+			phi=0.5*AA*(F0[ell[ichannel]]+ci*G0[ell[ichannel]]);
+			DelPhi[ichannel]=phi-phi0;
+			DelPhi2[ichannel]=real(phi*conj(phi))-real(phi0*conj(phi0));
+		}
+		else{
+      iwell=0;
+      while(r>a[ichannel][iwell])
+				iwell+=1;
+      qsquared=q*q-2.0*mu*V0[ichannel][iwell];
+      if(qsquared > 0.0)
+				q1=sqrt(qsquared);
+      else
+				q1=ci*sqrt(fabs(qsquared));
+      eta1=q1q2*mu*ALPHA/q1;
+      x1=q1*r/HBARC;
+      CoulWave::GetFGprime_ComplexQ(ell[ichannel],x1,eta1,&F,&G,&Fprime, &Gprime);
+			phi0=F0[ell[ichannel]];
+      if(iwell==0){
+				phi=A[ichannel][iq][0]*F;
+			}
+			else{
+				phi=A[ichannel][iq][2*iwell-1]*F+A[ichannel][iq][2*iwell]*G;
+			}
+			DelPhi[ichannel]=phi-phi0;
+			DelPhi2[ichannel]=real(phi*conj(phi))-real(phi0*conj(phi0));
+    }
+		DelPhi[ichannel]*=cgs;
+		DelPhi2[ichannel]*=real(cgs*conj(cgs));
+  }
+}
 
 void CWaveFunction::SquareWell_MakeArrays(){
   int ichannel,iq,ir,l;
-  double q,E,mu_coulomb,eta0;
+  double q,eta0;
   int *lexist;
   V0=new double *[nchannels];
   a=new double *[nchannels];
   A=new complex<double> **[nchannels];
   lexist=new int[ellmax+1];
-  for(l=0;l<=ellmax;l++) lexist[l]=0;
+	mu=m1*m2/(m1+m2);
+  for(l=0;l<=ellmax;l++)
+		lexist[l]=0;
+	
 	
   for(ichannel=0;ichannel<nchannels;ichannel++){
     if(lexist[ell[ichannel]]==0) lexist[ell[ichannel]]=1;
@@ -333,10 +459,7 @@ void CWaveFunction::SquareWell_MakeArrays(){
   for(iq=0;iq<nqmax;iq++){
     cgsqwell[iq]=new complex<double>[ellmax+1];
     q=GetQ(iq);
-    E=sqrt(q*q+m1*m1)+sqrt(q*q+m2*m2);
-    mu_coulomb=0.25*(E-(m1*m1-m2*m2)*(m1*m1-m2*m2)/(E*E*E));
-		mu=m1*m2/(m1+m2);
-    eta0=q1q2*mu_coulomb*ALPHA/q;
+    eta0=q1q2*mu*ALPHA/q;
     for(l=0;l<=ellmax;l++){
       if(lexist[l]==1){
 				cgsqwell[iq][l]=CoulWave::cgamma(l+1.0+ci*eta0);

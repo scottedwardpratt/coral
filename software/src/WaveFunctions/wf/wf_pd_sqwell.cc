@@ -7,7 +7,7 @@ using namespace std;
 using namespace NMSUPratt;
 
 CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFunction(){
-	CLog::Info("Beware! The p-d wavefunction was tuned to match phase shifts which were only measured for q<100.\n Also, the p-d system becomes inelastic (deuteron breaks up) above q=52 MeV/c\n So this treatment is pretty questionable for q>50!\n");
+	CLog::Info("Beware! The p-d wavefunction was tuned to match phase shifts which were only measured for q<100.\n Also, the p-d system becomes inelastic (deuteron breaks up) above q=52 MeV/c\n So this treatment is pretty questionable for q>100!\n");
 
 	// Interaction fit to phaseshifts from T.C. Black et al., PLB 471, p. 103-107 (1999).
 	
@@ -46,28 +46,35 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 	//a[0][0]=3.76234; a[0][1]=3.76603; a[0][2]=12.3426;
 	a[0][0]=3.64261; a[0][1]=3.64854; a[0][2]=12.747; 
 	V0[0][0]=-35.5973; V0[0][1]=39.2611; V0[0][2]=-0.204775; 
+	//V0[0][0]=0.0; V0[0][1]=0.0; V0[0][2]=0.0;
 	
 	a[1][0]=2.1591; a[1][1]=2.4132; a[1][2]=7.89978; 
 	V0[1][0]=-30.4977; V0[1][1]=38.9727; V0[1][2]=1.10959;
+	//V0[1][0]=0.0; V0[1][1]=0.0; V0[1][2]=0.0;
 	
 	a[2][0]=2.1367; a[2][1]=12.0184; 
 	V0[2][0]=-9.6705; V0[2][1]=0.195326; 
+	//V0[2][0]=0.0; V0[2][1]=0.0; 
 	
+	// seems to overcontribute
 	a[3][0]=3.52139; a[3][1]=10.1152; 
 	V0[3][0]=-9.63551; V0[3][1]=-0.588381;
+	//V0[3][0]=0.0; V0[3][1]=0.0; 
 	
 	a[4][0]=3.97389; a[4][1]=13.0859;
 	V0[4][0]=-9.8424; V0[4][1]=-0.0903357;
+	//V0[4][0]=0.0; V0[4][1]=0.0; 
 	
 	a[5][0]=1.25107; a[5][1]=11.5236; 
-	V0[5][0]=-9.11892; V0[5][1]=0.323206; 
+	V0[5][0]=-9.11892; V0[5][1]=0.323206;
+	//V0[5][0]=0.0; V0[5][1]=0.0;  
 	
 			/*
 	
 	int iq,ichannel,iwell;
 	double phaseshift,chisquare,bestchisquare;
 	char dumbo[120];
-	vector<double> deltaexp,qexp;
+	vector<double> deltaexp,Ep_exp;
 	int itry,ntries;
 	Crandy randy(123);
 	
@@ -82,59 +89,59 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 	dvguess.resize(nwells[ichannel]);
 	
 	if(ichannel==0){
-		qexp.resize(nqmax);
+		Ep_exp.resize(nqmax);
 		deltaexp.resize(nqmax);
 		FILE *fptr=fopen("phaseshifts/data/S/delta_2S_12.txt","r");
 		for(iq=0;iq<nqmax;iq++){
-			fscanf(fptr,"%lf %lf",&qexp[iq],&deltaexp[iq]);
+			fscanf(fptr,"%lf %lf",&Ep_exp[iq],&deltaexp[iq]);
 		}
 	}
 	if(ichannel==1){
-		qexp.resize(nqmax);
+		Ep_exp.resize(nqmax);
 		deltaexp.resize(nqmax);
 		FILE *fptr=fopen("phaseshifts/data/S/delta_4S_32.txt","r");
 		for(iq=0;iq<nqmax;iq++){
-			fscanf(fptr,"%lf %lf",&qexp[iq],&deltaexp[iq]);
+			fscanf(fptr,"%lf %lf",&Ep_exp[iq],&deltaexp[iq]);
 		}
 	}
 	if(ichannel==2){
 		double dumbphase;
-		qexp.resize(nqmax);
+		Ep_exp.resize(nqmax);
 		deltaexp.resize(nqmax);
 		FILE *fptr=fopen("phaseshifts/data/P/deltabar.txt","r");
 		fgets(dumbo,120,fptr);
 		for(iq=0;iq<nqmax;iq++){
-			fscanf(fptr,"%lf %lf %lf",&qexp[iq],&deltaexp[iq],&dumbphase);
+			fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&deltaexp[iq],&dumbphase);
 		}
 	}
 	if(ichannel==3){
 		double dumbphase;
-		qexp.resize(nqmax);
+		Ep_exp.resize(nqmax);
 		deltaexp.resize(nqmax);
 		FILE *fptr=fopen("phaseshifts/data/P/deltabar.txt","r");
 		fgets(dumbo,120,fptr);
 		for(iq=0;iq<nqmax;iq++){
-			fscanf(fptr,"%lf %lf %lf",&qexp[iq],&dumbphase,&deltaexp[iq]);
+			fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&dumbphase,&deltaexp[iq]);
 		}
 	}
 	if(ichannel==4){
 		double dumbphase;
-		qexp.resize(nqmax);
+		Ep_exp.resize(nqmax);
 		deltaexp.resize(nqmax);
 		FILE *fptr=fopen("phaseshifts/data/D/deltabar.txt","r");
 		fgets(dumbo,120,fptr);
 		for(iq=0;iq<nqmax;iq++){
-			fscanf(fptr,"%lf %lf %lf",&qexp[iq],&deltaexp[iq],&dumbphase);
+			fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&deltaexp[iq],&dumbphase);
 		}
 	}
 	if(ichannel==5){
 		double dumbphase;
-		qexp.resize(nqmax);
+		Ep_exp.resize(nqmax);
 		deltaexp.resize(nqmax);
 		FILE *fptr=fopen("phaseshifts/data/D/deltabar.txt","r");
 		fgets(dumbo,120,fptr);
 		for(iq=0;iq<nqmax;iq++){
-			fscanf(fptr,"%lf %lf %lf",&qexp[iq],&dumbphase,&deltaexp[iq]);
+			fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&dumbphase,&deltaexp[iq]);
 		}
 	}
   
@@ -253,6 +260,9 @@ double CWaveFunction_pd_sqwell::CalcPsiSquared(int iq,double r,double ctheta){
 	x=q*r/HBARC;
 	Xlm00=sqrt(4.0*PI)*SpherHarmonics::Ylm(0,0,theta,0.0)/x;
 	Xlm10=ci*sqrt(12.0*PI)*SpherHarmonics::Ylm(1,0,theta,0.0)/x;
+	//printf("P1=%g =? %g\n",3*cos(theta),real(Xlm10*x/ci));
+	
+	
 	Xlm20=-sqrt(20.0*PI)*SpherHarmonics::Ylm(2,0,theta,0.0)/x;
 	
 	// for S=1/2
