@@ -30,19 +30,26 @@ mydata = np.loadtxt('phaseshifts.txt',skiprows=1,unpack=True)
 ke=mydata[1]
 q=mydata[0]
 delta_s12=mydata[2]
-for i in range(0,4):
-  delta_s12[i]=delta_s12[i]+180.0
+for i in range(0,40):
+  if delta_s12[i] < -90.0:
+    delta_s12[i]=delta_s12[i]+180.0
 delta_s32=mydata[3]
 delta_p12=mydata[4]
-for i in range(0,0):
-  delta_p12[i]=delta_p12[i]+180.0
-for i in range(24,40):
-  delta_p12[i]=delta_p12[i]+180.0
+for i in range(0,40):
+  if delta_p12[i] < -90.0:
+    delta_p12[i]=delta_p12[i]+180.0
 delta_p32=mydata[5]
-delta_p32=delta_p32+180.0
+for i in range(0,40):
+  if delta_p32[i] < -90.0:
+    delta_p32[i]=delta_p32[i]+180.0
 delta_d12=mydata[6]
-delta_d12=delta_d12+180.0
+for i in range(0,40):
+  if delta_d12[i] < -90.0:
+    delta_d12[i]=delta_d12[i]+180.0
 delta_d32=mydata[7]
+for i in range(0,40):
+  if delta_d32[i] < -90.0:
+    delta_d32[i]=delta_d32[i]+180.0
 
 #######
 
@@ -100,6 +107,7 @@ ax.set_xticklabels(np.arange(0,300,50), minor=False, family='serif')
 ax.set_xticks(np.arange(0,300,10), minor=True)
 #ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
 plt.xlim(0.0,200)
+plt.ylim(-2,2)
 
 plt.ylabel('$d\delta/dq$ [deg/MeV]', fontsize=18, weight='normal')
 plt.xlabel('$q$ [MeV/$c$]',fontsize=18,labelpad=0)

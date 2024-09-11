@@ -159,15 +159,14 @@ void CWaveFunction::InitArrays(){
 
 void CWaveFunction::InitWaves(){
   int iq,ichannel;
-  double q,e1,e2,e;
+  double q,mu=m1*m2/(m1+m2);
 	
   for(iq=0;iq<nqmax;iq++){
     q=qarray[iq];
-    e1=sqrt(m1*m1+q*q);
-    e2=sqrt(m2*m2+q*q);
-    e=e1+e2;
+		eta[iq]=q1q2*mu*ALPHA/q;
     //eta[iq]=double(q1q2)*e1*e2/((e1+e2)*137.036*q); //old way (needs correction)
-    eta[iq]=double(q1q2)*(pow(e,4)-pow(m1*m1-m2*m2,2))/(4.0*e*e*e*137.036*q);
+    //eta[iq]=double(q1q2)*(pow(e,4)-pow(m1*m1-m2*m2,2))/(4.0*e*e*e*137.036*q);
+		
 		
     planewave[iq]=new CPlaneWave(eta[iq],q1q2,q);
   }

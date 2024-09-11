@@ -32,3 +32,15 @@ pdmain.cc PROPERTIES OBJECT_DEPENDS ${GITHOME_MSU}/commonutils/software/lib/libm
 add_dependencies(pd extern_msu_coral extern_msu_commonutils)
 target_link_libraries(pd msu_coral msu_commonutils ${GITHOME_MSU}/commonutils/software/lib/libmsu_commonutils.a ${GITHOME_MSU}/coral/software/lib/libmsu_coral.a ${GSL_LIBRARY} ${GSL_CBLAS_LIBRARY} ${EIGEN3_LIBRARY})
 ###########################
+###########################
+set(SOURCE_FILES ./pdtester.cc)
+add_executable(pdtester ${SOURCE_FILES})
+SET_SOURCE_FILES_PROPERTIES(pdmain.cc PROPERTIES OBJECT_DEPENDS
+${GITHOME_MSU}/coral/software/lib/libmsu_coral.a
+)
+SET_SOURCE_FILES_PROPERTIES(
+pdtester.cc PROPERTIES OBJECT_DEPENDS ${GITHOME_MSU}/commonutils/software/lib/libmsu_commonutils.a
+)
+add_dependencies(pdtester extern_msu_coral extern_msu_commonutils)
+target_link_libraries(pdtester msu_coral msu_commonutils ${GITHOME_MSU}/commonutils/software/lib/libmsu_commonutils.a ${GITHOME_MSU}/coral/software/lib/libmsu_coral.a ${GSL_LIBRARY} ${GSL_CBLAS_LIBRARY} ${EIGEN3_LIBRARY})
+###########################

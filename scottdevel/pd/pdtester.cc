@@ -25,24 +25,23 @@ int main(){
 	//wf->PrintPhaseShifts();
 
 	
-	iq=7;
+	printf("Enter iq:");
+	scanf("%d",&iq);
 	q=wf->GetQ(iq);
 	printf("q=%g\n",q);
 	int ichannel;
-	double delr=0.1,Integral[6]={0.0},lambda=100.0;;
+	double delr=0.1,Integral[6]={0.0},lambda=1000.0;;
 	complex<double> DelPhi[6],DelPhiPrime[6];
 	double DelPhi2[6];
-	printf("Enter lambda: ");
-	scanf("%lf",&lambda);
 	
-	//for(r=0.5*delr;r<25*lambda;r+=delr){ int ic=-1;
-	for(r=2.158;r<2.160;r+=0.0001){ int ic=1;
+	for(r=0.5*delr;r<15*lambda;r+=delr){ int ic=-1;
+	//for(r=2.158;r<2.160;r+=0.0001){ int ic=1;
 		//for(r=2.41;r<2.42;r+=0.0001){ int ic=1;
 		//for(r=7.899;r<7.90;r+=0.0001){ int ic=1;
 		//for(r=10.11;r<10.12;r+=0.0001){ int ic=3;
 		wf->SquareWell_CalcDelPhi2(iq,r,DelPhi,DelPhiPrime,DelPhi2);
 		for(ichannel=0;ichannel<6;ichannel++){
-			Integral[ichannel]+=delr*DelPhi2[ichannel]*exp(-r/lambda);
+			Integral[ichannel]+=delr*DelPhi2[ichannel]*exp(-0.5*(r/lambda)*(r/lambda));
 		}
 		
 		if(ic>=0){
@@ -59,9 +58,10 @@ int main(){
 	}
 
 	for(ichannel=0;ichannel<6;ichannel++){
-		double delk=5.0/HBARC;
-		printf("---- ichannel=%d: Integral=%8.5f, ddelta/dq=%8.5f=?%8.5f\n",ichannel,Integral[ichannel],2.0*Integral[ichannel]*180.0/(PI*HBARC),
-		(wf->delta[ichannel][iq+1]-wf->delta[ichannel][iq-1])/(2.0*delk));
+		double delk=5.0/HBARC,guess;
+		guess=(wf->delta[ichannel][iq+1]-wf->delta[ichannel][iq-1])/(2.0*delk);
+		printf("---- ichannel=%d: Integral=%8.5f, ddelta/dq=%8.5f=?%8.5f, ratio=%g\n",ichannel,Integral[ichannel],2.0*Integral[ichannel],
+		guess,2.0*Integral[ichannel]/guess);
 	}
 	exit(1);
 	
