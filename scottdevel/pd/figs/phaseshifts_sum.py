@@ -100,7 +100,7 @@ plt.plot(qq,ddeltadq_p32,linestyle='-',linewidth=2,color=colors[3],marker=None,l
 plt.plot(qq,ddeltadq_d12,linestyle='-',linewidth=2,color=colors[4],marker=None,label='$L=2,S=1/2$')
 plt.plot(qq,ddeltadq_d32,linestyle='-',linewidth=2,color=colors[5],marker=None,label='$L=2,S=3/2$')
 
-plt.plot(qq,ddeltadq_sum,linestyle='--',linewidth=2,color='k',marker=None,label='Sum')
+plt.plot(qq,ddeltadq_sum,linestyle='--',linewidth=2,color='k',marker=None,label='Weighted Sum')
 
 ax.set_xticks(np.arange(0,300,50), minor=False)
 ax.set_xticklabels(np.arange(0,300,50), minor=False, family='serif')
@@ -110,9 +110,9 @@ plt.xlim(0.0,200)
 
 plt.ylabel('$d\delta/dq$ [deg/MeV]', fontsize=18, weight='normal')
 plt.xlabel('$q$ [MeV/$c$]',fontsize=18,labelpad=0)
-legend(loc=[0.65,0.01])
+legend(loc=[0.01,0.54])
 
-
+plt.ylim(-3.5,4.8)
 
 
 #####
@@ -126,7 +126,7 @@ plt.plot(q,delta_p12,linestyle='-',linewidth=2,color=colors[2],marker=None)
 plt.plot(q,delta_p32,linestyle='-',linewidth=2,color=colors[3],marker=None)
 plt.plot(q,delta_d12,linestyle='-',linewidth=2,color=colors[4],marker=None)
 plt.plot(q,delta_d32,linestyle='-',linewidth=2,color=colors[5],marker=None)
-plt.plot(q,delta_sum,linestyle='--',linewidth=2,color='k',marker=None,label='Sum')
+plt.plot(q,delta_sum,linestyle='--',linewidth=2,color='k',marker=None,label='Weighted Sum')
 
 sdata=np.loadtxt('../phaseshifts/data/S/deltabar.txt',skiprows=1,unpack=True)
 
@@ -153,7 +153,6 @@ del_d32=ddata[2]
 plt.scatter(q_d,del_d12,color=colors[4],marker='o',label='$L=2,S=1/2$')
 plt.scatter(q_d,del_d32,color=colors[5],marker='o',label='$L=2,S=3/2$')
 
-
 ax.tick_params(axis='both', which='major', labelsize=14)
 
 ax.set_xticks(np.arange(0,300,50), minor=False)
@@ -175,7 +174,9 @@ ax.yaxis.set_major_formatter(sformatter)
 plt.xlabel(None)
 plt.ylabel('$\delta$ [degrees]',fontsize=18,labelpad=0)
 
-legend(loc=[0.01,0.01])
+text(5,-145,"Weighted Sum=$\sum (2L+1)(2S+1)\delta_{LS}$",fontsize=18)
+
+#legend(loc=[0.01,0.01])
 
 
 
