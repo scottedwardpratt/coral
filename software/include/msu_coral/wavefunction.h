@@ -82,6 +82,7 @@ namespace NMSUPratt{
 		int DelPhiArray_NRMAX;
 		double DelPhiArray_DELR;
 		void SquareWell_CalcDelPhi(int iq,double r,complex<double> *DelPhi);
+		void SquareWell_CalcDelPhi(int iq,double r,vector<complex<double>> &DelPhi);
 		void SquareWell_CalcDelPhi2(int iq,double r,
 		complex<double> *DelPhi,complex<double> *DelPhiPrime,double *DelPhi2);
 		double **a;

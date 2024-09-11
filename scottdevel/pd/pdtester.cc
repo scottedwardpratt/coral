@@ -22,7 +22,7 @@ int main(){
 	//CparameterMap parmap;
 	//parmap.ReadParsFromFile("parameters/coralpars.dat");  // Reads
 	
-	//wf->PrintPhaseShifts();
+	wf->PrintPhaseShifts();
 
 	
 	printf("Enter iq:");

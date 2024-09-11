@@ -9,7 +9,7 @@ int main(){
 	double x,y,z,qx,qy,qz,root2=sqrt(2.0);
 	int iq,Nq;
 	vector<double> cf;
-	int imc,NMC=1000000;
+	int imc,NMC=4000000;
 	Crandy randy(-time(NULL));  // random number generator (in msu_commonutils)
   
 	wf=new CWaveFunction_pd_sqwell("parameters/wfparameters.dat"); // This is for pp, solves Schrod. eq. 
@@ -24,46 +24,9 @@ int main(){
 	
 	//wf->PrintPhaseShifts();
 
+	printf("Enter Rinv: ");
+	scanf("%lf",&Rinv);
 	
-	iq=7;
-	q=wf->GetQ(iq);
-	printf("q=%g\n",q);
-	int ichannel;
-	double delr=0.1,Integral[6]={0.0},lambda=100.0;;
-	complex<double> DelPhi[6],DelPhiPrime[6];
-	double DelPhi2[6];
-	printf("Enter lambda: ");
-	scanf("%lf",&lambda);
-	
-	//for(r=0.5*delr;r<25*lambda;r+=delr){ int ic=-1;
-	for(r=2.158;r<2.160;r+=0.0001){ int ic=1;
-		//for(r=2.41;r<2.42;r+=0.0001){ int ic=1;
-		//for(r=7.899;r<7.90;r+=0.0001){ int ic=1;
-		//for(r=10.11;r<10.12;r+=0.0001){ int ic=3;
-		wf->SquareWell_CalcDelPhi2(iq,r,DelPhi,DelPhiPrime,DelPhi2);
-		for(ichannel=0;ichannel<6;ichannel++){
-			Integral[ichannel]+=delr*DelPhi2[ichannel]*exp(-r/lambda);
-		}
-		
-		if(ic>=0){
-			complex<double> dphiprime,dphia[6],dphiprimea[6],dphib[6],dphiprimeb[6];
-			double dphi2a[6],dphi2b[6];
-			double delta=0.0001;
-			wf->SquareWell_CalcDelPhi2(iq,r-0.5*delta,dphia,dphiprimea,dphi2a);
-			wf->SquareWell_CalcDelPhi2(iq,r+0.5*delta,dphib,dphiprimeb,dphi2b);
-			dphiprime=(dphib[ic]-dphia[ic])*HBARC/delta;
-			printf("%7.5f: (%8.5f,%8.5f)  (%8.5f,%8.5f) =? (%8.5f,%8.5f)\n",
-			r,real(DelPhi[ic]),imag(DelPhi[ic]),real(DelPhiPrime[ic]),imag(DelPhiPrime[ic]),
-			real(dphiprime),imag(dphiprime));
-		}
-	}
-
-	for(ichannel=0;ichannel<6;ichannel++){
-		double delk=5.0/HBARC;
-		printf("---- ichannel=%d: Integral=%8.5f, ddelta/dq=%8.5f=?%8.5f\n",ichannel,Integral[ichannel],2.0*Integral[ichannel]*180.0/(PI*HBARC),
-		(wf->delta[ichannel][iq+1]-wf->delta[ichannel][iq-1])/(2.0*delk));
-	}
-	exit(1);
 	
 	Rx=Ry=Rz=Rinv;
 	Nq=wf->GetNQMAX(); // Number of q values
@@ -79,11 +42,13 @@ int main(){
 		
 		cf[iq]=0.0;
 		for(imc=0;imc<NMC;imc++){
+			/*do{
 			x=Rx*root2*randy.ran_gauss();
 			y=Ry*root2*randy.ran_gauss();
 			z=Rz*root2*randy.ran_gauss();
 			x=x+offset;
 			r=sqrt(x*x+y*y+z*z);
+		}while(r>40);*/
 			ctheta=(qx*x+qy*y+qz*z)/(q*r);
 			//cf[iqdir][iq]+=wf->GetPsiSquared(q,r,ctheta);
 			cf[iq]+=wf->CalcPsiSquared(iq,r,ctheta);

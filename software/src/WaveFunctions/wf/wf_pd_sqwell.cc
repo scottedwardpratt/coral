@@ -19,6 +19,7 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 
   q1q2=1;
   nchannels=6;
+	nwells=new int[nchannels];
 	
   ellmax=2;
   InitArrays();
@@ -33,7 +34,6 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 	
   InitWaves();
 	
-  nwells=new int[nchannels];
   nwells[0]=3;
 	nwells[1]=3;
 	nwells[2]=2;
@@ -43,7 +43,6 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 
   SquareWell_MakeArrays();
 	
-	//a[0][0]=3.76234; a[0][1]=3.76603; a[0][2]=12.3426;
 	a[0][0]=3.64261; a[0][1]=3.64854; a[0][2]=12.747; 
 	V0[0][0]=-35.5973; V0[0][1]=39.2611; V0[0][2]=-0.204775; 
 	//V0[0][0]=0.0; V0[0][1]=0.0; V0[0][2]=0.0;
@@ -54,7 +53,7 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 	
 	a[2][0]=2.1367; a[2][1]=12.0184; 
 	V0[2][0]=-9.6705; V0[2][1]=0.195326; 
-	//V0[2][0]=0.0; V0[2][1]=0.0; 
+	//V0[2][0]=0.0; V0[2][1]=0.0;
 	
 	// seems to overcontribute
 	a[3][0]=3.52139; a[3][1]=10.1152; 
