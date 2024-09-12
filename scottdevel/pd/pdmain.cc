@@ -9,7 +9,7 @@ int main(){
 	double x,y,z,qx,qy,qz,root2=sqrt(2.0);
 	int iq,Nq;
 	vector<double> cf;
-	int imc,NMC=4000000;
+	int imc,NMC=1000000;
 	Crandy randy(-time(NULL));  // random number generator (in msu_commonutils)
   
 	wf=new CWaveFunction_pd_sqwell("parameters/wfparameters.dat"); // This is for pp, solves Schrod. eq. 
@@ -19,8 +19,9 @@ int main(){
 	//delta(KE_proton=2.25 MeV) = -39.1, -34.5.    q= 58.11 MeV/c
 	//delta(KE_proton=3.15 MeV) = -48.7, -42.9     q= 68.76 MeV/c
 
-	//CparameterMap parmap;
-	//parmap.ReadParsFromFile("parameters/coralpars.dat");  // Reads
+	CparameterMap parmap;
+	parmap.ReadParsFromFile("parameters/coralpars.dat"); 
+	NMC=wf->parameters.getI("NMC",1000000);
 	
 	//wf->PrintPhaseShifts();
 
@@ -42,14 +43,14 @@ int main(){
 		
 		cf[iq]=0.0;
 		for(imc=0;imc<NMC;imc++){
-			/*do{
-			x=Rx*root2*randy.ran_gauss();
-			y=Ry*root2*randy.ran_gauss();
-			z=Rz*root2*randy.ran_gauss();
-			x=x+offset;
-			r=sqrt(x*x+y*y+z*z);
-		}while(r>40);*/
-			ctheta=(qx*x+qy*y+qz*z)/(q*r);
+			//do{
+				x=Rx*root2*randy.ran_gauss();
+				y=Ry*root2*randy.ran_gauss();
+				z=Rz*root2*randy.ran_gauss();
+				x=x+offset;
+				r=sqrt(x*x+y*y+z*z);
+				//}while(r>40);
+				ctheta=(qx*x+qy*y+qz*z)/(q*r);
 			//cf[iqdir][iq]+=wf->GetPsiSquared(q,r,ctheta);
 			cf[iq]+=wf->CalcPsiSquared(iq,r,ctheta);
 		}

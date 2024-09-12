@@ -188,7 +188,7 @@ void CWaveFunction::SquareWell_Init(){
 			}
 		}
 	}
-
+	
 }
 
 void CWaveFunction::SquareWell_GetDelPhi(int iq,double r,complex<double> *DelPhi){
@@ -207,7 +207,7 @@ void CWaveFunction::SquareWell_GetDelPhi(int iq,double r,complex<double> *DelPhi
 	else{
 		SquareWell_CalcDelPhi(iq,r,DPhiVec);
 		for(ichannel=0;ichannel<nchannels;ichannel++)
-			DelPhiArray[iq][ir][ichannel]=DPhiVec[ichannel];
+			DelPhi[ichannel]=DPhiVec[ichannel];
 	}
 }
 
@@ -235,7 +235,6 @@ void CWaveFunction::SquareWell_CalcDelPhi(int iq,double r,vector<complex<double>
 	complex<double> phi,phi0,AA;
 	complex<double> cgs;
 
-	
 	for(ichannel=0;ichannel<nchannels;ichannel++){
 		l=ell[ichannel];
 		cgs=cgsqwell[iq][l];

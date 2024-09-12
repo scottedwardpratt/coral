@@ -30,7 +30,7 @@ int main(){
 	q=wf->GetQ(iq);
 	printf("q=%g\n",q);
 	int ichannel;
-	double delr=0.1,Integral[6]={0.0},lambda=1000.0;;
+	double delr=0.1,Integral[6]={0.0},lambda=2000.0;;
 	complex<double> DelPhi[6],DelPhiPrime[6];
 	double DelPhi2[6];
 	
@@ -59,7 +59,12 @@ int main(){
 
 	for(ichannel=0;ichannel<6;ichannel++){
 		double delk=5.0/HBARC,guess;
-		guess=(wf->delta[ichannel][iq+1]-wf->delta[ichannel][iq-1])/(2.0*delk);
+		double deltadelta=wf->delta[ichannel][iq+1]-wf->delta[ichannel][iq-1];
+		if(deltadelta<-2)
+			deltadelta+=PI;
+		if(deltadelta>2)
+			deltadelta-=PI;
+		guess=deltadelta/(2.0*delk);
 		printf("---- ichannel=%d: Integral=%8.5f, ddelta/dq=%8.5f=?%8.5f, ratio=%g\n",ichannel,Integral[ichannel],2.0*Integral[ichannel],
 		guess,2.0*Integral[ichannel]/guess);
 	}
