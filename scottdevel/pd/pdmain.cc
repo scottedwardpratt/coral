@@ -43,13 +43,11 @@ int main(){
 		
 		cf[iq]=0.0;
 		for(imc=0;imc<NMC;imc++){
-			//do{
 				x=Rx*root2*randy.ran_gauss();
 				y=Ry*root2*randy.ran_gauss();
 				z=Rz*root2*randy.ran_gauss();
 				x=x+offset;
 				r=sqrt(x*x+y*y+z*z);
-				//}while(r>40);
 				ctheta=(qx*x+qy*y+qz*z)/(q*r);
 			//cf[iqdir][iq]+=wf->GetPsiSquared(q,r,ctheta);
 			cf[iq]+=wf->CalcPsiSquared(iq,r,ctheta);
