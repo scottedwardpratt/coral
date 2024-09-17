@@ -1,4 +1,5 @@
 #include "msu_coral/coral.h"
+#include <cstdio>
 #include <vector>
 using namespace std;
 using namespace NMSUPratt;

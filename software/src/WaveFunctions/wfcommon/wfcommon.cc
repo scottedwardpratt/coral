@@ -102,7 +102,7 @@ void CWaveFunction::ParsInit(string parsfilename){
 	//parameters.PrintPars();
   epsilon=parameters.getD("EPSILON",-999);
   COULOMB=parameters.getB("COULOMB",-999);
-  STRONG=parameters.getB("STRONG",-999);
+  STRONG=parameters.getB("STRONG",true);
   IDENTICAL=parameters.getB("IDENTICAL",0);
 	
   // If delq<0, read qarray from file (don't use this if for wf in kernels)
