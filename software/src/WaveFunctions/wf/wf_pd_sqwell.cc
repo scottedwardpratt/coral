@@ -35,7 +35,7 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 		InitWaves();
 	
 		nwells[0]=3;
-		nwells[1]=3;
+		nwells[1]=2;
 		nwells[2]=2;
 		nwells[3]=2;
 		nwells[4]=2;
@@ -47,11 +47,13 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 		V0[0][0]=-35.5973; V0[0][1]=39.2611; V0[0][2]=-0.204775; 
 		//V0[0][0]=0.0; V0[0][1]=0.0; V0[0][2]=0.0;
 	
-		a[1][0]=2.1591; a[1][1]=2.4132; a[1][2]=7.89978; 
-		V0[1][0]=-30.4977; V0[1][1]=38.9727; V0[1][2]=1.10959;
-		//V0[1][0]=0.0; V0[1][1]=0.0; V0[1][2]=0.0;
+		//  XXXXXXXXXX a[1][0]=2.1591; a[1][1]=2.4132; a[1][2]=7.89978;
+		//  XXXXXXXXXXXV0[1][0]=-30.4977; V0[1][1]=38.9727; V0[1][2]=1.10959;
+		a[1][0]=5.00709; a[1][1]=12.9193; 
+		V0[1][0]=19.5142; V0[1][1]=0.414038;
+		//V0[1][0]=0.0; V0[1][1]=0.0;
 	
-		a[2][0]=2.1367; a[2][1]=12.0184; 
+		a[2][0]=2.1367; a[2][1]=12.0184;
 		V0[2][0]=-9.6705; V0[2][1]=0.195326; 
 		//V0[2][0]=0.0; V0[2][1]=0.0;
 	
@@ -76,8 +78,8 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 		InitWaves();
 	}
 	
+	// comment out from here
 	/*
-	
 	int iq,ichannel,iwell;
 	double phaseshift,chisquare,bestchisquare;
 	char dumbo[120];
@@ -89,67 +91,67 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 	double delV0=0.001; 
 	vector<double> da,daguess,dv,dvguess;
 	
-	ichannel=2;
+	ichannel=1;
 	da.resize(nwells[ichannel]);
 	daguess.resize(nwells[ichannel]);
 	dv.resize(nwells[ichannel]);
 	dvguess.resize(nwells[ichannel]);
 	
 	if(ichannel==0){
-	Ep_exp.resize(nqmax);
-	deltaexp.resize(nqmax);
-	FILE *fptr=fopen("phaseshifts/data/S/delta_2S_12.txt","r");
-	for(iq=0;iq<nqmax;iq++){
-	fscanf(fptr,"%lf %lf",&Ep_exp[iq],&deltaexp[iq]);
-	}
+		Ep_exp.resize(nqmax);
+		deltaexp.resize(nqmax);
+		FILE *fptr=fopen("phaseshifts/data/S/delta_2S_12.txt","r");
+		for(iq=0;iq<nqmax;iq++){
+			fscanf(fptr,"%lf %lf",&Ep_exp[iq],&deltaexp[iq]);
+		}
 	}
 	if(ichannel==1){
-	Ep_exp.resize(nqmax);
-	deltaexp.resize(nqmax);
-	FILE *fptr=fopen("phaseshifts/data/S/delta_4S_32.txt","r");
-	for(iq=0;iq<nqmax;iq++){
-	fscanf(fptr,"%lf %lf",&Ep_exp[iq],&deltaexp[iq]);
-	}
+		Ep_exp.resize(nqmax);
+		deltaexp.resize(nqmax);
+		FILE *fptr=fopen("phaseshifts/data/S/delta_4S_32.txt","r");
+		for(iq=0;iq<nqmax;iq++){
+			fscanf(fptr,"%lf %lf",&Ep_exp[iq],&deltaexp[iq]);
+		}
 	}
 	if(ichannel==2){
-	double dumbphase;
-	Ep_exp.resize(nqmax);
-	deltaexp.resize(nqmax);
-	FILE *fptr=fopen("phaseshifts/data/P/deltabar.txt","r");
-	fgets(dumbo,120,fptr);
-	for(iq=0;iq<nqmax;iq++){
-	fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&deltaexp[iq],&dumbphase);
-	}
+		double dumbphase;
+		Ep_exp.resize(nqmax);
+		deltaexp.resize(nqmax);
+		FILE *fptr=fopen("phaseshifts/data/P/deltabar.txt","r");
+		fgets(dumbo,120,fptr);
+		for(iq=0;iq<nqmax;iq++){
+			fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&deltaexp[iq],&dumbphase);
+		}
 	}
 	if(ichannel==3){
-	double dumbphase;
-	Ep_exp.resize(nqmax);
-	deltaexp.resize(nqmax);
-	FILE *fptr=fopen("phaseshifts/data/P/deltabar.txt","r");
-	fgets(dumbo,120,fptr);
-	for(iq=0;iq<nqmax;iq++){
-	fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&dumbphase,&deltaexp[iq]);
-	}
+		double dumbphase;
+		Ep_exp.resize(nqmax);
+		deltaexp.resize(nqmax);
+		FILE *fptr=fopen("phaseshifts/data/P/deltabar.txt","r");
+		fgets(dumbo,120,fptr);
+		for(iq=0;iq<nqmax;iq++){
+			fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&dumbphase,&deltaexp[iq]);
+		}
 	}
 	if(ichannel==4){
-	double dumbphase;
-	Ep_exp.resize(nqmax);
-	deltaexp.resize(nqmax);
-	FILE *fptr=fopen("phaseshifts/data/D/deltabar.txt","r");
-	fgets(dumbo,120,fptr);
-	for(iq=0;iq<nqmax;iq++){
-	fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&deltaexp[iq],&dumbphase);
-	}
+		double dumbphase;
+		Ep_exp.resize(nqmax);
+		deltaexp.resize(nqmax);
+		FILE *fptr=fopen("phaseshifts/data/D/deltabar.txt","r");
+		fgets(dumbo,120,fptr);
+		for(iq=0;iq<nqmax;iq++){
+			fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&deltaexp[iq],&dumbphase);
+		}
 	}
 	if(ichannel==5){
-	double dumbphase;
-	Ep_exp.resize(nqmax);
-	deltaexp.resize(nqmax);
-	FILE *fptr=fopen("phaseshifts/data/D/deltabar.txt","r");
-	fgets(dumbo,120,fptr);
-	for(iq=0;iq<nqmax;iq++){
-	fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&dumbphase,&deltaexp[iq]);
-	}
+		double dumbphase;
+		Ep_exp.resize(nqmax);
+		deltaexp.resize(nqmax);
+		FILE *fptr=fopen("phaseshifts/data/D/deltabar.txt","r");
+		fgets(dumbo,120,fptr);
+		for(iq=0;iq<nqmax;iq++){
+			fscanf(fptr,"%lf %lf %lf",&Ep_exp[iq],&dumbphase,&deltaexp[iq]);
+		}
 	}
   
 	bestchisquare=1.0E99;
@@ -161,92 +163,89 @@ CWaveFunction_pd_sqwell::CWaveFunction_pd_sqwell(string parsfilename) : CWaveFun
 	abest[ichannel].resize(nwells[ichannel]);
 	V0best[ichannel].resize(nwells[ichannel]);
 	for(iwell=0;iwell<nwells[ichannel];iwell++){
-	abest[ichannel][iwell]=a[ichannel][iwell];
-	V0best[ichannel][iwell]=V0[ichannel][iwell];
-	dvguess[iwell]=daguess[iwell]=da[iwell]=dv[iwell]=0.0;
+		abest[ichannel][iwell]=a[ichannel][iwell];
+		V0best[ichannel][iwell]=V0[ichannel][iwell];
+		dvguess[iwell]=daguess[iwell]=da[iwell]=dv[iwell]=0.0;
 	}
 	//}
 	
 	int nsuccess=0;
 	double dely,a0,amax=15;
 	
-	ntries=10000;
+	ntries=5000;
 	
 	for(itry=0;itry<ntries;itry++){
-	SquareWell_Init();
-	chisquare=0.0;
-	for(iq=0;iq<nqmax;iq++){
-	phaseshift=(180.0/PI)*GetDELTA(ichannel,iq);
-	if(phaseshift>0.0)
-	phaseshift-=180.0;
-	//printf("%6.3f %g =? %g\n",qarray[iq],phaseshift,deltaexp[iq]);
-	dely=fabs(phaseshift-deltaexp[iq]);
-	if(dely>90.0)
-	dely-=180.0;
-	chisquare+=dely*dely;
-	}
-	if(chisquare<bestchisquare){
-	bestchisquare=chisquare;
-	for(iwell=0;iwell<nwells[ichannel];iwell++){
-	abest[ichannel][iwell]=a[ichannel][iwell];
-	V0best[ichannel][iwell]=V0[ichannel][iwell];
-	//daguess[iwell]=0.5*(daguess[iwell]+da[iwell]);
-	//dvguess[iwell]=0.5*(dvguess[iwell]+dv[iwell]);
-	daguess[iwell]=da[iwell];
-	dvguess[iwell]=dv[iwell];
-	}
-	//delV0*=0.999;
-	//dela*=0.999;
-	nsuccess+=1;
-	printf("success!!!!! itry=%d, bestchisquare=%g\n",itry,bestchisquare);
-	}
-	else{
-	for(iwell=0;iwell<nwells[ichannel];iwell++){
-	daguess[iwell]=0.9*daguess[iwell];
-	dvguess[iwell]=0.9*dvguess[iwell];
-	}
-	}
-	for(iwell=0;iwell<nwells[ichannel];iwell++){
-	a0=0.0;
-	if(iwell>0)
-	a0=a[ichannel][iwell-1];
-	do{
-	da[iwell]=daguess[iwell]+dela*randy.ran_gauss();
-	a[ichannel][iwell]=abest[ichannel][iwell]+da[iwell];
-	}while(a[ichannel][iwell] < a0 || a[ichannel][iwell]>amax);
-	dv[iwell]=dvguess[iwell]+delV0*randy.ran_gauss();
-	V0[ichannel][iwell]=V0best[ichannel][iwell]+dv[iwell];
-	}
+		SquareWell_Init();
+		chisquare=0.0;
+		for(iq=0;iq<nqmax;iq++){
+			phaseshift=(180.0/PI)*GetDELTA(ichannel,iq);
+			if(phaseshift>0.0)
+				phaseshift-=180.0;
+			//printf("%6.3f %g =? %g\n",qarray[iq],phaseshift,deltaexp[iq]);
+			dely=fabs(phaseshift-deltaexp[iq]);
+			if(dely>90.0)
+				dely-=180.0;
+			chisquare+=dely*dely;
+		}
+		if(chisquare<bestchisquare){
+			bestchisquare=chisquare;
+			for(iwell=0;iwell<nwells[ichannel];iwell++){
+				abest[ichannel][iwell]=a[ichannel][iwell];
+				V0best[ichannel][iwell]=V0[ichannel][iwell];
+				//daguess[iwell]=0.5*(daguess[iwell]+da[iwell]);
+				//dvguess[iwell]=0.5*(dvguess[iwell]+dv[iwell]);
+				daguess[iwell]=da[iwell];
+				dvguess[iwell]=dv[iwell];
+			}
+			//delV0*=0.999;
+			//dela*=0.999;
+			nsuccess+=1;
+			printf("success!!!!! itry=%d, bestchisquare=%g\n",itry,bestchisquare);
+		}
+		else{
+			for(iwell=0;iwell<nwells[ichannel];iwell++){
+				daguess[iwell]=0.95*daguess[iwell];
+				dvguess[iwell]=0.95*dvguess[iwell];
+			}
+		}
+		for(iwell=0;iwell<nwells[ichannel];iwell++){
+			a0=0.0;
+			if(iwell>0)
+				a0=a[ichannel][iwell-1];
+			do{
+				da[iwell]=daguess[iwell]+dela*randy.ran_gauss();
+				a[ichannel][iwell]=abest[ichannel][iwell]+da[iwell];
+			}while(a[ichannel][iwell] < a0 || a[ichannel][iwell]>amax);
+			dv[iwell]=dvguess[iwell]+delV0*randy.ran_gauss();
+			V0[ichannel][iwell]=V0best[ichannel][iwell]+dv[iwell];
+		}
 		
 	}
 	
 	for(iwell=0;iwell<nwells[ichannel];iwell++){
-	a[ichannel][iwell]=abest[ichannel][iwell];
-	V0[ichannel][iwell]=V0best[ichannel][iwell];
+		a[ichannel][iwell]=abest[ichannel][iwell];
+		V0[ichannel][iwell]=V0best[ichannel][iwell];
 	}
-	*/
 	
-	
-	//SquareWell_Init();
-	
-	/*
 	for(iq=0;iq<nqmax;iq++){
-	phaseshift=(180.0/PI)*GetDELTA(ichannel,iq);
-	if(phaseshift>0.0)
-	phaseshift-=180.0;
-	printf("%6.3f %10.4f =? %10.4f\n",qarray[iq],phaseshift,deltaexp[iq]);
+		phaseshift=(180.0/PI)*GetDELTA(ichannel,iq);
+		if(phaseshift>0.0)
+			phaseshift-=180.0;
+		printf("%6.3f %10.4f =? %10.4f\n",qarray[iq],phaseshift,deltaexp[iq]);
 	}
 	
 	for(iwell=0;iwell<nwells[ichannel];iwell++){
-	printf("a[%d][%d]=%g; ",ichannel,iwell,abest[ichannel][iwell]);
+		printf("a[%d][%d]=%g; ",ichannel,iwell,abest[ichannel][iwell]);
 	}
 	printf("\n");
 	for(iwell=0;iwell<nwells[ichannel];iwell++){
-	printf("V0[%d][%d]=%g; ",ichannel,iwell,V0best[ichannel][iwell]);
+		printf("V0[%d][%d]=%g; ",ichannel,iwell,V0best[ichannel][iwell]);
 	}
 	printf("\n");
 	printf("---- nsuccess=%d -----\n",nsuccess);
+	exit(1);
 	*/
+	// comment out to here
 	
 }
 
@@ -256,13 +255,14 @@ CWaveFunction_pd_sqwell::~CWaveFunction_pd_sqwell(){
 
 
 double CWaveFunction_pd_sqwell::CalcPsiSquared(int iq,double r,double ctheta){
+	complex<double> DelPhi[6];
 	double psisquared,theta=acos(ctheta),x;
 	double q=GetQ(iq);
 	complex<double> psi,psiplane,Xlm00,Xlm10,Xlm20;
 	psiplane=planewave[iq]->planewave(r,ctheta);
 	
+	
 	if(STRONG){
-		complex<double> DelPhi[6];
 
 		SquareWell_GetDelPhi(iq,r,DelPhi);
 	
@@ -270,9 +270,17 @@ double CWaveFunction_pd_sqwell::CalcPsiSquared(int iq,double r,double ctheta){
 		Xlm00=sqrt(4.0*PI)*SpherHarmonics::Ylm(0,0,theta,0.0)/x;
 		Xlm10=ci*sqrt(12.0*PI)*SpherHarmonics::Ylm(1,0,theta,0.0)/x;
 		//printf("P1=%g =? %g\n",3*cos(theta),real(Xlm10*x/ci));
-	
-	
 		Xlm20=-sqrt(20.0*PI)*SpherHarmonics::Ylm(2,0,theta,0.0)/x;
+		
+		/*
+		double mu=m1*m2/(m1+m2),F0,F0prime,G0,G0prime;
+		double eta0=q1q2*mu*ALPHA/q;
+		int l=0;
+		complex<double>cgs=CoulWave::cgamma(l+1.0+ci*eta0);
+		CoulWave::GetFGprime_ComplexQ(l,0.0*ci+q*r/HBARC,0.0*ci+eta0,&F0,&G0,&F0prime,&G0prime);
+		printf("%6.3f (%8.4f,%8.4f) (%8.4f,%8.4f)\n",r,real(conj(cgs)*DelPhi[1]),imag(conj(cgs)*DelPhi[1]),real(F0),imag(F0));
+		*/
+		
 	
 		// for S=1/2
 		psi=psiplane+Xlm00*DelPhi[0]+Xlm10*DelPhi[2]+Xlm20*DelPhi[4];

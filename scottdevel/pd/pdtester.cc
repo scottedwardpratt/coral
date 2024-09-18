@@ -34,6 +34,11 @@ int main(){
 	complex<double> DelPhi[6],DelPhiPrime[6];
 	double DelPhi2[6];
 	
+	ctheta=0.0;
+	for(r=0.1;r<10;r+=0.1){
+		double cccc=wf->CalcPsiSquared(iq,r,ctheta);
+	}
+	
 	for(r=0.5*delr;r<15*lambda;r+=delr){ int ic=-1;
 	//for(r=2.158;r<2.160;r+=0.0001){ int ic=1;
 		//for(r=2.41;r<2.42;r+=0.0001){ int ic=1;
@@ -41,7 +46,10 @@ int main(){
 		//for(r=10.11;r<10.12;r+=0.0001){ int ic=3;
 		wf->SquareWell_CalcDelPhi2(iq,r,DelPhi,DelPhiPrime,DelPhi2);
 		for(ichannel=0;ichannel<6;ichannel++){
-			Integral[ichannel]+=delr*DelPhi2[ichannel]*exp(-0.5*(r/lambda)*(r/lambda));
+			double delP2=DelPhi2[ichannel];
+			Integral[ichannel]+=delr*delP2*exp(-0.5*(r/lambda)*(r/lambda));
+			if(r<1000 && ichannel==1 && (lrint(10*(r-0.025))%5)==0)
+				printf("%8.4f %8.5f\n",r,delP2);
 		}
 		
 		if(ic>=0){
@@ -57,7 +65,7 @@ int main(){
 		}
 	}
 
-	for(ichannel=0;ichannel<6;ichannel++){
+	for(ichannel=1;ichannel<2;ichannel++){
 		double delk=5.0/HBARC,guess;
 		double deltadelta=wf->delta[ichannel][iq+1]-wf->delta[ichannel][iq-1];
 		if(deltadelta<-2)
@@ -68,6 +76,7 @@ int main(){
 		printf("---- ichannel=%d: Integral=%8.5f, ddelta/dq=%8.5f=?%8.5f, ratio=%g\n",ichannel,Integral[ichannel],2.0*Integral[ichannel],
 		guess,2.0*Integral[ichannel]/guess);
 	}
+	
 	exit(1);
 	
 	Rx=Ry=Rz=Rinv;
