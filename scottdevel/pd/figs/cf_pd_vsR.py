@@ -32,31 +32,31 @@ mydata = np.loadtxt('../results/Rinv2.txt',skiprows=1,unpack=True)
 q2=mydata[0]
 cf2=mydata[1]
 iplot=0
-plt.plot(q2,cf2,linestyle='-',linewidth=2,color='r',marker=None,label='$R_{\\rm inv}=2$')
+plt.plot(q2,cf2,linestyle='-',linewidth=2,color='r',marker=None,label='$R_{\\rm inv}=2$ fm')
 
 mydata = np.loadtxt('../results/Rinv3.txt',skiprows=1,unpack=True)
 q3=mydata[0]
 cf3=mydata[1]
 iplot=0
-plt.plot(q3,cf3,linestyle='-',linewidth=2,color='g',marker=None,label='$R_{\\rm inv}=3$')
+plt.plot(q3,cf3,linestyle='-',linewidth=2,color='g',marker=None,label='$R_{\\rm inv}=3$ fm')
 
 mydata = np.loadtxt('../results/Rinv4.txt',skiprows=1,unpack=True)
 q4=mydata[0]
 cf4=mydata[1]
 iplot=0
-plt.plot(q4,cf4,linestyle='-',linewidth=2,color='b',marker=None,label='$R_{\\rm inv}=4$') 
+plt.plot(q4,cf4,linestyle='-',linewidth=2,color='b',marker=None,label='$R_{\\rm inv}=4$ fm') 
 
 mydata = np.loadtxt('../results/Rinv5.txt',skiprows=1,unpack=True)
 q5=mydata[0]
 cf5=mydata[1]
 iplot=0
-plt.plot(q5,cf5,linestyle='-',linewidth=2,color='cyan',marker=None,label='$R_{\\rm inv}=5$')
+plt.plot(q5,cf5,linestyle='-',linewidth=2,color='cyan',marker=None,label='$R_{\\rm inv}=5$ fm')
 
 mydata = np.loadtxt('../results/Rinv5.txt',skiprows=1,unpack=True)
 q6=mydata[0]
 cf6=mydata[1]
 iplot=0
-plt.plot(q6,cf6,linestyle='-',linewidth=2,color='orange',marker=None,label='$R_{\\rm inv}=6$')
+plt.plot(q6,cf6,linestyle='-',linewidth=2,color='orange',marker=None,label='$R_{\\rm inv}=6$ fm')
 
 #data_x=[1.0,2.0,3.0]
 #data_y=[-4.5,-20.0,-27.5]
