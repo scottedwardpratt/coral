@@ -52,6 +52,12 @@ cf5=mydata[1]
 iplot=0
 plt.plot(q5,cf5,linestyle='-',linewidth=2,color='cyan',marker=None,label='$R_{\\rm inv}=5$')
 
+mydata = np.loadtxt('../results/Rinv5.txt',skiprows=1,unpack=True)
+q6=mydata[0]
+cf6=mydata[1]
+iplot=0
+plt.plot(q6,cf6,linestyle='-',linewidth=2,color='orange',marker=None,label='$R_{\\rm inv}=6$')
+
 #data_x=[1.0,2.0,3.0]
 #data_y=[-4.5,-20.0,-27.5]
 #plt.scatter(data_x,data_y,color='k',marker='*',s=140,zorder=10)

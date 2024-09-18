@@ -32,7 +32,7 @@ mydata = np.loadtxt('../results/Rinv3_noint.txt',skiprows=1,unpack=True)
 q=mydata[0]
 cf=mydata[1]
 iplot=0
-plt.plot(q,cf,linestyle='-',linewidth=2,color='k',marker=None,label='no int.')
+plt.plot(q,cf,linestyle='-',linewidth=2,color='k',marker=None,label='no strong int.')
 
 mydata = np.loadtxt('../results/Rinv3_swaves.txt',skiprows=1,unpack=True)
 q=mydata[0]
@@ -87,7 +87,7 @@ plt.ylabel('$C(q)$ ',fontsize=18,labelpad=0)
 
 legend(loc="lower right")
 
-text(120,0.37,"$R_{\\rm inv}=3~{\\rm fm}$",fontsize=24)
+text(120,0.37,"$R_{\\rm inv}=3~{\\rm fm}$",fontsize=20)
 
 #plt.title('MathText Number $\sum_{n=1}^\infty({-e^{i\pi}}/{2^n})$!',
 #fontsize=12, color='gray')
